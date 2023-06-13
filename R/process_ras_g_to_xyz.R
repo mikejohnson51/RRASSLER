@@ -1,4 +1,4 @@
-#' @title FUNCTION_TITLE
+#' @title process_ras_g_to_xyz
 #' @description FUNCTION_DESCRIPTION
 #' @param geom_path PARAM_DESCRIPTION
 #' @param units PARAM_DESCRIPTION
@@ -39,7 +39,18 @@
 #' @importFrom lwgeom st_linesubstring st_endpoint
 #' @importFrom glue glue
 
-process_ras_g_to_xyz <- function(geom_path,units,proj_string,in_epoch_override = as.integer(as.POSIXct(Sys.time())),out_epoch_override = as.integer(as.POSIXct(Sys.time())),vdat=FALSE,quiet=FALSE) {
+process_ras_g_to_xyz <- function(geom_path,
+                                 units,
+                                 proj_string,
+                                 in_epoch_override = as.integer(as.POSIXct(Sys.time())),
+                                 out_epoch_override = as.integer(as.POSIXct(Sys.time())),
+                                 vdat=FALSE,
+                                 quiet=FALSE) {
+  # sinew::moga(file.path(getwd(),"R/process_ras_g_to_xyz.R"),overwrite = TRUE)
+  # devtools::document()
+  # pkgdown::build_site(new_process=TRUE)
+  # devtools::load_all()
+  #
   # geom_path="J:/Dropbox/root/projects/floodmapping/methods/ras2fim/sample_data/HICKORY CREEK/HICKORY CREEK.g01"
   # units="Foot"
   # proj_string="EPSG:2277"
@@ -47,11 +58,12 @@ process_ras_g_to_xyz <- function(geom_path,units,proj_string,in_epoch_override =
   # out_epoch_override = 1616607646
   # vdat=TRUE
   # quiet=FALSE
-
   # geom_path="J:/data/BLE/fema/08080101/08080101_Models/WA_1_RAS_Model/WA_1_RAS_Model/Input/Input/WA1_Atchafalaya.g05"
   # units="Foot"
   # proj_string="EPSG:6479"
 
+
+  ## -- Start --
   if(!quiet) {
     print('reading geom:')
     print(geom_path)
@@ -179,38 +191,40 @@ process_ras_g_to_xyz <- function(geom_path,units,proj_string,in_epoch_override =
     elev_unit_norm = 1
   }
 
-  date <- as.POSIXct(in_epoch_override, origin = "1970-01-01")
-  this_date_YYYY <- format(date, format="%Y")
-  this_date_mm <- format(date, format="%m")
-  this_date_dd <- format(date, format="%d")
-  this_date_start <- lubridate::decimal_date(lubridate::ymd(paste0(this_date_YYYY,"-",this_date_mm,"-",this_date_dd)))
-  this_date_now <- lubridate::decimal_date(Sys.time())
+  if(vdat) {
+    date <- as.POSIXct(in_epoch_override, origin = "1970-01-01")
+    this_date_YYYY <- format(date, format="%Y")
+    this_date_mm <- format(date, format="%m")
+    this_date_dd <- format(date, format="%d")
+    this_date_start <- lubridate::decimal_date(lubridate::ymd(paste0(this_date_YYYY,"-",this_date_mm,"-",this_date_dd)))
+    this_date_now <- lubridate::decimal_date(Sys.time())
 
-  # transform datum
-  mean_X <- mean(sf::st_coordinates(sf::st_cast(sf_cross_section_lines, "POINT"))[,1])
-  mean_Y <- mean(sf::st_coordinates(sf::st_cast(sf_cross_section_lines, "POINT"))[,2])
-  center_point = data.frame(lon = mean_X, lat = mean_Y) |>
-    sf::st_as_sf(coords = c("lon", "lat")) |>
-    sf::st_set_crs(sf::st_crs("EPSG:6349"))
+    # transform datum
+    mean_X <- mean(sf::st_coordinates(sf::st_cast(sf_cross_section_lines, "POINT"))[,1])
+    mean_Y <- mean(sf::st_coordinates(sf::st_cast(sf_cross_section_lines, "POINT"))[,2])
+    center_point = data.frame(lon = mean_X, lat = mean_Y) |>
+      sf::st_as_sf(coords = c("lon", "lat")) |>
+      sf::st_set_crs(sf::st_crs("EPSG:6349"))
 
-  # determine and apply z transform
-  datum_url <- paste0(
-    "https://vdatum.noaa.gov/vdatumweb/api/convert?",
-    "s_x=",as.character(sf::st_coordinates(center_point)[1,][1]),
-    "&s_y=",as.character(sf::st_coordinates(center_point)[1,][2]),
-    "&s_v_unit=m&t_v_unit=m",
-    "&s_h_frame=",'NAD83_2011',"&s_v_frame=",this_datum,
-    "&t_h_frame=NAD83_2011&t_v_frame=NAVD88",
-    "&epoch_in=",this_date_start,"&epoch_out=",this_date_now
-  )
-  print(paste0("URL:",datum_url))
-  resp <- httr::GET(datum_url)
-  if(httr::http_error(resp)) {
-    print('ALERT!!')
-    print(paste('poorly formed url - Request URL:', datum_url))
-    return(list(data.frame()))
+    # determine and apply z transform
+    datum_url <- paste0(
+      "https://vdatum.noaa.gov/vdatumweb/api/convert?",
+      "s_x=",as.character(sf::st_coordinates(center_point)[1,][1]),
+      "&s_y=",as.character(sf::st_coordinates(center_point)[1,][2]),
+      "&s_v_unit=m&t_v_unit=m",
+      "&s_h_frame=",'NAD83_2011',"&s_v_frame=",this_datum,
+      "&t_h_frame=NAD83_2011&t_v_frame=NAVD88",
+      "&epoch_in=",this_date_start,"&epoch_out=",this_date_now
+    )
+    print(paste0("URL:",datum_url))
+    resp <- httr::GET(datum_url)
+    if(httr::http_error(resp)) {
+      print('ALERT!!')
+      print(paste('poorly formed url - Request URL:', datum_url))
+      return(list(data.frame()))
+    }
+    jsonRespParsed <- httr::content(resp,as="parsed")
   }
-  jsonRespParsed <- httr::content(resp,as="parsed")
 
   mean_shift <- 0
   for(t in 1:nrow(sf_cross_section_lines)) {

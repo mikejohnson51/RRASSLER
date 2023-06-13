@@ -2,18 +2,20 @@
 % Please edit documentation in R/refresh_master_files.R
 \name{refresh_master_files}
 \alias{refresh_master_files}
-\title{FUNCTION_TITLE}
+\title{refresh_master_files}
 \usage{
-refresh_master_files(path_to_ras_dbase)
+refresh_master_files(path_to_ras_dbase, quiet = TRUE)
 }
 \arguments{
 \item{path_to_ras_dbase}{PARAM_DESCRIPTION}
+
+\item{quiet}{PARAM_DESCRIPTION, Default: TRUE}
 }
 \value{
 OUTPUT_DESCRIPTION
 }
 \description{
-FUNCTION_DESCRIPTION
+updates the index and key data objects at the top of the catalog
 }
 \details{
 DETAILS

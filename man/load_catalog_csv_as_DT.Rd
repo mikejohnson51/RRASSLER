@@ -2,20 +2,20 @@
 % Please edit documentation in R/load_catalog_csv_as_DT.R
 \name{load_catalog_csv_as_DT}
 \alias{load_catalog_csv_as_DT}
-\title{FUNCTION_TITLE}
+\title{load_catalog_csv_as_DT}
 \usage{
-load_catalog_csv_as_DT(path_to_csv, quiet = FALSE)
+load_catalog_csv_as_DT(path_to_csv, quiet = TRUE)
 }
 \arguments{
-\item{path_to_csv}{PARAM_DESCRIPTION}
+\item{path_to_csv}{path to the model_catalog.csv file under your catalog folder}
 
-\item{quiet}{PARAM_DESCRIPTION, Default: FALSE}
+\item{quiet}{if TRUE, function will suppress message, Default: TRUE}
 }
 \value{
-OUTPUT_DESCRIPTION
+returns the model_catalog as a data.table object with enforced column types
 }
 \description{
-FUNCTION_DESCRIPTION
+Helper to ensure catalog edge cases and incorrect formats are correctly handled (most commonly numeric strings parsed into characters)
 }
 \details{
 DETAILS

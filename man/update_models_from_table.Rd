@@ -2,12 +2,12 @@
 % Please edit documentation in R/update_models_from_table.R
 \name{update_models_from_table}
 \alias{update_models_from_table}
-\title{FUNCTION_TITLE}
+\title{update_models_from_table}
 \usage{
 update_models_from_table(path_to_ras_dbase)
 }
 \arguments{
-\item{path_to_ras_dbase}{PARAM_DESCRIPTION}
+\item{path_to_ras_dbase}{A path to the}
 }
 \value{
 OUTPUT_DESCRIPTION

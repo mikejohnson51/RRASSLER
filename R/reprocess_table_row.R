@@ -1,6 +1,6 @@
-#' @title FUNCTION_TITLE
+#' @title reprocess_table_row
 #' @description FUNCTION_DESCRIPTION
-#' @param path_to_ras_dbase PARAM_DESCRIPTION
+#' @param path_to_ras_dbase The path to the top level folder of the ras_catalog structure
 #' @param excel_row PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS

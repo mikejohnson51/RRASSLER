@@ -1,8 +1,8 @@
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param path_to_csv PARAM_DESCRIPTION
-#' @param quiet PARAM_DESCRIPTION, Default: FALSE
-#' @return OUTPUT_DESCRIPTION
+#' @title load_catalog_csv_as_DT
+#' @description Helper to ensure catalog edge cases and incorrect formats are correctly handled (most commonly numeric strings parsed into characters)
+#' @param path_to_csv path to the model_catalog.csv file under your catalog folder
+#' @param quiet if TRUE, function will suppress message, Default: TRUE
+#' @return returns the model_catalog as a data.table object with enforced column types
 #' @details DETAILS
 #' @examples
 #' \dontrun{
@@ -14,11 +14,20 @@
 #'  [fread][data.table::fread]
 #' @rdname load_catalog_csv_as_DT
 #' @export
-#' @import magrittr
 #' @import data.table
 #' @importFrom data.table fread
 
-load_catalog_csv_as_DT <- function(path_to_csv,quiet=FALSE) {
+load_catalog_csv_as_DT <- function(path_to_csv,quiet=TRUE) {
+  # sinew::moga(file.path(getwd(),"R/load_catalog_csv_as_DT.R"),overwrite = TRUE)
+  # devtools::document()
+  # pkgdown::build_site(new_process=TRUE)
+  #
+  # devtools::load_all()
+  #
+  # path_to_csv="/home/rstudio/g/data/ras_dbase"
+  # quiet=TRUE
+
+  ## -- Start --
   if(!quiet){ print('Loading generated ras database') }
   ras_catalog_dbase <- data.table::fread(path_to_csv, colClasses=c("nhdplus_comid" = "character",
                                                                    "model_name" = "character",

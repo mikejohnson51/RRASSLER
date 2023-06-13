@@ -1,12 +1,12 @@
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title parse_and_plot_old
+#' @description Broken but saving code
 #' @param gfile_path PARAM_DESCRIPTION, Default: NULL
 #' @param path_to_ras_dbase PARAM_DESCRIPTION, Default: NULL
 #' @param excel_row PARAM_DESCRIPTION, Default: NULL
 #' @param units_overwrite PARAM_DESCRIPTION, Default: NULL
 #' @param proj_overwrite PARAM_DESCRIPTION, Default: NULL
 #' @param vdat_trans PARAM_DESCRIPTION, Default: TRUE
-#' @param full PARAM_DESCRIPTION, Default: TRUE
+#' @param plots_wanted A string of values representing the autoplots you want from the model.  Valid values include g for g giles h for h files c for combined o for open space to paste ras into parsed values l for a locked aspect ratio, Default: "g"
 #' @param outpath PARAM_DESCRIPTION, Default: NULL
 #' @param overwrite PARAM_DESCRIPTION, Default: TRUE
 #' @param quiet PARAM_DESCRIPTION, Default: FALSE
@@ -36,16 +36,22 @@
 #' @importFrom ggplot2 ggplot aes geom_line geom_point theme_light xlab ylab geom_sf
 #' @importFrom cowplot plot_grid ggdraw draw_label save_plot
 
-parse_and_plot <-function(gfile_path=NULL,
+parse_and_plot_old <-function(gfile_path=NULL,
                           path_to_ras_dbase=NULL,
                           excel_row=NULL,
                           units_overwrite=NULL,
                           proj_overwrite=NULL,
-                          vdat_trans=TRUE,
-                          full=TRUE,
+                          vdat_trans=FALSE,
+                          plots_wanted="g",
                           outpath=NULL,
                           overwrite=TRUE,
                           quiet=FALSE) {
+  # sinew::moga(file.path(getwd(),"R/parse_and_plot_old.R"),overwrite = TRUE)
+  # devtools::document()
+  # pkgdown::build_site(new_process=TRUE)
+  #
+  # devtools::load_all()
+  #
   # gfile_path=NULL
   # path_to_ras_dbase=NULL
   # excel_row=NULL
@@ -59,6 +65,7 @@ parse_and_plot <-function(gfile_path=NULL,
   # gfile_path="J:/Dropbox/root/projects/floodmapping/methods/ras2fim/sample_data/HICKORY CREEK/HICKORY CREEK.g01"
   # proj_overwrite="EPSG:2277"
 
+  ## -- Start --
   if(is.null(outpath)) {
     if(!is.null(gfile_path)) {
       outpath <- dirname(gfile_path)
@@ -77,12 +84,12 @@ parse_and_plot <-function(gfile_path=NULL,
     }
   }
 
-  if(length(list.files(file.path(outpath,"RRASLER_images", fsep=.Platform$file.sep),full.names = TRUE,recursive = TRUE))>0) {
+  if(length(list.files(file.path(outpath,"RRASSLER_images", fsep=.Platform$file.sep),full.names = TRUE,recursive = TRUE))>0) {
     if(overwrite) {
       print("Prior extract found there and overwrite is false")
       return(FALSE)
     }
-    unlink(file.path(outpath,"RRASLER_images",fsep = .Platform$file.sep), recursive=TRUE)
+    unlink(file.path(outpath,"RRASSLER_images",fsep = .Platform$file.sep), recursive=TRUE)
   }
   dir.create(file.path(outpath,"RRASSLER_images",fsep = .Platform$file.sep), showWarnings = FALSE)
 

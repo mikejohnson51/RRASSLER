@@ -1,6 +1,6 @@
-#' @title FUNCTION_TITLE
+#' @title update_models_from_table
 #' @description FUNCTION_DESCRIPTION
-#' @param path_to_ras_dbase PARAM_DESCRIPTION
+#' @param path_to_ras_dbase A path to the
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples
@@ -38,8 +38,14 @@
 #' @importFrom arrow write_parquet
 
 update_models_from_table <- function(path_to_ras_dbase) {
-
+  # sinew::moga(file.path(getwd(),"R/update_models_from_table.R"),overwrite = TRUE)
+  # devtools::document()
+  # pkgdown::build_site(new_process=TRUE)
+  # devtools::load_all()
+  #
   # path_to_ras_dbase = "H:/ras_dbase"
+
+  ## -- Start --
   ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep))
 
   index_to_update <- ras_catalog_dbase[

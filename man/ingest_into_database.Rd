@@ -9,8 +9,8 @@ ingest_into_database(
   top_of_dir_to_scrape,
   code_to_place_in_source,
   proj_overwrite = NULL,
-  vdat_trans = TRUE,
-  quiet = FALSE,
+  vdat_trans = FALSE,
+  quiet = TRUE,
   overwrite = FALSE,
   refresh = TRUE
 )

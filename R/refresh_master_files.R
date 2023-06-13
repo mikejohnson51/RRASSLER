@@ -1,5 +1,5 @@
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title refresh_master_files
+#' @description updates the index and key data objects at the top of the catalog
 #' @param path_to_ras_dbase PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
@@ -18,18 +18,31 @@
 #'  [sf_linestring][sfheaders::sf_linestring]
 #' @rdname refresh_master_files
 #' @export
+#' @import magrittr
+#' @import data.table
 #' @importFrom utils glob2rx
 #' @importFrom glue glue
 #' @importFrom sf st_read st_set_crs st_crs st_write
 #' @importFrom arrow read_parquet write_parquet
 #' @importFrom data.table as.data.table rbindlist
 #' @importFrom sfheaders sf_linestring
+#' @param quiet PARAM_DESCRIPTION, Default: TRUE
 
-refresh_master_files <- function(path_to_ras_dbase) {
+refresh_master_files <- function(path_to_ras_dbase,
+                                 quiet=TRUE) {
 
-  print("(re)merging database outputs")
+  # sinew::moga(file.path(getwd(),"R/refresh_master_files.R"),overwrite = TRUE)
+  # devtools::document()
+  # pkgdown::build_site(new_process=TRUE)
+  #
+  # devtools::load_all()
+  #
+  # path_to_ras_dbase = "/home/rstudio/g/data/ras_dbase"
+  # refresh_master_files(path_to_ras_dbase = "/home/rstudio/g/data/ras_dbase",quiet=FALSE)
 
-  # path_to_ras_dbase = "H:/ras_dbase"
+  ## -- Start --
+  if(!quiet) { print("(re)merging database outputs") }
+
   ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep))
 
   # Remerge master features
@@ -37,6 +50,7 @@ refresh_master_files <- function(path_to_ras_dbase) {
   hull_files <- list.files(path_to_ras_dbase, pattern = utils::glob2rx("*hull.fgb$"), full.names=TRUE, ignore.case=TRUE, recursive=TRUE) %>% sort()
 
   if(!(length(xyz_files)==length(hull_files))) {
+    print_warning_block()
     print("Alert, something is off here...")
     stop()
   }
@@ -47,7 +61,7 @@ refresh_master_files <- function(path_to_ras_dbase) {
   master_id <- 0
   rows_in_table <- length(xyz_files)
   for(index in 1:rows_in_table) {
-    print(glue::glue("Processing {index} of {rows_in_table}"))
+    if(!quiet) { print(glue::glue("Processing {index} of {rows_in_table}")) }
     # index = 1
 
     final_folder_name <- basename(dirname(hull_files[index]))

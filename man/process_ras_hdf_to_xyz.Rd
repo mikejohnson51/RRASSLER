@@ -2,7 +2,7 @@
 % Please edit documentation in R/process_ras_hdf_to_xyz.R
 \name{process_ras_hdf_to_xyz}
 \alias{process_ras_hdf_to_xyz}
-\title{FUNCTION_TITLE}
+\title{process_ras_hdf_to_xyz}
 \usage{
 process_ras_hdf_to_xyz(
   geom_path,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_datum_from_crs.R
 \name{get_datum_from_crs}
 \alias{get_datum_from_crs}
-\title{FUNCTION_TITLE}
+\title{get_datum_from_crs}
 \usage{
 get_datum_from_crs(x)
 }
@@ -13,7 +13,7 @@ get_datum_from_crs(x)
 OUTPUT_DESCRIPTION
 }
 \description{
-FUNCTION_DESCRIPTION
+attempts to parse datum and datum unit from file based on WKT
 }
 \details{
 DETAILS

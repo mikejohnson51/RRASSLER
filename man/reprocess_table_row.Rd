@@ -2,12 +2,12 @@
 % Please edit documentation in R/reprocess_table_row.R
 \name{reprocess_table_row}
 \alias{reprocess_table_row}
-\title{FUNCTION_TITLE}
+\title{reprocess_table_row}
 \usage{
 reprocess_table_row(path_to_ras_dbase, excel_row)
 }
 \arguments{
-\item{path_to_ras_dbase}{PARAM_DESCRIPTION}
+\item{path_to_ras_dbase}{The path to the top level folder of the ras_catalog structure}
 
 \item{excel_row}{PARAM_DESCRIPTION}
 }

@@ -10,7 +10,8 @@ map_library(
   name = "model_map",
   plot_lines = FALSE,
   chart_lines = FALSE,
-  refresh = FALSE
+  refresh = FALSE,
+  quiet = TRUE
 )
 }
 \arguments{
@@ -30,7 +31,7 @@ map_library(
 OUTPUT_DESCRIPTION
 }
 \description{
-FUNCTION_DESCRIPTION
+create map of catalog assets
 }
 \details{
 DETAILS

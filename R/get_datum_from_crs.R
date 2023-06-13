@@ -1,5 +1,5 @@
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title get_datum_from_crs
+#' @description attempts to parse datum and datum unit from file based on WKT
 #' @param x PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
@@ -18,7 +18,12 @@
 #' @importFrom sf st_crs
 
 get_datum_from_crs <- function(x) {
+
+  # sinew::moga(file.path(getwd(),"R/get_datum_from_crs.R"),overwrite = TRUE)
+
+  ## -- Start --
   # x <- sf_cross_section_lines
+
   xcrs <- sf::st_crs(x)
   if (is.na(xcrs)) {
     stop("No CRS defined")

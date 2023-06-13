@@ -1,5 +1,5 @@
 #' @title map_library
-#' @description FUNCTION_DESCRIPTION
+#' @description create map of catalog assets
 #' @param path_to_ras_dbase PARAM_DESCRIPTION
 #' @param AOI_to_map PARAM_DESCRIPTION, Default: NULL
 #' @param name PARAM_DESCRIPTION, Default: 'model_map'
@@ -41,17 +41,27 @@ map_library <-  function(path_to_ras_dbase,
                          name="model_map",
                          plot_lines=FALSE,
                          chart_lines=FALSE,
-                         refresh=FALSE) {
-
-  # path_to_ras_dbase = "H:/ras_dbase"
+                         refresh=FALSE,
+                         quiet=TRUE) {
+  # sinew::moga(file.path(getwd(),"R/map_library.R"),overwrite = TRUE)
+  # devtools::document()
+  # pkgdown::build_site(new_process=TRUE)
+  #
+  # devtools::load_all()
+  #
+  # path_to_ras_dbase = "/home/rstudio/g/data/ras_dbase"
   # AOI_to_map="12090301"
   # name="12090301_input_models"
   # plot_lines=TRUE
   # chart_lines=FALSE
   # chart_lines=TRUE
   # refresh=FALSE
+  # RRASSLER::map_library("/home/rstudio/g/data/ras_dbase",NULL,name="model_map",plot_lines=TRUE,chart_lines=TRUE,refresh=FALSE,quiet=FALSE)
+  # map_library("H:/ras_dbase","12090301","12090301_model_footprints",TRUE,FALSE,FALSE)
 
+  ## -- Start --
   if(name=="model") {
+    print_warning_block()
     print("Can not use 'model' as a name")
     stop()
   }
@@ -63,8 +73,8 @@ map_library <-  function(path_to_ras_dbase,
   if(class(AOI_to_map)=="sf") {
     template_hucs <- AOI_to_map
   } else {
-    if(file.exists(file.path("C:/Users/jimma/Dropbox/root/database/hosted/water/HUC8.fgb",fsep=.Platform$file.sep))) {
-      template_hucs <- sf::st_transform(sf::st_read(file.path("C:/Users/jimma/Dropbox/root/database/hosted/water/HUC8.fgb",fsep=.Platform$file.sep),quiet=FALSE),sf::st_crs("EPSG:6349"))
+    if(file.exists(file.path("/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",fsep=.Platform$file.sep))) {
+      template_hucs <- sf::st_transform(sf::st_read(file.path("/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",fsep=.Platform$file.sep),quiet=FALSE),sf::st_crs("EPSG:6349"))
     } else {
       template_hucs <- sf::st_transform(sf::st_read('https://waterduck.ddns.net:9000/water/HUC8.fgb',quiet=FALSE),sf::st_crs("EPSG:6349"))
     }

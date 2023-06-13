@@ -1,0 +1,26 @@
+#' @title marco
+#' @description Hello world
+#' @return hello world
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  #RRASSLER::marco()
+#'  }
+#' }
+#' @rdname marco
+#' @export
+marco <- function() {
+
+  # sinew::moga(file.path(getwd(),"R/marco.R"),overwrite = TRUE)
+  # devtools::document()
+  # pkgdown::build_site(new_process=TRUE)
+  # devtools::load_all()
+
+  ## -- Start --
+  print("Polo!")
+
+  return(TRUE)
+}
+
