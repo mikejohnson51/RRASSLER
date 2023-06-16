@@ -73,11 +73,7 @@ map_library <-  function(path_to_ras_dbase,
   if(class(AOI_to_map)=="sf") {
     template_hucs <- AOI_to_map
   } else {
-    if(file.exists(file.path("/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",fsep=.Platform$file.sep))) {
-      template_hucs <- sf::st_transform(sf::st_read(file.path("/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",fsep=.Platform$file.sep),quiet=FALSE),sf::st_crs("EPSG:6349"))
-    } else {
-      template_hucs <- sf::st_transform(sf::st_read('https://waterduck.ddns.net:9000/water/HUC8.fgb',quiet=FALSE),sf::st_crs("EPSG:6349"))
-    }
+    template_hucs <- sf::st_transform(sf::st_read(file.path(path_to_ras_dbase,"HUC8.fgb",fsep=.Platform$file.sep),quiet=FALSE),sf::st_crs("EPSG:6349"))
     template_hucs <- template_hucs[template_hucs$huc8 %in% AOI_to_map,]
   }
 
