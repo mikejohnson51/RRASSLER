@@ -2,22 +2,22 @@
 % Please edit documentation in R/append_catalog_fields.R
 \name{append_catalog_fields}
 \alias{append_catalog_fields}
-\title{append_catalog_fields}
+\title{FUNCTION_TITLE}
 \usage{
 append_catalog_fields(
-  path_to_ras_dbase = "NULL",
-  out_name = "OWP_ras_catalog.csv",
-  dat_path = "/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",
+  path_to_ras_dbase = NULL,
+  out_name = NULL,
+  dat_path = NULL,
   overwrite = FALSE,
   quiet = FALSE
 )
 }
 \arguments{
-\item{path_to_ras_dbase}{PARAM_DESCRIPTION, Default: 'NULL'}
+\item{path_to_ras_dbase}{PARAM_DESCRIPTION, Default: NULL}
 
-\item{out_name}{PARAM_DESCRIPTION, Default: 'OWP_ras_catalog.csv'}
+\item{out_name}{PARAM_DESCRIPTION, Default: NULL}
 
-\item{dat_path}{PARAM_DESCRIPTION, Default: '/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb'}
+\item{dat_path}{PARAM_DESCRIPTION, Default: NULL}
 
 \item{overwrite}{PARAM_DESCRIPTION, Default: FALSE}
 

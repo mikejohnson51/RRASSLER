@@ -62,7 +62,7 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
   sf::sf_use_s2(FALSE)
   ras_catalog_dbase[,hucs:=character()]
   list_vec <- c()
-  template_hucs <- sf::st_transform(sf::st_read(file.path(dat_path,fsep=.Platform$file.sep),quiet=quiet),sf::st_crs("EPSG:4326"))
+  template_hucs <- sf::st_transform(sf::st_read(file.path(path_to_ras_dbase,"HUC8.fgb",fsep = .Platform$file.sep),quiet=quiet),sf::st_crs("EPSG:4326"))
   for (row in 1:nrow(ras_catalog_dbase)) {
     if(!quiet) { print(glue::glue("Processing row:{row} of {nrow(ras_catalog_dbase)}")) }
     if(is.na(ras_catalog_dbase[row,final_name_key]) || !file.exists(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],"hull.fgb",fsep = .Platform$file.sep))) {
