@@ -21,7 +21,7 @@
 #' @importFrom glue glue
 #' @importFrom sf st_transform st_read st_crs
 
-append_catalog_fields <- function(path_to_ras_dbase,out_name="OWP_ras_catalog.csv",overwrite=FALSE,quiet=FALSE) {
+append_catalog_fields <- function(path_to_ras_dbase,out_name="OWP_ras_catalog.csv",dat_path="/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",overwrite=FALSE,quiet=FALSE) {
 
   # https://github.com/NOAA-OWP/ras2fim/issues/34
 
@@ -54,7 +54,7 @@ append_catalog_fields <- function(path_to_ras_dbase,out_name="OWP_ras_catalog.cs
   sf::sf_use_s2(FALSE)
   ras_catalog_dbase[,hucs:=character()]
   list_vec <- c()
-  template_hucs <- sf::st_transform(sf::st_read(file.path("/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",fsep=.Platform$file.sep),quiet=quiet),sf::st_crs("EPSG:4326"))
+  template_hucs <- sf::st_transform(sf::st_read(file.path(dat_path,fsep=.Platform$file.sep),quiet=quiet),sf::st_crs("EPSG:4326"))
   for (row in 1:nrow(ras_catalog_dbase)) {
     if(!quiet) { print(glue::glue("Processing row:{row} of {nrow(ras_catalog_dbase)}")) }
     if(is.na(ras_catalog_dbase[row,final_name_key]) || !file.exists(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],"hull.fgb",fsep = .Platform$file.sep))) {

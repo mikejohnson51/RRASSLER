@@ -9,7 +9,7 @@
 
 ## Executive Summery
 
-The HEC-RAS model format, both as stand alone models or in archive formats, are incomparable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows.  This tool should be deployed to ingest HEC-RAS models into a "RAS_model_catalog", a normalized and spatialized representation of those models with the requisite metadata and formatting needed to mesh seamlessly with [national scale hydrofabric efforts and data models](https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html), and applications such as [T-Route](https://github.com/NOAA-OWP/t-route) and [RAS2FIM](https://github.com/NOAA-OWP/ras2fim).
+The HEC-RAS model format, both as stand alone models or in archive formats, are incompatable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows.  This tool should be deployed to ingest HEC-RAS models into a "RAS_model_catalog", a normalized and spatialized representation of those models with the requisite metadata and formatting needed to mesh seamlessly with [national scale hydrofabric efforts and data models](https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html), and applications such as [T-Route](https://github.com/NOAA-OWP/t-route) and [RAS2FIM](https://github.com/NOAA-OWP/ras2fim).
 
 ## Intro
 
@@ -17,7 +17,7 @@ There are few hydraulic models as prolific as HEC-RAS, and since it's first name
 
 ## Ingest logic
 
-In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly.  RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise "vistigal" data; and with an emphasis on the particular geometric realization of the model).  It is also designed to be a standardized and centralized source of models regardless of their source.  For that reason, RASSLER expects to operate within it's own controlled directory, or "ras_model_catalog".   Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog.  It will:  
+In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly.  RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise "vistigal" data; and with an emphasis on the particular geometric realization of the model).  It is also designed to be a standardized and centralized source of models regardless of their source.  For that reason, RRASSLER expects to operate within it's own controlled directory, or "ras_model_catalog".   Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog.  It will:  
 1) Scrape the entire directory structure for any HEC-RAS model projects
 2) for each geometric realization of that model (variation of .g##), grab all relevant HEC-RAS related files defined as:  
    - .g## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Geometry definitions  
