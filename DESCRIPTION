@@ -5,10 +5,9 @@ Version: 0.0.01
 Author: Jim Coll et al.
 Maintainer: Jim Coll <jamesmcoll@gmail.com>
 Description: A bottoms up approach to walking CONUS scale applications back to the spesific point, cross section, and HEC-RAS model they were sourced from.  Still in alpha dont use this.
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: magrittr, data.table
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3

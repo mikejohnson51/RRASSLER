@@ -53,7 +53,9 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="rrassler">RRASSLER<a class="anchor" aria-label="anchor" href="#rrassler"></a>
 </h1></div>
-<p><a href="https://github.com/JimColl/RRASSLER/blob/main/man/figures/RRASSLER_knockout.png" class="external-link"></a></p>
+<div class="figure">
+<img src="https://github.com/JimColl/RRASSLER/blob/main/man/figures/RRASSLER_knockout.png" alt=""><p class="caption">RRASSLER LOGO</p>
+</div>
 <!-- badges: start -->
 
 <div class="section level2">
@@ -69,7 +71,20 @@
 <div class="section level2">
 <h2 id="ingest-logic">Ingest logic<a class="anchor" aria-label="anchor" href="#ingest-logic"></a>
 </h2>
-<p>In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly. RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise “vistigal” data; and with an emphasis on the particular geometric realization of the model). It is also designed to be a standardized and centralized source of models regardless of their source. For that reason, RASSLER expects to operate within it’s own controlled directory, or “ras_model_catalog”. Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog. It will: 1) Scrape the entire directory structure for any HEC-RAS model projects 2) for each geometric realization of that model (variation of .g##), grab all relevant HEC-RAS related files defined as: - .g## # Geometry definitions - .prj # Projection (can be non-standard proj4 string defined file) - .p## # Project file, used to drive the model - .f## # Steady Flow file. Profile information, flow data and boundary conditions - .h## # Hydraulic Design data file - .v## # Velocity file - .o## # Output file - .r## # run file for steady flow - .u## # Steady Flow file. Profile information, flow data and boundary conditions - .x## # run file for unsteady flow - .dss # ras unsteady flow output - .rasmap # output plan 3) Attempt to place the model in space. This is done by attempting to parse the g** and g**.hdf files, guess at projections, and pulling and collating the data into an xid-xyz table. 4) Using that extracted geometry, attempt to create a model footprint (hull). If that can be constructed, the model was assumed to be correctly placed in space. The relevant model files are copied to the uniquely parsed “final_model_name_key” folder under the <em>/models/</em> folder 5) If the creation of the model hull errors out, the model is placed in the _/models/<em>unprocessed</em> folder for further investigation, correction, and rewrassling 6) After all iterations of files are done, RRASSLER will (re)generate a unified source for model footprints, cross sections, and points (now in spatial form) from the HEC-RAS model, and pointers back to the copied source data which remains unaltered.</p>
+<p>In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly. RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise “vistigal” data; and with an emphasis on the particular geometric realization of the model). It is also designed to be a standardized and centralized source of models regardless of their source. For that reason, RASSLER expects to operate within it’s own controlled directory, or “ras_model_catalog”. Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog. It will: 1) Scrape the entire directory structure for any HEC-RAS model projects 2) for each geometric realization of that model (variation of .g##), grab all relevant HEC-RAS related files defined as:<br>
+- .g##       # Geometry definitions<br>
+- .prj       # Projection (can be non-standard proj4 string defined file)<br>
+- .p##       # Project file, used to drive the model<br>
+- .f##       # Steady Flow file. Profile information, flow data and boundary conditions<br>
+- .h##       # Hydraulic Design data file<br>
+- .v##       # Velocity file<br>
+- .o##       # Output file<br>
+- .r##       # run file for steady flow<br>
+- .u##       # Steady Flow file. Profile information, flow data and boundary conditions<br>
+- .x##       # run file for unsteady flow<br>
+- .dss       # ras unsteady flow output<br>
+- .rasmap    # output plan<br>
+3) Attempt to place the model in space. This is done by attempting to parse the g** and g**.hdf files, guess at projections, and pulling and collating the data into an xid-xyz table. 4) Using that extracted geometry, attempt to create a model footprint (hull). If that can be constructed, the model was assumed to be correctly placed in space. The relevant model files are copied to the uniquely parsed “final_model_name_key” folder under the <em>/models/</em> folder 5) If the creation of the model hull errors out, the model is placed in the _/models/<em>unprocessed</em> folder for further investigation, correction, and rewrassling 6) After all iterations of files are done, RRASSLER will (re)generate a unified source for model footprints, cross sections, and points (now in spatial form) from the HEC-RAS model, and pointers back to the copied source data which remains unaltered.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -106,16 +121,13 @@
 </h2>
 <p>Aligning the different model surfaces is hard. Although every effort was made to account for standard edge cases and unit cohesion, you will, more often than not, find that a surface you use and a model do not align. That is not particularly surprising, but it is often disconcerting. 3DEP timestamps, resolutions, and even order of reprojection operations may alter the surfaces slightly, even if they are stated to have come from the same input database. Do your own sanity checks and try not to lose your mind. Finally, this was developed, tested, and deployed over primarily 1D data. Although 2D model will ingest, there was no consideration for those and is not accounting or copying <em>.tif</em> files so the value of these models is greatly diminished.</p>
 </div>
-<div class="section level2">
-<h2 id="disclaimer">Disclaimer<a class="anchor" aria-label="anchor" href="#disclaimer"></a>
-</h2>
-<p>These tools are experemental, preliminary or provisional and are subject to revision. They are being provided to meet the need for timely best science. The data have not received final approval by the National Oceanic and Atmospheric Administration (NOAA) or Lynker and the U.S. Geological Survey (USGS) and are provided on the condition that neither NOAA, the USGS, nor the U.S. Government shall be held liable for any damages resulting from the authorized or unauthorized use of the data.</p>
-</div>
 </div>
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li>What license is it under?</li>
+<li>
+<a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
 

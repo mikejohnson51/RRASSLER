@@ -42,8 +42,8 @@ reprocess_table_row <- function(path_to_ras_dbase,excel_row) {
   ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep))
 
   if(ras_catalog_dbase[row,final_name_key]=="") {
-    path <- file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[row,inital_scrape_name],glue::glue("{ras_catalog_dbase[row,model_name]}.{ras_catalog_dbase[row,g_file]}.hdf"),fsep = .Platform$file.sep)
-    current_path <- file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[row,inital_scrape_name],fsep = .Platform$file.sep)
+    path <- file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[row,initial_scrape_name],glue::glue("{ras_catalog_dbase[row,model_name]}.{ras_catalog_dbase[row,g_file]}.hdf"),fsep = .Platform$file.sep)
+    current_path <- file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[row,initial_scrape_name],fsep = .Platform$file.sep)
   } else {
     path <- file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],glue::glue("{ras_catalog_dbase[row,model_name]}.{ras_catalog_dbase[row,g_file]}.hdf"),fsep = .Platform$file.sep)
     current_path <- file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],fsep = .Platform$file.sep)

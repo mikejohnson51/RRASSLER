@@ -56,7 +56,7 @@ update_models_from_table <- function(path_to_ras_dbase) {
 
   for(i in index_to_update) {
     # i=1
-    path <- file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[i,inital_scrape_name],glue::glue("{ras_catalog_dbase[i,model_name]}.{ras_catalog_dbase[i,g_file]}"),fsep = .Platform$file.sep)
+    path <- file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[i,initial_scrape_name],glue::glue("{ras_catalog_dbase[i,model_name]}.{ras_catalog_dbase[i,g_file]}"),fsep = .Platform$file.sep)
     print(glue::glue("processing {path}"))
     if(file.exists(paste0(path,".hdf"))) {
       extrated_pts = process_ras_hdf_to_xyz(
@@ -77,11 +77,11 @@ update_models_from_table <- function(path_to_ras_dbase) {
     }
 
     if(!is.data.frame(extrated_pts)) {
-      current_inital_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
+      current_initial_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
       current_final_name_key <- paste0("unparsed_",current_model_name,"_",current_g_value,"_",current_last_modified)
 
       if(sum(stringr::str_detect(ras_catalog_dbase$final_name_key, current_final_name_key)) < 0) {
-        new_row <- data.table::data.table(current_nhdplus_comid,current_model_name,current_g_value,current_last_modified,code_to_place_in_source,current_model_units,current_model_projection,current_inital_name,current_final_name_key,"could not parse")
+        new_row <- data.table::data.table(current_nhdplus_comid,current_model_name,current_g_value,current_last_modified,code_to_place_in_source,current_model_units,current_model_projection,current_initial_name,current_final_name_key,"could not parse")
         names(new_row) <- names
         ras_catalog_dbase <- data.table::rbindlist(list(ras_catalog_dbase,new_row))
 
@@ -131,10 +131,10 @@ update_models_from_table <- function(path_to_ras_dbase) {
     ras_catalog_dbase[i,final_name_key := paste0(ras_catalog_dbase[i,nhdplus_comid],"_",ras_catalog_dbase[i,model_name],"_",ras_catalog_dbase[i,g_file],"_",ras_catalog_dbase[i,last_modified])]
 
     dir.create(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[i,]$final_name_key,fsep = .Platform$file.sep), showWarnings = FALSE)
-    file.copy(list.files(file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[i,]$inital_scrape_name,fsep = .Platform$file.sep), full.names=TRUE, ignore.case=TRUE, recursive=TRUE),
+    file.copy(list.files(file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[i,]$initial_scrape_name,fsep = .Platform$file.sep), full.names=TRUE, ignore.case=TRUE, recursive=TRUE),
               file.path(path_to_ras_dbase,"models",ras_catalog_dbase[i,]$final_name_key,fsep = .Platform$file.sep))
 
-    unlink(file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[i,]$inital_scrape_name,fsep = .Platform$file.sep),recursive=TRUE)
+    unlink(file.path(path_to_ras_dbase,"models","_unprocessed",ras_catalog_dbase[i,]$initial_scrape_name,fsep = .Platform$file.sep),recursive=TRUE)
 
     arrow::write_parquet(extrated_pts,file.path(path_to_ras_dbase,"models",ras_catalog_dbase[i,]$final_name_key,"ras_xyz.parquet",fsep = .Platform$file.sep))
     sf::st_write(ahull_poly,file.path(path_to_ras_dbase,"models",ras_catalog_dbase[i,]$final_name_key,"hull.fgb",fsep = .Platform$file.sep))

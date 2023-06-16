@@ -88,7 +88,7 @@ ingest_into_database <- function(path_to_ras_dbase,
     print(glue::glue("Parsing {top_of_dir_to_scrape} to place in {path_to_ras_dbase}"))
   }
 
-  names <- c("nhdplus_comid","model_name","g_file","last_modified","source","units","crs","inital_scrape_name","final_name_key","notes")
+  names <- c("nhdplus_comid","model_name","g_file","last_modified","source","units","crs","initial_scrape_name","final_name_key","notes")
 
   if(file.exists(file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep))) {
     ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep), quiet = quiet)
@@ -172,17 +172,17 @@ ingest_into_database <- function(path_to_ras_dbase,
       cond3 = file.exists(paste0(g_file,".hdf"))
 
       if(!(cond1 & cond2)) {
-        current_inital_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
+        current_initial_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
         current_final_name_key <- NA
 
-        if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$inital_scrape_name), current_inital_name)) == 0) {
-          new_row <- data.table::data.table(current_nhdplus_comid,current_model_name,current_g_value,current_last_modified,code_to_place_in_source,current_model_units,current_model_projection,current_inital_name,current_final_name_key,"unparsed_units_proj")
+        if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$initial_scrape_name), current_initial_name)) == 0) {
+          new_row <- data.table::data.table(current_nhdplus_comid,current_model_name,current_g_value,current_last_modified,code_to_place_in_source,current_model_units,current_model_projection,current_initial_name,current_final_name_key,"unparsed_units_proj")
           names(new_row) <- names
           ras_catalog_dbase <- data.table::rbindlist(list(ras_catalog_dbase,new_row))
 
-          dir.create(file.path(path_to_ras_dbase,"models","_unprocessed",current_inital_name,fsep = .Platform$file.sep), showWarnings = FALSE, recursive = TRUE)
+          dir.create(file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep), showWarnings = FALSE, recursive = TRUE)
           file.copy(c(g_file ,paste0(g_file,".hdf") ,p_files ,f_files ,h_files, v_files, prj_files,o_files,r_files,u_files,x_files,rasmap_files),
-                    file.path(path_to_ras_dbase,"models","_unprocessed",current_inital_name,fsep = .Platform$file.sep))
+                    file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep))
           data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep), row.names = FALSE)
         } else {
           if(!quiet) { print("Model with inital scrape name already in the que") }
@@ -242,18 +242,18 @@ ingest_into_database <- function(path_to_ras_dbase,
       } else if(cond5) {
         extrated_pts <- ghdf_pts
       } else if(!cond4 & !cond5) {
-        current_inital_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
+        current_initial_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
         current_final_name_key <- NA
 
-        if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$inital_scrape_name), current_inital_name)) == 0) {
-          new_row <- data.table::data.table(current_nhdplus_comid,current_model_name,current_g_value,current_last_modified,code_to_place_in_source,current_model_units,current_model_projection,current_inital_name,
+        if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$initial_scrape_name), current_initial_name)) == 0) {
+          new_row <- data.table::data.table(current_nhdplus_comid,current_model_name,current_g_value,current_last_modified,code_to_place_in_source,current_model_units,current_model_projection,current_initial_name,
                                             current_final_name_key,"unparsed_units_proj")
           names(new_row) <- names
           ras_catalog_dbase <- data.table::rbindlist(list(ras_catalog_dbase,new_row))
 
-          dir.create(file.path(path_to_ras_dbase,"models","_unprocessed",current_inital_name,fsep = .Platform$file.sep), showWarnings = FALSE, recursive = TRUE)
+          dir.create(file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep), showWarnings = FALSE, recursive = TRUE)
           file.copy(c(g_file ,paste0(g_file,".hdf") ,p_files ,f_files ,h_files, v_files, prj_files,o_files,r_files,u_files,x_files,rasmap_files),
-                    file.path(path_to_ras_dbase,"models","_unprocessed",current_inital_name,fsep = .Platform$file.sep))
+                    file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep))
           data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep), row.names = FALSE)
         } else {
           if(!quiet) { print("Model with inital scrape name already in the que") }
@@ -289,13 +289,13 @@ ingest_into_database <- function(path_to_ras_dbase,
         current_nhdplus_comid = current_nhdplus_comid[current_nhdplus_comid$streamorde == max(current_nhdplus_comid$streamorde),][1,]$comid
       }
 
-      current_inital_name = paste0(current_nhdplus_comid,"_",current_model_name,"_",current_g_value,"_",current_last_modified)
-      print(glue::glue("Parsed into:{current_inital_name}"))
+      current_initial_name = paste0(current_nhdplus_comid,"_",current_model_name,"_",current_g_value,"_",current_last_modified)
+      print(glue::glue("Parsed into:{current_initial_name}"))
 
-      current_final_name_key = current_inital_name
+      current_final_name_key = current_initial_name
 
       if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$final_name_key), current_final_name_key)) == 0) {
-        new_row <- data.table::data.table(current_nhdplus_comid,current_model_name,current_g_value,current_last_modified,code_to_place_in_source,current_model_units,current_model_projection,current_inital_name,
+        new_row <- data.table::data.table(current_nhdplus_comid,current_model_name,current_g_value,current_last_modified,code_to_place_in_source,current_model_units,current_model_projection,current_initial_name,
                                           current_final_name_key,as.character(extrated_pts[[2]]))
         names(new_row) <- names
         ras_catalog_dbase <- data.table::rbindlist(list(ras_catalog_dbase,new_row))
@@ -319,7 +319,7 @@ ingest_into_database <- function(path_to_ras_dbase,
   }
 
   runtime <- Sys.time() - fn_time_start
-  units::units(runtime) <- "mins"
+  units(runtime) <- "mins"
   print(paste("RAS Library appended in",round(runtime, digits = 2),"minutes"))
 
   return(TRUE)
