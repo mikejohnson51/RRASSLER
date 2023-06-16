@@ -1,7 +1,8 @@
 #' @title append_catalog_fields
-#' @description Append calculated fields and helper values to new catalog
-#' @param path_to_ras_dbase The path to the top level folder of the ras_catalog structure
+#' @description FUNCTION_DESCRIPTION
+#' @param path_to_ras_dbase PARAM_DESCRIPTION, Default: 'NULL'
 #' @param out_name PARAM_DESCRIPTION, Default: 'OWP_ras_catalog.csv'
+#' @param dat_path PARAM_DESCRIPTION, Default: '/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb'
 #' @param overwrite PARAM_DESCRIPTION, Default: FALSE
 #' @param quiet PARAM_DESCRIPTION, Default: FALSE
 #' @return OUTPUT_DESCRIPTION
@@ -10,21 +11,22 @@
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
-#'  # RRASSLER::append_catalog_fields(path_to_ras_dbase="/home/rstudio/g/data/ras_dbase",out_name="OWP_ras_catalog.csv",overwrite=FALSE,quiet=FALSE)
 #'  }
 #' }
 #' @seealso
 #'  \code{\link[glue]{glue}}
-#'  \code{\link[sf]{st_transform}}, \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}
+#'  \code{\link[dplyr]{mutate}}
+#'  \code{\link[sf]{s2}}, \code{\link[sf]{st_transform}}, \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}
+#'  \code{\link[data.table]{fwrite}}
 #' @rdname append_catalog_fields
 #' @export
 #' @importFrom glue glue
-#' @importFrom sf st_transform st_read st_crs
-#' @param dat_path PARAM_DESCRIPTION, Default: '/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb'
 #' @importFrom dplyr mutate
+#' @importFrom sf sf_use_s2 st_transform st_read st_crs
 #' @importFrom data.table fwrite
 
-append_catalog_fields <- function(path_to_ras_dbase,out_name="OWP_ras_catalog.csv",
+append_catalog_fields <- function(path_to_ras_dbase='NULL',
+                                  out_name="OWP_ras_catalog.csv",
                                   dat_path="/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",
                                   overwrite=FALSE,
                                   quiet=FALSE) {

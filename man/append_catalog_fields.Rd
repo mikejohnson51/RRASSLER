@@ -5,7 +5,7 @@
 \title{append_catalog_fields}
 \usage{
 append_catalog_fields(
-  path_to_ras_dbase,
+  path_to_ras_dbase = "NULL",
   out_name = "OWP_ras_catalog.csv",
   dat_path = "/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",
   overwrite = FALSE,
@@ -13,7 +13,7 @@ append_catalog_fields(
 )
 }
 \arguments{
-\item{path_to_ras_dbase}{The path to the top level folder of the ras_catalog structure}
+\item{path_to_ras_dbase}{PARAM_DESCRIPTION, Default: 'NULL'}
 
 \item{out_name}{PARAM_DESCRIPTION, Default: 'OWP_ras_catalog.csv'}
 
@@ -27,7 +27,7 @@ append_catalog_fields(
 OUTPUT_DESCRIPTION
 }
 \description{
-Append calculated fields and helper values to new catalog
+FUNCTION_DESCRIPTION
 }
 \details{
 DETAILS
@@ -36,11 +36,12 @@ DETAILS
 \dontrun{
 if(interactive()){
  #EXAMPLE1
- # RRASSLER::append_catalog_fields(path_to_ras_dbase="/home/rstudio/g/data/ras_dbase",out_name="OWP_ras_catalog.csv",overwrite=FALSE,quiet=FALSE)
  }
 }
 }
 \seealso{
 \code{\link[glue]{glue}}
- \code{\link[sf]{st_transform}}, \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}
+ \code{\link[dplyr]{mutate}}
+ \code{\link[sf]{s2}}, \code{\link[sf]{st_transform}}, \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}
+ \code{\link[data.table]{fwrite}}
 }
