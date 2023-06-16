@@ -11,3 +11,4 @@ LazyData: true
 Depends: magrittr, data.table
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
+RoxygenNote: 7.2.3

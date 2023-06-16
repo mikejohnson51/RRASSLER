@@ -7,6 +7,7 @@
 append_catalog_fields(
   path_to_ras_dbase,
   out_name = "OWP_ras_catalog.csv",
+  dat_path = "/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",
   overwrite = FALSE,
   quiet = FALSE
 )
@@ -15,6 +16,8 @@ append_catalog_fields(
 \item{path_to_ras_dbase}{The path to the top level folder of the ras_catalog structure}
 
 \item{out_name}{PARAM_DESCRIPTION, Default: 'OWP_ras_catalog.csv'}
+
+\item{dat_path}{PARAM_DESCRIPTION, Default: '/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb'}
 
 \item{overwrite}{PARAM_DESCRIPTION, Default: FALSE}
 

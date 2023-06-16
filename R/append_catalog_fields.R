@@ -20,8 +20,14 @@
 #' @export
 #' @importFrom glue glue
 #' @importFrom sf st_transform st_read st_crs
+#' @param dat_path PARAM_DESCRIPTION, Default: '/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb'
+#' @importFrom dplyr mutate
+#' @importFrom data.table fwrite
 
-append_catalog_fields <- function(path_to_ras_dbase,out_name="OWP_ras_catalog.csv",dat_path="/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",overwrite=FALSE,quiet=FALSE) {
+append_catalog_fields <- function(path_to_ras_dbase,out_name="OWP_ras_catalog.csv",
+                                  dat_path="/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",
+                                  overwrite=FALSE,
+                                  quiet=FALSE) {
 
   # https://github.com/NOAA-OWP/ras2fim/issues/34
 
