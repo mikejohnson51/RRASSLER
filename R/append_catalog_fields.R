@@ -1,8 +1,8 @@
-#' @title append_catalog_fields
+#' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param path_to_ras_dbase PARAM_DESCRIPTION, Default: 'NULL'
-#' @param out_name PARAM_DESCRIPTION, Default: 'OWP_ras_catalog.csv'
-#' @param dat_path PARAM_DESCRIPTION, Default: '/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb'
+#' @param path_to_ras_dbase PARAM_DESCRIPTION, Default: NULL
+#' @param out_name PARAM_DESCRIPTION, Default: NULL
+#' @param dat_path PARAM_DESCRIPTION, Default: NULL
 #' @param overwrite PARAM_DESCRIPTION, Default: FALSE
 #' @param quiet PARAM_DESCRIPTION, Default: FALSE
 #' @return OUTPUT_DESCRIPTION
@@ -25,9 +25,9 @@
 #' @importFrom sf sf_use_s2 st_transform st_read st_crs
 #' @importFrom data.table fwrite
 
-append_catalog_fields <- function(path_to_ras_dbase='NULL',
-                                  out_name="OWP_ras_catalog.csv",
-                                  dat_path="/home/rstudio/g/Dropbox/root/database/hosted/water/HUC8.fgb",
+append_catalog_fields <- function(path_to_ras_dbase=NULL,
+                                  out_name=NULL,
+                                  dat_path=NULL,
                                   overwrite=FALSE,
                                   quiet=FALSE) {
 
