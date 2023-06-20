@@ -1,11 +1,11 @@
 #' @title print_warning_block
-#' @description FUNCTION_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
+#' @description A waring block hepler
+#' @return print output
 #' @details DETAILS
 #' @examples
 #' \dontrun{
 #' if(interactive()){
-#'  #EXAMPLE1
+#'  RRASSLER::print_warning_block()
 #'  }
 #' }
 #' @rdname print_warning_block

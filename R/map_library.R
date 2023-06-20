@@ -1,11 +1,12 @@
 #' @title map_library
-#' @description create map of catalog assets
+#' @description FUNCTION_DESCRIPTION
 #' @param path_to_ras_dbase PARAM_DESCRIPTION
 #' @param AOI_to_map PARAM_DESCRIPTION, Default: NULL
 #' @param name PARAM_DESCRIPTION, Default: 'model_map'
 #' @param plot_lines PARAM_DESCRIPTION, Default: FALSE
 #' @param chart_lines PARAM_DESCRIPTION, Default: FALSE
 #' @param refresh PARAM_DESCRIPTION, Default: FALSE
+#' @param quiet PARAM_DESCRIPTION, Default: TRUE
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples
@@ -15,18 +16,16 @@
 #'  }
 #' }
 #' @seealso
-#'  [st_transform][sf::st_transform], [st_read][sf::st_read], [st_crs][sf::st_crs], [st_make_valid][sf::st_make_valid]
-#'  [read_parquet][arrow::read_parquet]
-#'  [ggplot][ggplot2::ggplot], [aes][ggplot2::aes], [geom_point][ggplot2::geom_point], [theme_light][ggplot2::theme_light], [scale_color_gradientn][ggplot2::scale_color_gradientn], [labs][ggplot2::labs]
-#'  [leaflet][leaflet::leaflet], [leafletOptions][leaflet::leafletOptions], [addProviderTiles][leaflet::addProviderTiles], [addLegend][leaflet::addLegend], [addLayersControl][leaflet::addLayersControl]
-#'  [addFeatures][leafem::addFeatures]
-#'  [popupGraph][leafpop::popupGraph], [popupTable][leafpop::popupTable]
-#'  [glue][glue::glue]
-#'  [mapshot][mapview::mapshot]
+#'  \code{\link[sf]{st_transform}}, \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}, \code{\link[sf]{valid}}
+#'  \code{\link[arrow]{read_parquet}}
+#'  \code{\link[ggplot2]{ggplot}}, \code{\link[ggplot2]{aes}}, \code{\link[ggplot2]{geom_point}}, \code{\link[ggplot2]{ggtheme}}, \code{\link[ggplot2]{scale_colour_gradient}}, \code{\link[ggplot2]{labs}}
+#'  \code{\link[leaflet]{leaflet}}, \code{\link[leaflet]{addProviderTiles}}, \code{\link[leaflet]{addLegend}}, \code{\link[leaflet]{addLayersControl}}
+#'  \code{\link[leafem]{addFeatures}}
+#'  \code{\link[leafpop]{popupGraph}}
+#'  \code{\link[glue]{glue}}
+#'  \code{\link[mapview]{mapshot}}
 #' @rdname map_library
 #' @export
-#' @import magrittr
-#' @import data.table
 #' @importFrom sf st_transform st_read st_crs st_make_valid
 #' @importFrom arrow read_parquet
 #' @importFrom ggplot2 ggplot aes geom_point theme_light scale_color_gradientn labs
@@ -77,7 +76,7 @@ map_library <-  function(path_to_ras_dbase,
     template_hucs <- template_hucs[template_hucs$huc8 %in% AOI_to_map,]
   }
 
-  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep))
+  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep))
   hull_features <- sf::st_read(file.path(path_to_ras_dbase,"model_footprints.fgb",fsep = .Platform$file.sep)) |> sf::st_make_valid()
 
   if(plot_lines) {

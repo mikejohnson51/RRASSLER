@@ -1,6 +1,7 @@
 #' @title refresh_master_files
-#' @description updates the index and key data objects at the top of the catalog
+#' @description FUNCTION_DESCRIPTION
 #' @param path_to_ras_dbase PARAM_DESCRIPTION
+#' @param quiet PARAM_DESCRIPTION, Default: TRUE
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples
@@ -10,23 +11,20 @@
 #'  }
 #' }
 #' @seealso
-#'  [glob2rx][utils::glob2rx]
-#'  [glue][glue::glue]
-#'  [st_read][sf::st_read], [st_set_crs][sf::st_set_crs], [st_crs][sf::st_crs], [st_write][sf::st_write]
-#'  [read_parquet][arrow::read_parquet], [write_parquet][arrow::write_parquet]
-#'  [as.data.table][data.table::as.data.table], [rbindlist][data.table::rbindlist]
-#'  [sf_linestring][sfheaders::sf_linestring]
+#'  \code{\link[utils]{glob2rx}}
+#'  \code{\link[glue]{glue}}
+#'  \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}, \code{\link[sf]{st_write}}
+#'  \code{\link[arrow]{read_parquet}}, \code{\link[arrow]{write_parquet}}
+#'  \code{\link[data.table]{as.data.table}}, \code{\link[data.table]{rbindlist}}
+#'  \code{\link[sfheaders]{sf_linestring}}
 #' @rdname refresh_master_files
 #' @export
-#' @import magrittr
-#' @import data.table
 #' @importFrom utils glob2rx
 #' @importFrom glue glue
 #' @importFrom sf st_read st_set_crs st_crs st_write
 #' @importFrom arrow read_parquet write_parquet
 #' @importFrom data.table as.data.table rbindlist
 #' @importFrom sfheaders sf_linestring
-#' @param quiet PARAM_DESCRIPTION, Default: TRUE
 
 refresh_master_files <- function(path_to_ras_dbase,
                                  quiet=TRUE) {
@@ -43,7 +41,7 @@ refresh_master_files <- function(path_to_ras_dbase,
   ## -- Start --
   if(!quiet) { print("(re)merging database outputs") }
 
-  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep))
+  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep))
 
   # Remerge master features
   xyz_files <- list.files(path_to_ras_dbase, pattern = utils::glob2rx("*ras_xyz.parquet$"), full.names=TRUE, ignore.case=TRUE, recursive=TRUE) %>% sort()

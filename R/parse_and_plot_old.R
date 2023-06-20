@@ -1,12 +1,12 @@
-#' @title parse_and_plot_old
-#' @description Broken but saving code
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
 #' @param gfile_path PARAM_DESCRIPTION, Default: NULL
 #' @param path_to_ras_dbase PARAM_DESCRIPTION, Default: NULL
 #' @param excel_row PARAM_DESCRIPTION, Default: NULL
 #' @param units_overwrite PARAM_DESCRIPTION, Default: NULL
 #' @param proj_overwrite PARAM_DESCRIPTION, Default: NULL
-#' @param vdat_trans PARAM_DESCRIPTION, Default: TRUE
-#' @param plots_wanted A string of values representing the autoplots you want from the model.  Valid values include g for g giles h for h files c for combined o for open space to paste ras into parsed values l for a locked aspect ratio, Default: "g"
+#' @param vdat_trans PARAM_DESCRIPTION, Default: FALSE
+#' @param plots_wanted PARAM_DESCRIPTION, Default: 'g'
 #' @param outpath PARAM_DESCRIPTION, Default: NULL
 #' @param overwrite PARAM_DESCRIPTION, Default: TRUE
 #' @param quiet PARAM_DESCRIPTION, Default: FALSE
@@ -19,16 +19,14 @@
 #'  }
 #' }
 #' @seealso
-#'  [glue][glue::glue]
-#'  [glob2rx][utils::glob2rx]
-#'  [st_crs][sf::st_crs], [st_set_crs][sf::st_set_crs]
-#'  [sf_linestring][sfheaders::sf_linestring]
-#'  [ggplot][ggplot2::ggplot], [aes][ggplot2::aes], [geom_line][ggplot2::geom_line], [geom_point][ggplot2::geom_point], [theme_light][ggplot2::theme_light], [xlab][ggplot2::xlab], [ylab][ggplot2::ylab], [geom_sf][ggplot2::geom_sf]
-#'  [plot_grid][cowplot::plot_grid], [ggdraw][cowplot::ggdraw], [draw_label][cowplot::draw_label], [save_plot][cowplot::save_plot]
-#' @rdname parse_and_plot
+#'  \code{\link[glue]{glue}}
+#'  \code{\link[utils]{glob2rx}}
+#'  \code{\link[sf]{st_crs}}
+#'  \code{\link[sfheaders]{sf_linestring}}
+#'  \code{\link[ggplot2]{ggplot}}, \code{\link[ggplot2]{aes}}, \code{\link[ggplot2]{geom_path}}, \code{\link[ggplot2]{geom_point}}, \code{\link[ggplot2]{ggtheme}}, \code{\link[ggplot2]{labs}}, \code{\link[ggplot2]{CoordSf}}
+#'  \code{\link[cowplot]{plot_grid}}, \code{\link[cowplot]{ggdraw}}, \code{\link[cowplot]{draw_label}}, \code{\link[cowplot]{save_plot}}
+#' @rdname parse_and_plot_old
 #' @export
-#' @import magrittr
-#' @import data.table
 #' @importFrom glue glue
 #' @importFrom utils glob2rx
 #' @importFrom sf st_crs st_set_crs

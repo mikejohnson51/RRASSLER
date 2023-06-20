@@ -1,8 +1,7 @@
-#' @title FUNCTION_TITLE
+#' @title append_catalog_fields
 #' @description FUNCTION_DESCRIPTION
 #' @param path_to_ras_dbase PARAM_DESCRIPTION, Default: NULL
 #' @param out_name PARAM_DESCRIPTION, Default: NULL
-#' @param dat_path PARAM_DESCRIPTION, Default: NULL
 #' @param overwrite PARAM_DESCRIPTION, Default: FALSE
 #' @param quiet PARAM_DESCRIPTION, Default: FALSE
 #' @return OUTPUT_DESCRIPTION
@@ -27,7 +26,6 @@
 
 append_catalog_fields <- function(path_to_ras_dbase=NULL,
                                   out_name=NULL,
-                                  dat_path=NULL,
                                   overwrite=FALSE,
                                   quiet=FALSE) {
 
@@ -52,7 +50,7 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
     }
     unlink(file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep))
   }
-  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep), quiet = quiet)
+  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep), quiet = quiet)
 
   # Date as YYYYMMDD
   ras_catalog_dbase <- ras_catalog_dbase %>%
@@ -67,6 +65,7 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
     if(!quiet) { print(glue::glue("Processing row:{row} of {nrow(ras_catalog_dbase)}")) }
     if(is.na(ras_catalog_dbase[row,final_name_key]) || !file.exists(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],"hull.fgb",fsep = .Platform$file.sep))) {
       print_warning_block()
+      print("No HUC found")
       ras_catalog_dbase[row,hucs:=noquote(paste0("{}"))]
     } else {
       footprint <- sf::st_read(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],"hull.fgb",fsep = .Platform$file.sep),quiet=TRUE)
@@ -77,7 +76,7 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
   sf::sf_use_s2(TRUE)
 
   # Status field
-  ras_catalog_dbase <- ras_catalog_dbase[, status:="Active"]
+  ras_catalog_dbase <- ras_catalog_dbase[, status:="Ready"]
 
   data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep), row.names = FALSE)
 

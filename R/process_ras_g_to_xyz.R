@@ -62,7 +62,6 @@ process_ras_g_to_xyz <- function(geom_path,
   # units="Foot"
   # proj_string="EPSG:6479"
 
-
   ## -- Start --
   if(!quiet) {
     print('reading geom:')

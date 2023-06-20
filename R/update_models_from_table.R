@@ -1,6 +1,6 @@
-#' @title update_models_from_table
+#' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param path_to_ras_dbase A path to the
+#' @param path_to_ras_dbase PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples
@@ -23,8 +23,6 @@
 #'  \code{\link[arrow]{write_parquet}}
 #' @rdname update_models_from_table
 #' @export
-#' @import magrittr
-#' @import data.table
 #' @importFrom stringi stri_isempty
 #' @importFrom glue glue
 #' @importFrom stringr str_detect
@@ -46,7 +44,7 @@ update_models_from_table <- function(path_to_ras_dbase) {
   # path_to_ras_dbase = "H:/ras_dbase"
 
   ## -- Start --
-  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"model_catalog.csv",fsep = .Platform$file.sep))
+  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep))
 
   index_to_update <- ras_catalog_dbase[
     (is.na(ras_catalog_dbase[,final_name_key]) | stringi::stri_isempty(ras_catalog_dbase[,final_name_key])) &

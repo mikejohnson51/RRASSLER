@@ -1,16 +1,17 @@
 #' @title dedupe
-#' @description de-duplicate otherwise duplicate ras catalog entries
-#' @return updated ras catalog
+#' @description FUNCTION_DESCRIPTION
+
+#' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
-#'  #RRASSLER::dedupe()
 #'  }
 #' }
 #' @rdname dedupe
 #' @export
+
 dedupe <- function() {
 
   # sinew::moga(file.path(getwd(),"R/dedupe.R"),overwrite = TRUE)

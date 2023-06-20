@@ -11,10 +11,9 @@
 #'  }
 #' }
 #' @seealso
-#'  [fread][data.table::fread]
+#'  \code{\link[data.table]{fread}}
 #' @rdname load_catalog_csv_as_DT
 #' @export
-#' @import data.table
 #' @importFrom data.table fread
 
 load_catalog_csv_as_DT <- function(path_to_csv,quiet=TRUE) {
