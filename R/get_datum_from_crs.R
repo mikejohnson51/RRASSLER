@@ -1,7 +1,7 @@
 #' @title get_datum_from_crs
 #' @description attempts to parse datum and datum unit from file based on WKT
 #' @param x PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
+#' @return list of CRS and vertical unit
 #' @details DETAILS
 #' @examples
 #' \dontrun{

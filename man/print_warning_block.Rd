@@ -7,10 +7,10 @@
 print_warning_block()
 }
 \value{
-OUTPUT_DESCRIPTION
+print output
 }
 \description{
-FUNCTION_DESCRIPTION
+A warning block helper
 }
 \details{
 DETAILS
@@ -18,7 +18,7 @@ DETAILS
 \examples{
 \dontrun{
 if(interactive()){
- #EXAMPLE1
+ RRASSLER::print_warning_block()
  }
 }
 }

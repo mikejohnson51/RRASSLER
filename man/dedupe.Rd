@@ -4,13 +4,18 @@
 \alias{dedupe}
 \title{dedupe}
 \usage{
-dedupe()
+dedupe(path_to_ras_dbase = NULL, quiet = FALSE)
+}
+\arguments{
+\item{path_to_ras_dbase}{the path to the folder in which you are building your catalog, Default: NULL}
+
+\item{quiet}{flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE}
 }
 \value{
-updated ras catalog
+a list of files with otherwise identical geometries
 }
 \description{
-de-duplicate otherwise duplicate ras catalog entries
+de duplicates RAS models from the catalog
 }
 \details{
 DETAILS
@@ -19,7 +24,6 @@ DETAILS
 \dontrun{
 if(interactive()){
  #EXAMPLE1
- #RRASSLER::dedupe()
  }
 }
 }

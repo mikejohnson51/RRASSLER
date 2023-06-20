@@ -1,10 +1,10 @@
 #' @title append_catalog_fields
-#' @description FUNCTION_DESCRIPTION
-#' @param path_to_ras_dbase PARAM_DESCRIPTION, Default: NULL
-#' @param out_name PARAM_DESCRIPTION, Default: NULL
-#' @param overwrite PARAM_DESCRIPTION, Default: FALSE
-#' @param quiet PARAM_DESCRIPTION, Default: FALSE
-#' @return OUTPUT_DESCRIPTION
+#' @description adds helper fields to accounting.csv
+#' @param path_to_ras_dbase the path to the folder in which you are building your catalog, Default: NULL
+#' @param out_name the name of the csv you want to generate, Default: NULL
+#' @param overwrite flag to dictate whether or not to overwrite the out_name, should it exist.  set to TRUE to delete and (re)generate, FALSE to safely exit, Default: FALSE
+#' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
+#' @return a new csv with helper columns
 #' @details DETAILS
 #' @examples
 #' \dontrun{

@@ -1,8 +1,8 @@
 #' @title refresh_master_files
-#' @description FUNCTION_DESCRIPTION
-#' @param path_to_ras_dbase PARAM_DESCRIPTION
-#' @param quiet PARAM_DESCRIPTION, Default: TRUE
-#' @return OUTPUT_DESCRIPTION
+#' @description remerge individual files into spatial model key
+#' @param path_to_ras_dbase The path to the folder in which you are building your catalog, Default: NULL
+#' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE, Default: TRUE
+#' @return a new set of spatial index files
 #' @details DETAILS
 #' @examples
 #' \dontrun{

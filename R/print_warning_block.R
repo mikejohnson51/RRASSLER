@@ -1,5 +1,5 @@
 #' @title print_warning_block
-#' @description A waring block hepler
+#' @description A warning block helper
 #' @return print output
 #' @details DETAILS
 #' @examples

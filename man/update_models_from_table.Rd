@@ -4,16 +4,20 @@
 \alias{update_models_from_table}
 \title{update_models_from_table}
 \usage{
-update_models_from_table(path_to_ras_dbase)
+update_models_from_table(path_to_ras_dbase, refresh = FALSE, quiet = TRUE)
 }
 \arguments{
-\item{path_to_ras_dbase}{A path to the}
+\item{path_to_ras_dbase}{The path to the top level folder of the ras_catalog structure, Default: TRUE}
+
+\item{refresh}{flag to dictate whether or not to recollate spatial database prior to mapping.  FALSE to skip, TRUE to regenerate, Default: TRUE}
+
+\item{quiet}{flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE}
 }
 \value{
-OUTPUT_DESCRIPTION
+a reRRASSLED catalog
 }
 \description{
-FUNCTION_DESCRIPTION
+try and reprocess the _unprocessed models
 }
 \details{
 DETAILS

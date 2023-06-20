@@ -1,7 +1,9 @@
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param path_to_ras_dbase PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
+#' @title update_models_from_table
+#' @description try and reprocess the _unprocessed models
+#' @param path_to_ras_dbase The path to the top level folder of the ras_catalog structure, Default: TRUE
+#' @param refresh flag to dictate whether or not to recollate spatial database prior to mapping.  FALSE to skip, TRUE to regenerate, Default: TRUE
+#' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
+#' @return a reRRASSLED catalog
 #' @details DETAILS
 #' @examples
 #' \dontrun{
@@ -35,7 +37,7 @@
 #' @importFrom AOI aoi_get
 #' @importFrom arrow write_parquet
 
-update_models_from_table <- function(path_to_ras_dbase) {
+update_models_from_table <- function(path_to_ras_dbase,refresh=FALSE,quiet=TRUE) {
   # sinew::moga(file.path(getwd(),"R/update_models_from_table.R"),overwrite = TRUE)
   # devtools::document()
   # pkgdown::build_site(new_process=TRUE)

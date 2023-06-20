@@ -15,23 +15,25 @@ map_library(
 )
 }
 \arguments{
-\item{path_to_ras_dbase}{PARAM_DESCRIPTION}
+\item{path_to_ras_dbase}{The path to the folder in which you are building your catalog, Default: NULL}
 
-\item{AOI_to_map}{PARAM_DESCRIPTION, Default: NULL}
+\item{AOI_to_map}{An AOI pass though to subset the catalog down into a smaller area to add the context too, Default: NULL}
 
-\item{name}{PARAM_DESCRIPTION, Default: 'model_map'}
+\item{name}{A name for the map files to create, Default: 'model_map'}
 
-\item{plot_lines}{PARAM_DESCRIPTION, Default: FALSE}
+\item{plot_lines}{draw lines on the map as opposed to just the footprints, Default: FALSE}
 
-\item{chart_lines}{PARAM_DESCRIPTION, Default: FALSE}
+\item{chart_lines}{Add cross section click graphs to the plot lines.  Will break if area is too large, Default: FALSE}
 
-\item{refresh}{PARAM_DESCRIPTION, Default: FALSE}
+\item{refresh}{flag to dictate whether or not to recollate spatial database prior to mapping.  FALSE to skip, TRUE to regenerate, Default: TRUE}
+
+\item{quiet}{flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE}
 }
 \value{
 OUTPUT_DESCRIPTION
 }
 \description{
-create map of catalog assets
+a function to help apply geographic context to the RRASSLED catalog
 }
 \details{
 DETAILS
@@ -44,12 +46,12 @@ if(interactive()){
 }
 }
 \seealso{
-[st_transform][sf::st_transform], [st_read][sf::st_read], [st_crs][sf::st_crs], [st_make_valid][sf::st_make_valid]
- [read_parquet][arrow::read_parquet]
- [ggplot][ggplot2::ggplot], [aes][ggplot2::aes], [geom_point][ggplot2::geom_point], [theme_light][ggplot2::theme_light], [scale_color_gradientn][ggplot2::scale_color_gradientn], [labs][ggplot2::labs]
- [leaflet][leaflet::leaflet], [leafletOptions][leaflet::leafletOptions], [addProviderTiles][leaflet::addProviderTiles], [addLegend][leaflet::addLegend], [addLayersControl][leaflet::addLayersControl]
- [addFeatures][leafem::addFeatures]
- [popupGraph][leafpop::popupGraph], [popupTable][leafpop::popupTable]
- [glue][glue::glue]
- [mapshot][mapview::mapshot]
+\code{\link[sf]{st_transform}}, \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}, \code{\link[sf]{valid}}
+ \code{\link[arrow]{read_parquet}}
+ \code{\link[ggplot2]{ggplot}}, \code{\link[ggplot2]{aes}}, \code{\link[ggplot2]{geom_point}}, \code{\link[ggplot2]{ggtheme}}, \code{\link[ggplot2]{scale_colour_gradient}}, \code{\link[ggplot2]{labs}}
+ \code{\link[leaflet]{leaflet}}, \code{\link[leaflet]{addProviderTiles}}, \code{\link[leaflet]{addLegend}}, \code{\link[leaflet]{addLayersControl}}
+ \code{\link[leafem]{addFeatures}}
+ \code{\link[leafpop]{popupGraph}}
+ \code{\link[glue]{glue}}
+ \code{\link[mapview]{mapshot}}
 }

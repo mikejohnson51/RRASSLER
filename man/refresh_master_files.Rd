@@ -7,15 +7,15 @@
 refresh_master_files(path_to_ras_dbase, quiet = TRUE)
 }
 \arguments{
-\item{path_to_ras_dbase}{PARAM_DESCRIPTION}
+\item{path_to_ras_dbase}{The path to the folder in which you are building your catalog, Default: NULL}
 
-\item{quiet}{PARAM_DESCRIPTION, Default: TRUE}
+\item{quiet}{flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE, Default: TRUE}
 }
 \value{
-OUTPUT_DESCRIPTION
+a new set of spatial index files
 }
 \description{
-updates the index and key data objects at the top of the catalog
+remerge individual files into spatial model key
 }
 \details{
 DETAILS
@@ -28,10 +28,10 @@ if(interactive()){
 }
 }
 \seealso{
-[glob2rx][utils::glob2rx]
- [glue][glue::glue]
- [st_read][sf::st_read], [st_set_crs][sf::st_set_crs], [st_crs][sf::st_crs], [st_write][sf::st_write]
- [read_parquet][arrow::read_parquet], [write_parquet][arrow::write_parquet]
- [as.data.table][data.table::as.data.table], [rbindlist][data.table::rbindlist]
- [sf_linestring][sfheaders::sf_linestring]
+\code{\link[utils]{glob2rx}}
+ \code{\link[glue]{glue}}
+ \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}, \code{\link[sf]{st_write}}
+ \code{\link[arrow]{read_parquet}}, \code{\link[arrow]{write_parquet}}
+ \code{\link[data.table]{as.data.table}}, \code{\link[data.table]{rbindlist}}
+ \code{\link[sfheaders]{sf_linestring}}
 }

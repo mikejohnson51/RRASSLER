@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse_and_plot_old.R
 \name{parse_and_plot_old}
 \alias{parse_and_plot_old}
-\title{parse_and_plot_old}
+\title{FUNCTION_TITLE}
 \usage{
 parse_and_plot_old(
   gfile_path = NULL,
@@ -28,9 +28,9 @@ parse_and_plot_old(
 
 \item{proj_overwrite}{PARAM_DESCRIPTION, Default: NULL}
 
-\item{vdat_trans}{PARAM_DESCRIPTION, Default: TRUE}
+\item{vdat_trans}{PARAM_DESCRIPTION, Default: FALSE}
 
-\item{plots_wanted}{A string of values representing the autoplots you want from the model.  Valid values include g for g giles h for h files c for combined o for open space to paste ras into parsed values l for a locked aspect ratio, Default: "g"}
+\item{plots_wanted}{PARAM_DESCRIPTION, Default: 'g'}
 
 \item{outpath}{PARAM_DESCRIPTION, Default: NULL}
 
@@ -42,7 +42,7 @@ parse_and_plot_old(
 OUTPUT_DESCRIPTION
 }
 \description{
-Broken but saving code
+FUNCTION_DESCRIPTION
 }
 \details{
 DETAILS
@@ -55,10 +55,10 @@ if(interactive()){
 }
 }
 \seealso{
-[glue][glue::glue]
- [glob2rx][utils::glob2rx]
- [st_crs][sf::st_crs], [st_set_crs][sf::st_set_crs]
- [sf_linestring][sfheaders::sf_linestring]
- [ggplot][ggplot2::ggplot], [aes][ggplot2::aes], [geom_line][ggplot2::geom_line], [geom_point][ggplot2::geom_point], [theme_light][ggplot2::theme_light], [xlab][ggplot2::xlab], [ylab][ggplot2::ylab], [geom_sf][ggplot2::geom_sf]
- [plot_grid][cowplot::plot_grid], [ggdraw][cowplot::ggdraw], [draw_label][cowplot::draw_label], [save_plot][cowplot::save_plot]
+\code{\link[glue]{glue}}
+ \code{\link[utils]{glob2rx}}
+ \code{\link[sf]{st_crs}}
+ \code{\link[sfheaders]{sf_linestring}}
+ \code{\link[ggplot2]{ggplot}}, \code{\link[ggplot2]{aes}}, \code{\link[ggplot2]{geom_path}}, \code{\link[ggplot2]{geom_point}}, \code{\link[ggplot2]{ggtheme}}, \code{\link[ggplot2]{labs}}, \code{\link[ggplot2]{CoordSf}}
+ \code{\link[cowplot]{plot_grid}}, \code{\link[cowplot]{ggdraw}}, \code{\link[cowplot]{draw_label}}, \code{\link[cowplot]{save_plot}}
 }

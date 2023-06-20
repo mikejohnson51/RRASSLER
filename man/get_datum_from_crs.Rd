@@ -10,7 +10,7 @@ get_datum_from_crs(x)
 \item{x}{PARAM_DESCRIPTION}
 }
 \value{
-OUTPUT_DESCRIPTION
+list of CRS and vertical unit
 }
 \description{
 attempts to parse datum and datum unit from file based on WKT

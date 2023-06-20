@@ -1,13 +1,13 @@
 #' @title process_ras_hdf_to_xyz
-#' @description FUNCTION_DESCRIPTION
-#' @param geom_path PARAM_DESCRIPTION
-#' @param units PARAM_DESCRIPTION
-#' @param proj_string PARAM_DESCRIPTION
-#' @param in_epoch_override PARAM_DESCRIPTION, Default: as.integer(as.POSIXct(Sys.time()))
-#' @param out_epoch_override PARAM_DESCRIPTION, Default: as.integer(as.POSIXct(Sys.time()))
-#' @param vdat PARAM_DESCRIPTION, Default: FALSE
-#' @param quiet PARAM_DESCRIPTION, Default: FALSE
-#' @return OUTPUT_DESCRIPTION
+#' @description process a ras g##.hdf file into xyz format
+#' @param geom_path path to a file to parse
+#' @param units units found in the project, "foot" or "meter"
+#' @param proj_string a projection string to apply
+#' @param in_epoch_override vdatum parameter input epoch, Default: as.integer(as.POSIXct(Sys.time()))
+#' @param out_epoch_override vdatum parameter output epoch, Default: as.integer(as.POSIXct(Sys.time()))
+#' @param vdat a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE
+#' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
+#' @return a point database and notes about processing
 #' @details DETAILS
 #' @examples
 #' \dontrun{

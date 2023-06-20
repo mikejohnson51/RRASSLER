@@ -61,7 +61,7 @@
 <div class="section level2">
 <h2 id="executive-summery">Executive Summery<a class="anchor" aria-label="anchor" href="#executive-summery"></a>
 </h2>
-<p>The HEC-RAS model format, both as stand alone models or in archive formats, are incompatable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows. This tool should be deployed to ingest HEC-RAS models into a “RAS_model_catalog”, a normalized and spatialized representation of those models with the requisite metadata and formatting needed to mesh seamlessly with <a href="https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html" class="external-link">national scale hydrofabric efforts and data models</a>, and applications such as <a href="https://github.com/NOAA-OWP/t-route" class="external-link">T-Route</a> and <a href="https://github.com/NOAA-OWP/ras2fim" class="external-link">RAS2FIM</a>.</p>
+<p>The HEC-RAS model format, both as stand alone models or in archive formats, are incompatable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows. This tool should be deployed to ingest HEC-RAS models into a “HECRAS_model_catalog”, a normalized and spatialized representation of those models with the requisite metadata and formatting needed to mesh seamlessly with <a href="https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html" class="external-link">national scale hydrofabric efforts and data models</a>, and applications such as <a href="https://github.com/NOAA-OWP/t-route" class="external-link">T-Route</a> and <a href="https://github.com/NOAA-OWP/ras2fim" class="external-link">RAS2FIM</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
@@ -71,7 +71,7 @@
 <div class="section level2">
 <h2 id="ingest-logic">Ingest logic<a class="anchor" aria-label="anchor" href="#ingest-logic"></a>
 </h2>
-<p>In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly. RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise “vistigal” data; and with an emphasis on the particular geometric realization of the model). It is also designed to be a standardized and centralized source of models regardless of their source. For that reason, RRASSLER expects to operate within it’s own controlled directory, or “ras_model_catalog”. Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog. It will:<br>
+<p>In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly. RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise “vistigal” data; and with an emphasis on the particular geometric realization of the model). It is also designed to be a standardized and centralized source of models, regardless of their origin. For that reason, RRASSLER expects to operate within it’s own controlled directory, or “HECRAS_model_catalog”. Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog. It will:<br>
 1) Scrape the entire directory structure for any HEC-RAS model projects 2) for each geometric realization of that model (variation of .g##), grab all relevant HEC-RAS related files defined as:<br>
 - .g##       # Geometry definitions<br>
 - .prj       # Projection (can be non-standard proj4 string defined file)<br>
@@ -93,7 +93,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>It is recommended that you wait to start using this tool in bulk until edge case and accounting is fully ironed out, the final form of these tables is still in flux. If that doesn’t dissuade you, install the development version of RRASSLER from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>It is recommended that you wait to start using this tool until edge case and accounting is fully ironed out, the final form of these tables is still in flux. If that doesn’t dissuade you, install the development version of RRASSLER from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"JimColl/RRASSLER"</span><span class="op">)</span></span></code></pre></div>
@@ -101,7 +101,7 @@
 <div class="section level2">
 <h2 id="model-catalog">Model Catalog<a class="anchor" aria-label="anchor" href="#model-catalog"></a>
 </h2>
-<p>Users may look and manipulate the <em>model_catalog.csv</em>, and the models underneath, but should avoid manual manipulation of individual files, paths, or other aspects. RRASSLER scripts will do all needed manipulation, file sorting, and cataloging for you but there is very limited error checking should the workflow be applied incorrectly. As a general rule of thumb, once you’ve selected your destination for the catalog, only manipulate the csv, preferably <em>never</em> with EXCEL, which may chew up data along edge cases.</p>
+<p>Users may look and manipulate the <em>accounting.csv</em>, and the models underneath, but should avoid manual manipulation of individual files, paths, or other aspects. RRASSLER scripts will do all needed manipulation, file sorting, and cataloging for you but there is very limited error checking should the workflow be applied incorrectly. As a general rule of thumb, once you’ve selected your destination for the catalog, only manipulate the csv, preferably <em>never</em> with EXCEL, which may chew up data along edge cases.</p>
 </div>
 <div class="section level2">
 <h2 id="data--attributes">Data &amp; Attributes<a class="anchor" aria-label="anchor" href="#data--attributes"></a>

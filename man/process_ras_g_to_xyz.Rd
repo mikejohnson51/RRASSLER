@@ -15,25 +15,25 @@ process_ras_g_to_xyz(
 )
 }
 \arguments{
-\item{geom_path}{PARAM_DESCRIPTION}
+\item{geom_path}{path to a file to parse}
 
-\item{units}{PARAM_DESCRIPTION}
+\item{units}{units found in the project, "foot" or "meter"}
 
-\item{proj_string}{PARAM_DESCRIPTION}
+\item{proj_string}{a projection string to apply}
 
-\item{in_epoch_override}{PARAM_DESCRIPTION, Default: as.integer(as.POSIXct(Sys.time()))}
+\item{in_epoch_override}{vdatum parameter input epoch, Default: as.integer(as.POSIXct(Sys.time()))}
 
-\item{out_epoch_override}{PARAM_DESCRIPTION, Default: as.integer(as.POSIXct(Sys.time()))}
+\item{out_epoch_override}{vdatum parameter output epoch, Default: as.integer(as.POSIXct(Sys.time()))}
 
-\item{vdat}{PARAM_DESCRIPTION, Default: FALSE}
+\item{vdat}{a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE, Default: FALSE}
 
-\item{quiet}{PARAM_DESCRIPTION, Default: FALSE}
+\item{quiet}{flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE}
 }
 \value{
-OUTPUT_DESCRIPTION
+a point database and notes about processing
 }
 \description{
-FUNCTION_DESCRIPTION
+process a ras g file into xyz format
 }
 \details{
 DETAILS

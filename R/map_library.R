@@ -1,12 +1,12 @@
 #' @title map_library
-#' @description FUNCTION_DESCRIPTION
-#' @param path_to_ras_dbase PARAM_DESCRIPTION
-#' @param AOI_to_map PARAM_DESCRIPTION, Default: NULL
-#' @param name PARAM_DESCRIPTION, Default: 'model_map'
-#' @param plot_lines PARAM_DESCRIPTION, Default: FALSE
-#' @param chart_lines PARAM_DESCRIPTION, Default: FALSE
-#' @param refresh PARAM_DESCRIPTION, Default: FALSE
-#' @param quiet PARAM_DESCRIPTION, Default: TRUE
+#' @description a function to help apply geographic context to the RRASSLED catalog
+#' @param path_to_ras_dbase The path to the folder in which you are building your catalog, Default: NULL
+#' @param AOI_to_map An AOI pass though to subset the catalog down into a smaller area to add the context too, Default: NULL
+#' @param name A name for the map files to create, Default: 'model_map'
+#' @param plot_lines draw lines on the map as opposed to just the footprints, Default: FALSE
+#' @param chart_lines Add cross section click graphs to the plot lines.  Will break if area is too large, Default: FALSE
+#' @param refresh flag to dictate whether or not to recollate spatial database prior to mapping.  FALSE to skip, TRUE to regenerate, Default: TRUE
+#' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples

@@ -1,6 +1,26 @@
+#' @title scraper
+#' @description silly handle around unscraped databases
+#' @param path_to_ras_dbase The path to the top level folder of the ras_catalog structure, Default: TRUE
+#' @return a new set of model footprints to map
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[data.table]{as.data.table}}, \code{\link[data.table]{data.table-package}}, \code{\link[data.table]{rbindlist}}, \code{\link[data.table]{fwrite}}
+#'  \code{\link[arrow]{write_parquet}}
+#'  \code{\link[sf]{st_write}}
+#' @rdname scraper
+#' @export
+#' @importFrom data.table as.data.table data.table rbindlist fwrite
+#' @importFrom arrow write_parquet
+#' @importFrom sf st_write
 scraper <- function(path_to_ras_dbase=TRUE) {
 
-  # sinew::moga(file.path(getwd(),"R/hello.R"),overwrite = TRUE)
+  # sinew::moga(file.path(getwd(),"R/scraper.R"),overwrite = TRUE)
   # devtools::document()
   # pkgdown::build_site(new_process=TRUE)
   #

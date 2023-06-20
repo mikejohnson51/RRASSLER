@@ -43,6 +43,9 @@
     <loc>/reference/parse_and_plot.html</loc>
   </url>
   <url>
+    <loc>/reference/parse_and_plot_old.html</loc>
+  </url>
+  <url>
     <loc>/reference/print_warning_block.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/reprocess_table_row.html</loc>
+  </url>
+  <url>
+    <loc>/reference/scraper.html</loc>
   </url>
   <url>
     <loc>/reference/update_models_from_table.html</loc>

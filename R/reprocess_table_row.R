@@ -1,8 +1,8 @@
 #' @title reprocess_table_row
-#' @description FUNCTION_DESCRIPTION
+#' @description regenerate a row in the catalog
 #' @param path_to_ras_dbase The path to the top level folder of the ras_catalog structure
-#' @param excel_row PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
+#' @param excel_row if you opened this up in excel (1 based index) the row you want to process
+#' @return updates a row to hopefully place the model in a better space
 #' @details DETAILS
 #' @examples
 #' \dontrun{

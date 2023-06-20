@@ -28,5 +28,5 @@ if(interactive()){
 }
 }
 \seealso{
-[fread][data.table::fread]
+\code{\link[data.table]{fread}}
 }

@@ -9,13 +9,13 @@ reprocess_table_row(path_to_ras_dbase, excel_row)
 \arguments{
 \item{path_to_ras_dbase}{The path to the top level folder of the ras_catalog structure}
 
-\item{excel_row}{PARAM_DESCRIPTION}
+\item{excel_row}{if you opened this up in excel (1 based index) the row you want to process}
 }
 \value{
-OUTPUT_DESCRIPTION
+updates a row to hopefully place the model in a better space
 }
 \description{
-FUNCTION_DESCRIPTION
+regenerate a row in the catalog
 }
 \details{
 DETAILS

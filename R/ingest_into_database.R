@@ -1,18 +1,18 @@
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param path_to_ras_dbase PARAM_DESCRIPTION
-#' @param top_of_dir_to_scrape PARAM_DESCRIPTION
-#' @param code_to_place_in_source PARAM_DESCRIPTION
-#' @param proj_overwrite PARAM_DESCRIPTION, Default: NULL
-#' @param vdat_trans PARAM_DESCRIPTION, Default: FALSE
-#' @param quiet PARAM_DESCRIPTION, Default: TRUE
-#' @param chatty PARAM_DESCRIPTION, Default: FALSE
-#' @param ping_me PARAM_DESCRIPTION, Default: NULL
-#' @param quick_check PARAM_DESCRIPTION, Default: FALSE
-#' @param quick_hull PARAM_DESCRIPTION, Default: FALSE
-#' @param overwrite PARAM_DESCRIPTION, Default: FALSE
-#' @param refresh PARAM_DESCRIPTION, Default: TRUE
-#' @return OUTPUT_DESCRIPTION
+#' @title ingest_into_database
+#' @description ingest or append a new set of HEC-RAS models into your database
+#' @param path_to_ras_dbase The path to the folder in which you are building your catalog, Default: NULL
+#' @param top_of_dir_to_scrape The path to the top of the directory which you want to ingest
+#' @param code_to_place_in_source a string which encodes the owner or maintainer of that model
+#' @param proj_overwrite an EPSG string to apply should a projection not be found, Default: NULL
+#' @param vdat_trans a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE
+#' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
+#' @param chatty flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE
+#' @param ping_me a string with an email used to send emails after processing.  Uses gmailr and requires config, Default: NULL
+#' @param quick_check a flag to dictate whether or not to perform a quick check to see if a model has already been processed based on the raw name of the file.  Useful in reingesting the same directory after an error but not recommended otherwise.  TRUE to see if a name matches and skips, FALSE to process all the way though, Default: FALSE
+#' @param quick_hull a flag to dictate how tightly you want the footprints wrapped, TRUE uses just end points of the linestrings to place the model, FALSE uses the full point database, Default: FALSE
+#' @param overwrite not currently implemented, Default: FALSE
+#' @param refresh flag to dictate whether or not to recollate spatial database after ingest process.  FALSE to skip, TRUE to regenerate, Default: TRUE
+#' @return a RRASSLED catalog of HEC-RAS models
 #' @details DETAILS
 #' @examples
 #' \dontrun{
@@ -384,6 +384,17 @@ ingest_into_database <- function(path_to_ras_dbase,
       }
     }
     # print(ras_catalog_dbase)
+  }
+
+  if(!quiet) {
+    print(glue::glue("Started at:{fn_time_start}"))
+    print(glue::glue("Finished at:{Sys.time()}"))
+    print(glue::glue("Scrape location:{top_of_dir_to_scrape}"))
+    print(glue::glue("proj assingned:{proj_overwrite}"))
+    print(glue::glue("vdat applied:{vdat_trans}"))
+    print(glue::glue("Items added:{process_count}"))
+    print(glue::glue("Duplicates found:{duplicate_count}"))
+    print(glue::glue("Files skipped:{skip_count}"))
   }
 
   # Accounting report-out
