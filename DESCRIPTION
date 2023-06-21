@@ -15,7 +15,9 @@ Description: A bottoms up approach to walking CONUS scale applications back to t
 License: MIT + file LICENSE
 URL: https://github.com/JimColl/RRASLER
 Depends: 
-  R (>= 3.5)
+  R (>= 3.5),
+  magrittr, 
+  data.table
 Imports: 
     AOI,
     arrow,
