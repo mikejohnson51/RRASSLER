@@ -44,7 +44,10 @@ scraper <- function(path_to_ras_dbase=TRUE) {
   names(new_row) <- names
   ras_catalog_dbase <- data.table::rbindlist(list(ras_catalog_dbase,new_row))
 
-
+  # # https://www.arcgis.com/apps/dashboards/1e98f1e511fc40d3b08790a4251a64ee
+  # 12080005 2D
+  # 12080004 2D
+  # 12080003 2D
 
   dir.create(file.path(path_to_ras_dbase,"models",current_final_name_key,fsep = .Platform$file.sep), showWarnings = FALSE, recursive = TRUE)
   file.copy(c(g_file ,paste0(g_file,".hdf") ,p_files ,f_files ,h_files, v_files, prj_files,o_files,r_files,rasmap_files),

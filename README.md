@@ -22,7 +22,7 @@ In order to wrassle that friction, RRASSLER has a few theoretical value judgment
 2) for each geometric realization of that model (variation of .g##), grab all relevant HEC-RAS related files defined as:  
    - .g## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Geometry definitions  
    - .prj &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Projection (can be non-standard proj4 string defined file)  
-   - .p## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Project file, used to drive the model  
+   - .p## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # plan file, used to drive the model  
    - .f## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Steady Flow file. Profile information, flow data and boundary conditions   
    - .h## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Hydraulic Design data file  
    - .v## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Velocity file  
@@ -30,7 +30,7 @@ In order to wrassle that friction, RRASSLER has a few theoretical value judgment
    - .r## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # run file for steady flow  
    - .u## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Steady Flow file. Profile information, flow data and boundary conditions  
    - .x## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # run file for unsteady flow  
-   - .dss &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # ras unsteady flow output  
+   - .dss &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Data  
    - .rasmap &nbsp;&nbsp; # output plan  
 3) Attempt to place the model in space.  This is done by attempting to parse the g** and g**.hdf files, guess at projections, and pulling and collating the data into an xid-xyz table.  
 4) Using that extracted geometry, attempt to create a model footprint (hull).  If that can be constructed, the model was assumed to be correctly placed in space.  The relevant model files are copied to the uniquely parsed "final_model_name_key" folder under the _/models/_ folder.  
@@ -41,6 +41,12 @@ In order to wrassle that friction, RRASSLER has a few theoretical value judgment
 
 It is recommended that you wait to start using this tool until edge case and accounting is fully ironed out, the final form of these tables is still in flux.  If that doesn't dissuade you, install the development version of RRASSLER from [GitHub](https://github.com/) with:
 
+```r
+# install.packages("devtools")
+devtools::install_github("JimColl/RRASSLER")
+```
+
+Test it by generating your first set of models
 ```r
 # install.packages("devtools")
 devtools::install_github("JimColl/RRASSLER")

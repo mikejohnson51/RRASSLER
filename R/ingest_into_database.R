@@ -91,7 +91,6 @@ ingest_into_database <- function(path_to_ras_dbase,
   # ping_me = TRUE
   # overwrite = FALSE
   # refresh = TRUE
-
   # gmailr::gm_auth_configure(path = "C:/Users/jimma/Desktop/client_secret_765662520275-iduoi88oke14pqst3ebukn5rb2qf0895.apps.googleusercontent.com.json")
 
   ## -- Start --
@@ -348,7 +347,7 @@ ingest_into_database <- function(path_to_ras_dbase,
 
       # Join to comids
       tryCatch( { current_nhdplus_comid = nhdplusTools::get_nhdplus(AOI::aoi_get(ahull_poly),realization = "flowline"); current_nhdplus_comid = current_nhdplus_comid[current_nhdplus_comid$streamorde == max(current_nhdplus_comid$streamorde),][1,]$comid}
-                , error = function(e) { current_nhdplus_comid <<- 666 })
+                , error = function(e) { current_nhdplus_comid <<- 2 })
       if(length(current_nhdplus_comid) == 0){
         current_nhdplus_comid = 1
       }

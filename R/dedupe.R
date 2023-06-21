@@ -21,7 +21,7 @@ dedupe <- function(path_to_ras_dbase=NULL,quiet=FALSE) {
   # devtools::load_all()
 
   ## -- Start --
-  if(!quiet) { print("In the todo pile: hit any key to continue") }
+  if(!quiet) { print("In the todo pile") }
 
   return(TRUE)
 }
