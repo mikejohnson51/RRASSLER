@@ -25,10 +25,11 @@
 #'  \code{\link[arrow]{write_parquet}}
 #' @rdname update_models_from_table
 #' @export
+#' @import magrittr
+#' @import data.table
 #' @importFrom stringi stri_isempty
 #' @importFrom glue glue
 #' @importFrom stringr str_detect
-#' @importFrom data.table data.table rbindlist fwrite
 #' @importFrom sfheaders sf_linestring
 #' @importFrom sf st_set_crs st_crs st_coordinates st_as_sf st_transform st_convex_hull st_union st_write
 #' @importFrom lwgeom st_endpoint st_startpoint

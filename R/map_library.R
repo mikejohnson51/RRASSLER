@@ -26,6 +26,8 @@
 #'  \code{\link[mapview]{mapshot}}
 #' @rdname map_library
 #' @export
+#' @import magrittr
+#' @import data.table
 #' @importFrom sf st_transform st_read st_crs st_make_valid
 #' @importFrom arrow read_parquet
 #' @importFrom ggplot2 ggplot aes geom_point theme_light scale_color_gradientn labs

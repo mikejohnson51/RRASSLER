@@ -19,6 +19,8 @@
 #'  \code{\link[data.table]{fwrite}}
 #' @rdname append_catalog_fields
 #' @export
+#' @import magrittr
+#' @import data.table
 #' @importFrom glue glue
 #' @importFrom dplyr mutate
 #' @importFrom sf sf_use_s2 st_transform st_read st_crs

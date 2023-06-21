@@ -12,6 +12,8 @@
 #'  }
 #' }
 #' @rdname catalog_integrity_checks
+#' @import magrittr
+#' @import data.table
 #' @export
 catalog_integrity_checks <- function(path_to_ras_dbase,
                                  quiet = TRUE) {

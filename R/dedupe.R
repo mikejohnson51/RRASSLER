@@ -12,6 +12,8 @@
 #' }
 #' @rdname dedupe
 #' @export
+#' @import magrittr
+#' @import data.table
 
 dedupe <- function(path_to_ras_dbase=NULL,quiet=FALSE) {
 

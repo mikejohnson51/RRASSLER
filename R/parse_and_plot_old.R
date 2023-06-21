@@ -27,6 +27,8 @@
 #'  \code{\link[cowplot]{plot_grid}}, \code{\link[cowplot]{ggdraw}}, \code{\link[cowplot]{draw_label}}, \code{\link[cowplot]{save_plot}}
 #' @rdname parse_and_plot_old
 #' @export
+#' @import magrittr
+#' @import data.table
 #' @importFrom glue glue
 #' @importFrom utils glob2rx
 #' @importFrom sf st_crs st_set_crs

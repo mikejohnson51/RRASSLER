@@ -14,7 +14,8 @@
 #'  \code{\link[data.table]{fread}}
 #' @rdname load_catalog_csv_as_DT
 #' @export
-#' @importFrom data.table fread
+#' @import magrittr
+#' @import data.table
 
 load_catalog_csv_as_DT <- function(path_to_csv,quiet=TRUE) {
   # sinew::moga(file.path(getwd(),"R/load_catalog_csv_as_DT.R"),overwrite = TRUE)

@@ -11,11 +11,12 @@
 #' }
 #' @rdname marco
 #' @export
+
 marco <- function() {
 
   # sinew::moga(file.path(getwd(),"R/marco.R"),overwrite = TRUE)
   # devtools::document()
-  # pkgdown::build_site(new_process=TRUE)
+  # pkgdown::build_site(new_process=FALSE)
   # devtools::load_all()
 
   ## -- Start --

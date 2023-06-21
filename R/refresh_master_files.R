@@ -19,6 +19,8 @@
 #'  \code{\link[sfheaders]{sf_linestring}}
 #' @rdname refresh_master_files
 #' @export
+#' @import magrittr
+#' @import data.table
 #' @importFrom utils glob2rx
 #' @importFrom glue glue
 #' @importFrom sf st_read st_set_crs st_crs st_write

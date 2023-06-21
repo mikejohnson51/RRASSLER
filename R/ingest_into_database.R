@@ -37,8 +37,9 @@
 #'  \code{\link[gmailr]{gm_mime}}, \code{\link[gmailr]{gm_to}}, \code{\link[gmailr]{gm_send_message}}
 #' @rdname ingest_into_database
 #' @export
+#' @import magrittr
+#' @import data.table
 #' @importFrom glue glue
-#' @importFrom data.table as.data.table data.table rbindlist fwrite
 #' @importFrom utils glob2rx
 #' @importFrom sf st_crs st_set_crs st_coordinates st_as_sf st_transform st_write
 #' @importFrom stringr str_sub str_detect

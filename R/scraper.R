@@ -15,7 +15,8 @@
 #'  \code{\link[sf]{st_write}}
 #' @rdname scraper
 #' @export
-#' @importFrom data.table as.data.table data.table rbindlist fwrite
+#' @import magrittr
+#' @import data.table
 #' @importFrom arrow write_parquet
 #' @importFrom sf st_write
 scraper <- function(path_to_ras_dbase=TRUE) {
