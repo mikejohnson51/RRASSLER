@@ -14,13 +14,13 @@
 #' @param refresh flag to dictate whether or not to recollate spatial database after ingest process. FALSE to skip, TRUE to regenerate, Default: TRUE
 #' @return a RRASSLED catalog of HEC-RAS models
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
+#' @seealso
 #'  \code{\link[glue]{glue}}
 #'  \code{\link[data.table]{as.data.table}}, \code{\link[data.table]{data.table-package}}, \code{\link[data.table]{rbindlist}}, \code{\link[data.table]{fwrite}}
 #'  \code{\link[utils]{glob2rx}}
@@ -36,9 +36,9 @@
 #'  \code{\link[arrow]{write_parquet}}
 #'  \code{\link[gmailr]{gm_mime}}, \code{\link[gmailr]{gm_to}}, \code{\link[gmailr]{gm_send_message}}
 #' @rdname ingest_into_database
-#' @export 
+#' @export
 #' @import magrittr
-#' @import magrittr
+#' @import data.table
 #' @importFrom glue glue
 #' @importFrom utils glob2rx
 #' @importFrom sf st_crs st_set_crs st_coordinates st_as_sf st_transform st_write

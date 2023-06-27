@@ -8,6 +8,7 @@
 ingest_FEMA6_BLE(
   path_to_ras_dbase,
   HUC8,
+  full = FALSE,
   proj_overwrite = NULL,
   vdat_trans = FALSE,
   quiet = TRUE,
@@ -38,6 +39,8 @@ ingest_into_database(
 \item{path_to_ras_dbase}{The path to the folder in which you are building your catalog, Default: NULL}
 
 \item{HUC8}{The HUC8 string you'd like to ingest}
+
+\item{full}{PARAM_DESCRIPTION, Default: FALSE}
 
 \item{proj_overwrite}{an EPSG string to apply should a projection not be found, Default: NULL}
 
