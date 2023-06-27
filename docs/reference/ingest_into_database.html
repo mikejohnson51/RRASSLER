@@ -54,6 +54,7 @@ ingest or append a new set of HEC-RAS models into your database"><!-- mathjax --
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ingest_FEMA6_BLE</span><span class="op">(</span></span>
 <span>  <span class="va">path_to_ras_dbase</span>,</span>
 <span>  <span class="va">HUC8</span>,</span>
+<span>  full <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  proj_overwrite <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vdat_trans <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -89,6 +90,10 @@ ingest or append a new set of HEC-RAS models into your database"><!-- mathjax --
 
 <dt>HUC8</dt>
 <dd><p>The HUC8 string you'd like to ingest</p></dd>
+
+
+<dt>full</dt>
+<dd><p>PARAM_DESCRIPTION, Default: FALSE</p></dd>
 
 
 <dt>proj_overwrite</dt>

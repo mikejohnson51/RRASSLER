@@ -104,13 +104,29 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"JimColl/RRASSLER"</span><span class="op">)</span></span></code></pre></div>
-<p>Test it by generating your first set of models</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>RRASSLER<span class="sc">::</span></span></code></pre></div>
+<p>Test it by generating your first set of models.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/ingest_into_database.html">ingest_FEMA6_BLE</a></span><span class="op">(</span></span>
+<span>  path_to_ras_dbase<span class="op">=</span><span class="st">"C:/Users/jimma/data/ras_catalog"</span>,</span>
+<span>  HUC8<span class="op">=</span><span class="st">"12090301"</span>,</span>
+<span>  full<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  proj_overwrite<span class="op">=</span><span class="st">"EPSG:2277"</span>,</span>
+<span>  vdat_trans<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span>  quiet<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span>  chatty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  quick_check<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  quick_hull <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  refresh <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="model-catalog">Model Catalog<a class="anchor" aria-label="anchor" href="#model-catalog"></a>
 </h2>
 <p>Users may look and manipulate the <em>accounting.csv</em>, and the models underneath, but should avoid manual manipulation of individual files, paths, or other aspects. RRASSLER scripts will do all needed manipulation, file sorting, and cataloging for you but there is very limited error checking should the workflow be applied incorrectly. As a general rule of thumb, once you’ve selected your destination for the catalog, only manipulate the csv, preferably <em>never</em> with EXCEL, which may chew up data along edge cases.</p>
+<div class="section level3">
+<h3 id="data-manipulation">Data manipulation<a class="anchor" aria-label="anchor" href="#data-manipulation"></a>
+</h3>
+</div>
 </div>
 <div class="section level2">
 <h2 id="data--attributes">Data &amp; Attributes<a class="anchor" aria-label="anchor" href="#data--attributes"></a>
