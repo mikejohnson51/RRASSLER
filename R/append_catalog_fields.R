@@ -2,25 +2,25 @@
 #' @description adds helper fields to accounting.csv
 #' @param path_to_ras_dbase the path to the folder in which you are building your catalog, Default: NULL
 #' @param out_name the name of the csv you want to generate, Default: NULL
-#' @param overwrite flag to dictate whether or not to overwrite the out_name, should it exist.  set to TRUE to delete and (re)generate, FALSE to safely exit, Default: FALSE
+#' @param overwrite flag to dictate whether or not to overwrite the out_name, should it exist. set to TRUE to delete and (re)generate, FALSE to safely exit, Default: FALSE
 #' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
 #' @return a new csv with helper columns
 #' @details DETAILS
-#' @examples
+#' @examples 
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso
+#' @seealso 
 #'  \code{\link[glue]{glue}}
 #'  \code{\link[dplyr]{mutate}}
 #'  \code{\link[sf]{s2}}, \code{\link[sf]{st_transform}}, \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}
 #'  \code{\link[data.table]{fwrite}}
 #' @rdname append_catalog_fields
-#' @export
+#' @export 
 #' @import magrittr
-#' @import data.table
+#' @import magrittr
 #' @importFrom glue glue
 #' @importFrom dplyr mutate
 #' @importFrom sf sf_use_s2 st_transform st_read st_crs
@@ -72,13 +72,15 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
     } else {
       footprint <- sf::st_read(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],"hull.fgb",fsep = .Platform$file.sep),quiet=TRUE)
       val <- template_hucs[footprint,]$huc8
-      ras_catalog_dbase[row,hucs:=noquote(paste0("{",paste(noquote(val) %>% sQuote(), collapse = ";"),"}"))]
+      ras_catalog_dbase[row,hucs:=noquote(paste0("{",paste(noquote(val), collapse = ";"),"}"))]
     }
   }
   sf::sf_use_s2(TRUE)
 
   # Status field
-  ras_catalog_dbase <- ras_catalog_dbase[, status:="Ready"]
+  ras_catalog_dbase <- ras_catalog_dbase[, status:="ready"]
+  ras_catalog_dbase <- ras_catalog_dbase[, status:="no_crosswalk"]
+  ras_catalog_dbase <- ras_catalog_dbase[, status:="reingest"]
 
   data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep), row.names = FALSE)
 

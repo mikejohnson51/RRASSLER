@@ -46,15 +46,29 @@ It is recommended that you wait to start using this tool until edge case and acc
 devtools::install_github("JimColl/RRASSLER")
 ```
 
-Test it by generating your first set of models
+Test it by generating your first set of models.
 ```r
-# install.packages("devtools")
-devtools::install_github("JimColl/RRASSLER")
+RRASSLER::ingest_FEMA6_BLE(
+  path_to_ras_dbase="C:/Users/jimma/data/ras_catalog",
+  HUC8="12090301",
+  full=TRUE,
+  proj_overwrite="EPSG:2277",
+  vdat_trans=FALSE,
+  quiet=FALSE,
+  chatty = TRUE,
+  quick_check=TRUE,
+  quick_hull = FALSE,
+  overwrite = FALSE,
+  refresh = TRUE)
 ```
 
 ## Model Catalog
 
 Users may look and manipulate the _accounting.csv_, and the models underneath, but should avoid manual manipulation of individual files, paths, or other aspects.  RRASSLER scripts will do all needed manipulation, file sorting, and cataloging for you but there is very limited error checking should the workflow be applied incorrectly.  As a general rule of thumb, once you've selected your destination for the catalog, only manipulate the csv, preferably _never_ with EXCEL, which may chew up data along edge cases.
+
+### Data manipulation
+
+
 
 ## Data & Attributes
 

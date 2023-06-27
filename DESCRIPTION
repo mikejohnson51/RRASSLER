@@ -13,7 +13,7 @@ Authors@R: c(person(given = "Jim", family = "Coll",
 Maintainer: Jim Coll <jamesmcoll@gmail.com>
 Description: A bottoms up approach to walking CONUS scale applications back to the spesific point, cross section, and HEC-RAS model they were sourced from.  Still in alpha dont use this.
 License: MIT + file LICENSE
-URL: https://github.com/JimColl/RRASLER
+URL: https://github.com/JimColl/RRASSLER
 Depends: 
   R (>= 3.5),
   magrittr, 

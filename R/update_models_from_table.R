@@ -89,7 +89,7 @@ update_models_from_table <- function(path_to_ras_dbase,refresh=FALSE,quiet=TRUE)
         dir.create(file.path(path_to_ras_dbase,"models",current_final_name_key,fsep = .Platform$file.sep), showWarnings = FALSE, recursive = TRUE)
         file.copy(c(g_file ,paste0(g_file,".hdf") ,p_files ,f_files ,h_files, v_files, prj_files,o_files,r_files,u_files,x_files,rasmap_files),file.path(path_to_ras_dbase,"models",current_final_name_key,fsep = .Platform$file.sep))
       } else (
-        print(glue::glue("We've seen this model, its at {ras_catalog_dbase[ras_catalog_dbase$final_name_key==current_final_name_key,]$final_name_key}"))
+        print(glue::glue("We've seen this model, it's at {ras_catalog_dbase[ras_catalog_dbase$final_name_key==current_final_name_key,]$final_name_key}"))
       )
     }
 

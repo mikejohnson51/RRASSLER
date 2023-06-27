@@ -16,7 +16,7 @@ append_catalog_fields(
 
 \item{out_name}{the name of the csv you want to generate, Default: NULL}
 
-\item{overwrite}{flag to dictate whether or not to overwrite the out_name, should it exist.  set to TRUE to delete and (re)generate, FALSE to safely exit, Default: FALSE}
+\item{overwrite}{flag to dictate whether or not to overwrite the out_name, should it exist. set to TRUE to delete and (re)generate, FALSE to safely exit, Default: FALSE}
 
 \item{quiet}{flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE}
 }

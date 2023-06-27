@@ -7,20 +7,20 @@
 #' @param vdat_trans a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE
 #' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
 #' @param chatty flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE
-#' @param ping_me a string with an email used to send emails after processing.  Uses gmailr and requires config, Default: NULL
-#' @param quick_check a flag to dictate whether or not to perform a quick check to see if a model has already been processed based on the raw name of the file.  Useful in reingesting the same directory after an error but not recommended otherwise.  TRUE to see if a name matches and skips, FALSE to process all the way though, Default: FALSE
+#' @param ping_me a string with an email used to send emails after processing. Uses gmailr and requires config, Default: NULL
+#' @param quick_check a flag to dictate whether or not to perform a quick check to see if a model has already been processed based on the raw name of the file. Useful in reingesting the same directory after an error but not recommended otherwise. TRUE to see if a name matches and skips, FALSE to process all the way though, Default: FALSE
 #' @param quick_hull a flag to dictate how tightly you want the footprints wrapped, TRUE uses just end points of the linestrings to place the model, FALSE uses the full point database, Default: FALSE
 #' @param overwrite not currently implemented, Default: FALSE
-#' @param refresh flag to dictate whether or not to recollate spatial database after ingest process.  FALSE to skip, TRUE to regenerate, Default: TRUE
+#' @param refresh flag to dictate whether or not to recollate spatial database after ingest process. FALSE to skip, TRUE to regenerate, Default: TRUE
 #' @return a RRASSLED catalog of HEC-RAS models
 #' @details DETAILS
-#' @examples
+#' @examples 
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso
+#' @seealso 
 #'  \code{\link[glue]{glue}}
 #'  \code{\link[data.table]{as.data.table}}, \code{\link[data.table]{data.table-package}}, \code{\link[data.table]{rbindlist}}, \code{\link[data.table]{fwrite}}
 #'  \code{\link[utils]{glob2rx}}
@@ -36,9 +36,9 @@
 #'  \code{\link[arrow]{write_parquet}}
 #'  \code{\link[gmailr]{gm_mime}}, \code{\link[gmailr]{gm_to}}, \code{\link[gmailr]{gm_send_message}}
 #' @rdname ingest_into_database
-#' @export
+#' @export 
 #' @import magrittr
-#' @import data.table
+#' @import magrittr
 #' @importFrom glue glue
 #' @importFrom utils glob2rx
 #' @importFrom sf st_crs st_set_crs st_coordinates st_as_sf st_transform st_write
@@ -52,6 +52,7 @@
 #' @importFrom AOI aoi_get
 #' @importFrom arrow write_parquet
 #' @importFrom gmailr gm_mime gm_to gm_from gm_subject gm_text_body gm_send_message
+#' @importFrom data.table as.data.table data.table rbindlist fwrite
 
 ingest_into_database <- function(path_to_ras_dbase,
                                  top_of_dir_to_scrape,
