@@ -52,7 +52,7 @@
 #' @importFrom AOI aoi_get
 #' @importFrom arrow write_parquet
 #' @importFrom gmailr gm_mime gm_to gm_from gm_subject gm_text_body gm_send_message
-#' @importFrom data.table as.data.table data.table rbindlist fwrite ":="
+#' @importFrom data.table as.data.table data.table rbindlist fwrite `:=`
 
 ingest_into_database <- function(path_to_ras_dbase,
                                  top_of_dir_to_scrape,
