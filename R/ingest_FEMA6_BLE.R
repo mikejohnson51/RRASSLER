@@ -18,6 +18,18 @@
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
+#'  RRASSLER::ingest_FEMA6_BLE(
+#'path_to_ras_dbase="/home/rstudio/g/data/ras_catalog/",
+#'HUC8="12090301",
+#'full=TRUE,
+#'proj_overwrite="EPSG:2277",
+#'vdat_trans=FALSE,
+#'quiet=FALSE,
+#'chatty = TRUE,
+#'quick_check=TRUE,
+#'quick_hull = FALSE,
+#'overwrite = FALSE,
+#'refresh = TRUE)
 #'  }
 #' }
 #' @seealso
@@ -35,7 +47,7 @@
 #'  \code{\link[AOI]{aoi_get}}
 #'  \code{\link[arrow]{write_parquet}}
 #'  \code{\link[gmailr]{gm_mime}}, \code{\link[gmailr]{gm_to}}, \code{\link[gmailr]{gm_send_message}}
-#' @rdname ingest_into_database
+#' @rdname ingest_FEMA6_BLE
 #' @export
 #' @import magrittr
 #' @import data.table
@@ -52,7 +64,8 @@
 #' @importFrom AOI aoi_get
 #' @importFrom arrow write_parquet
 #' @importFrom gmailr gm_mime gm_to gm_from gm_subject gm_text_body gm_send_message
-
+#' @importFrom data.table as.data.table data.table rbindlist fwrite `:=`
+#'
 ingest_FEMA6_BLE <- function(path_to_ras_dbase,
                              HUC8,
                              full=FALSE,
@@ -67,7 +80,7 @@ ingest_FEMA6_BLE <- function(path_to_ras_dbase,
                              refresh = TRUE) {
   # sinew::moga(file.path(getwd(),"R/ingest_FEMA6_BLE.R"),overwrite = TRUE)
   # devtools::document()
-  # pkgdown::build_site(new_process=TRUE)
+  # pkgdown::build_site(new_process=FALSE)
   #
   # devtools::load_all()
   #

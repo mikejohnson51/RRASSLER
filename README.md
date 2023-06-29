@@ -43,11 +43,12 @@ It is recommended that you wait to start using this tool until edge case and acc
 
 ```r
 # install.packages("devtools")
-devtools::install_github("JimColl/RRASSLER")
+devtools::install_github("JimColl/RRASSLER", force=TRUE)
 ```
 
 Test it by generating your first set of models.
 ```r
+library(data.table)
 RRASSLER::ingest_FEMA6_BLE(
   path_to_ras_dbase="C:/Users/jimma/data/ras_catalog",
   HUC8="12090301",
@@ -61,6 +62,20 @@ RRASSLER::ingest_FEMA6_BLE(
   overwrite = FALSE,
   refresh = TRUE)
 ```
+library(data.table)
+library(sp)
+RRASSLER::ingest_FEMA6_BLE(
+  path_to_ras_dbase="Z:/data/ras_catalog",
+  HUC8="12090301",
+  full=TRUE,
+  proj_overwrite="EPSG:2277",
+  vdat_trans=FALSE,
+  quiet=FALSE,
+  chatty = TRUE,
+  quick_check=TRUE,
+  quick_hull = FALSE,
+  overwrite = FALSE,
+  refresh = TRUE)
 
 ## Model Catalog
 
