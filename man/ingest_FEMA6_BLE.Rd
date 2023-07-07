@@ -8,7 +8,7 @@ ingest_FEMA6_BLE(
   path_to_ras_dbase,
   HUC8,
   full = FALSE,
-  proj_overwrite = NULL,
+  proj_override = NULL,
   vdat_trans = FALSE,
   quiet = TRUE,
   chatty = FALSE,
@@ -26,7 +26,7 @@ ingest_FEMA6_BLE(
 
 \item{full}{PARAM_DESCRIPTION, Default: FALSE}
 
-\item{proj_overwrite}{an EPSG string to apply should a projection not be found, Default: NULL}
+\item{proj_override}{an EPSG string to apply should a projection not be found, Default: NULL}
 
 \item{vdat_trans}{a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE}
 
@@ -60,12 +60,12 @@ if(interactive()){
  RRASSLER::ingest_FEMA6_BLE(
 path_to_ras_dbase="/home/rstudio/g/data/ras_catalog/",
 HUC8="12090301",
-full=TRUE,
-proj_overwrite="EPSG:2277",
+full=FALSE,
+proj_override="EPSG:2277",
 vdat_trans=FALSE,
 quiet=FALSE,
 chatty = TRUE,
-quick_check=TRUE,
+quick_check=FALSE,
 quick_hull = FALSE,
 overwrite = FALSE,
 refresh = TRUE)

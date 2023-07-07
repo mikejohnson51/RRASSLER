@@ -102,7 +102,7 @@ FrankenFIM_scrape_and_unpack_ble <- function(database_path=NULL,HUCID=NULL,quiet
     }
     dir.create(output_dir,recursive = TRUE)
 
-    template_hucs <- sf::st_transform(sf::st_read(file.path(database_path,"HUC8.fgb",fsep=.Platform$file.sep),quiet=FALSE),sf::st_crs("EPSG:5070"))
+    template_hucs <- sf::st_transform(sf::st_read(file.path(database_path,"HUC8.fgb",fsep=.Platform$file.sep),quiet=quiet),sf::st_crs("EPSG:5070"))
 
     Potential_features <- template_hucs[template_hucs$huc8 == HUCID,]
 

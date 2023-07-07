@@ -3,7 +3,7 @@
 #' @param path_to_ras_dbase The path to the folder in which you are building your catalog, Default: NULL
 #' @param HUC8 The HUC8 string you'd like to ingest
 #' @param full PARAM_DESCRIPTION, Default: FALSE
-#' @param proj_overwrite an EPSG string to apply should a projection not be found, Default: NULL
+#' @param proj_override an EPSG string to apply should a projection not be found, Default: NULL
 #' @param vdat_trans a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE
 #' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
 #' @param chatty flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE
@@ -21,12 +21,12 @@
 #'  RRASSLER::ingest_FEMA6_BLE(
 #'path_to_ras_dbase="/home/rstudio/g/data/ras_catalog/",
 #'HUC8="12090301",
-#'full=TRUE,
-#'proj_overwrite="EPSG:2277",
+#'full=FALSE,
+#'proj_override="EPSG:2277",
 #'vdat_trans=FALSE,
 #'quiet=FALSE,
 #'chatty = TRUE,
-#'quick_check=TRUE,
+#'quick_check=FALSE,
 #'quick_hull = FALSE,
 #'overwrite = FALSE,
 #'refresh = TRUE)
@@ -69,7 +69,7 @@
 ingest_FEMA6_BLE <- function(path_to_ras_dbase,
                              HUC8,
                              full=FALSE,
-                             proj_overwrite = NULL,
+                             proj_override = NULL,
                              vdat_trans = FALSE,
                              quiet = TRUE,
                              chatty = FALSE,
@@ -107,14 +107,16 @@ ingest_FEMA6_BLE <- function(path_to_ras_dbase,
   # refresh = TRUE
   # gmailr::gm_auth_configure(path = "C:/Users/jimma/Desktop/client_secret_765662520275-iduoi88oke14pqst3ebukn5rb2qf0895.apps.googleusercontent.com.json")
 
+  How raw ras2fim might aligh and look at the HAND metrics
+
   ## -- Start --
   fn_time_start <- Sys.time()
-  FrankenFIM_scrape_and_unpack_ble(database_path=path_to_ras_dbase,HUCID=HUC8,quiet=TRUE,full=full)
+  FrankenFIM_scrape_and_unpack_ble(database_path=path_to_ras_dbase,HUCID=HUC8,quiet=quiet,full=full)
 
   ingest_into_database(path_to_ras_dbase=path_to_ras_dbase,
                                    top_of_dir_to_scrape=file.path(path_to_ras_dbase,"_temp","BLE",HUC8,glue::glue("{HUC8}_models"),fsep = .Platform$file.sep),
                                    code_to_place_in_source="FEMA Region 6",
-                                   proj_overwrite = proj_overwrite,
+                       proj_override = proj_override,
                                    vdat_trans = vdat_trans,
                                    quiet = quiet,
                                    chatty = chatty,

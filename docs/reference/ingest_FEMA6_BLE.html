@@ -52,7 +52,7 @@
 <span>  <span class="va">path_to_ras_dbase</span>,</span>
 <span>  <span class="va">HUC8</span>,</span>
 <span>  full <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  proj_overwrite <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  proj_override <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vdat_trans <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  chatty <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -78,7 +78,7 @@
 <dd><p>PARAM_DESCRIPTION, Default: FALSE</p></dd>
 
 
-<dt>proj_overwrite</dt>
+<dt>proj_override</dt>
 <dd><p>an EPSG string to apply should a projection not be found, Default: NULL</p></dd>
 
 
@@ -150,12 +150,12 @@
 <span class="r-in"><span> <span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu">ingest_FEMA6_BLE</span><span class="op">(</span></span></span>
 <span class="r-in"><span>path_to_ras_dbase<span class="op">=</span><span class="st">"/home/rstudio/g/data/ras_catalog/"</span>,</span></span>
 <span class="r-in"><span>HUC8<span class="op">=</span><span class="st">"12090301"</span>,</span></span>
-<span class="r-in"><span>full<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>proj_overwrite<span class="op">=</span><span class="st">"EPSG:2277"</span>,</span></span>
+<span class="r-in"><span>full<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>proj_override<span class="op">=</span><span class="st">"EPSG:2277"</span>,</span></span>
 <span class="r-in"><span>vdat_trans<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>quiet<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>chatty <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>quick_check<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>quick_check<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>quick_hull <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>refresh <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>

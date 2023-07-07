@@ -52,11 +52,14 @@ process_ras_g_to_xyz <- function(geom_path,
   # devtools::load_all()
   #
   # geom_path="J:/Dropbox/root/projects/floodmapping/methods/ras2fim/sample_data/HICKORY CREEK/HICKORY CREEK.g01"
+  # geom_path="G:/data/ras_catalog/_temp/BLE/12010005/12010005_models/EngineeringModels/Hydraulic Models/AdamsBayou_SabineRiver/ADAMS BAYOU LATERAL 18/ADAMS BAYOU LATERAL 18.g01"
   # units="Foot"
   # proj_string="EPSG:2277"
+  # proj_string="ESRI:102739"
   # in_epoch_override = as.integer(as.POSIXct(Sys.time()))
   # out_epoch_override = 1616607646
   # vdat=TRUE
+  # vdat=FALSE
   # quiet=FALSE
   # geom_path="J:/data/BLE/fema/08080101/08080101_Models/WA_1_RAS_Model/WA_1_RAS_Model/Input/Input/WA1_Atchafalaya.g05"
   # units="Foot"
@@ -103,7 +106,7 @@ process_ras_g_to_xyz <- function(geom_path,
   tmp_point_dbase <- c()
   cross_section_lines <- data.frame(matrix(ncol=6,nrow=0,dimnames=list(NULL, c("geometry", "xid","stream_stn", "river","reach","ras_path"))))
   for(i in 1:length(xs_xy_row_heads)) {
-    # i <- 1
+    # i <- 2
     start <- xs_xy_row_heads[i]+1
     end <- xs_xy_row_tails[i]-1
     xs_dat <- gsub("[[:blank:]]+", ",",do.call(paste, c(file[start:end,], collapse ="")) %>% noquote() %>% trimws())
@@ -228,7 +231,7 @@ process_ras_g_to_xyz <- function(geom_path,
   mean_shift <- 0
   for(t in 1:nrow(sf_cross_section_lines)) {
     # for(t in 1:100) {
-    # t=1
+    # t=2
     print(paste("processing cross section number:",t,"of",nrow(sf_cross_section_lines)))
 
     point_slice <- tmp_point_dbase[tmp_point_dbase$xid==t,]

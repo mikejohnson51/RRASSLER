@@ -3,7 +3,7 @@
 #' @param path_to_ras_dbase The path to the folder in which you are building your catalog, Default: NULL
 #' @param top_of_dir_to_scrape The path to the top of the directory which you want to ingest
 #' @param code_to_place_in_source a string which encodes the owner or maintainer of that model
-#' @param proj_overwrite an EPSG string to apply should a projection not be found, Default: NULL
+#' @param proj_override an EPSG string to apply should a projection not be found, Default: NULL
 #' @param vdat_trans a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE
 #' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
 #' @param chatty flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE
@@ -57,7 +57,7 @@
 ingest_into_database <- function(path_to_ras_dbase,
                                  top_of_dir_to_scrape,
                                  code_to_place_in_source,
-                                 proj_overwrite = NULL,
+                                 proj_override = NULL,
                                  vdat_trans = FALSE,
                                  quiet = TRUE,
                                  chatty = FALSE,
@@ -75,17 +75,12 @@ ingest_into_database <- function(path_to_ras_dbase,
   # path_to_ras_dbase="/home/rstudio/g/data/ras_dbase"
   # top_of_dir_to_scrape="/home/rstudio/g/Dropbox/root/projects/floodmapping/methods/ras2fim/sample_data"
   # code_to_place_in_source="ras2fim_test_data"
-  # proj_overwrite="EPSG:26915"
+  # proj_override="EPSG:26915"
 
-  # top_of_dir_to_scrape="/home/rstudio/g/data/raw/BLE/FEMA/12090301/12090301_Models/Model/Alum Creek-Colorado River/ALUM 006"
-  # code_to_place_in_source="FEMA R6"
-  # proj_overwrite="EPSG:2277"
-
-  # path_to_ras_dbase="C:/Users/jimma/Desktop/data/newer_ras_dbase"
-  # top_of_dir_to_scrape="C:/Users/jimma/Desktop/data/BLE/FEMA/12090301/12090301_Models/Model/Walnut Creek-Colorado River/CEDAR HOLLOW CREEK"
-  # top_of_dir_to_scrape="C:/Users/jimma/Desktop/data/BLE/FEMA/12090301/12090301_Models/Model/Walnut Creek-Colorado River/ELM CREEK"
+  # path_to_ras_dbase="G:/data/ras_catalog"
+  # top_of_dir_to_scrape="G:/data/ras_catalog/_temp/BLE/12010005/"
   # code_to_place_in_source="FEMA 6 BLE"
-  # proj_overwrite="EPSG:2277"
+  # proj_override="ESRI:102739"
   # vdat_trans=FALSE
   # quiet=FALSE
   # chatty = TRUE
@@ -93,6 +88,7 @@ ingest_into_database <- function(path_to_ras_dbase,
   # ping_me = TRUE
   # overwrite = FALSE
   # refresh = TRUE
+
   # gmailr::gm_auth_configure(path = "C:/Users/jimma/Desktop/client_secret_765662520275-iduoi88oke14pqst3ebukn5rb2qf0895.apps.googleusercontent.com.json")
 
   ## -- Start --
@@ -157,6 +153,8 @@ ingest_into_database <- function(path_to_ras_dbase,
     rasmap_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.rasmap$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
     prj_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.prj$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
     p_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.p??$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
+    # xml_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.xml$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
+    # pdf_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.pdf$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
     p_files <- p_files[!p_files %in% prj_files]
     list_of_files <- c(g_files ,ghdf_files ,p_files ,f_files ,h_files, v_files, prj_files,o_files,r_files,u_files,x_files,rasmap_files)
 
@@ -164,8 +162,8 @@ ingest_into_database <- function(path_to_ras_dbase,
       if(!quiet) {
         print_warning_block()
         print(glue::glue('No geometry found for model:{file}'))
-        skip_count = skip_count + 1
       }
+      skip_count = skip_count + 1
       next
     }
 
@@ -186,8 +184,12 @@ ingest_into_database <- function(path_to_ras_dbase,
       }
     }
 
-    if(is.na(current_model_projection) & !is.null(proj_overwrite)) {
-      current_model_projection = proj_overwrite
+    if(is.na(current_model_projection) & !is.null(proj_override)) {
+      if(!quiet) {
+        print_warning_block()
+        print(glue::glue('using proj overwrite'))
+      }
+      current_model_projection = proj_override
     }
 
     # For each geometric realization of the model
@@ -197,7 +199,7 @@ ingest_into_database <- function(path_to_ras_dbase,
 
       if(quick_check) {
         if(stringr::str_sub(basename(g_file), end = -5) %in% ras_catalog_dbase$model_name) {
-          if(!quiet) { print("Model with inital scrape name already in the que") }
+          if(!quiet) { print("Model with inital name already in the que") }
           duplicate_count = duplicate_count + 1
           next()
         }
@@ -230,77 +232,31 @@ ingest_into_database <- function(path_to_ras_dbase,
         next()
       }
 
-      # Attempt to parse the g file
-      g_pts <- list()
-      g_pts[[1]] <- data.frame()
-      g_pts = process_ras_g_to_xyz(
-        geom_path=g_file,
-        units=current_model_units,
-        proj_string=current_model_projection,
-        in_epoch_override=current_last_modified,
-        vdat = vdat_trans,
-        quiet=!chatty)
+      extrated_pts <- try({
+        parse_model_to_xyz(geom_path=g_file,units=current_model_units,proj_string=current_model_projection,
+                                       in_epoch_override = as.integer(as.POSIXct(Sys.time())),
+                                       out_epoch_override = as.integer(as.POSIXct(Sys.time())),
+                           vdat_trans=FALSE,
+                                       quiet=FALSE,
+                                       default_g=FALSE,
+                                       try_both=TRUE)
+      })
 
-      # Record errors for comp
-      if(nrow(g_pts[[1]]) > 0) {
-        if(vdat_trans) {
-          g_ptserr <- unglue::unglue_vec(g_pts[[2]], "{}:{}:{x}") %>% as.numeric()
-        } else {
-          g_ptserr <- unglue::unglue_vec(g_pts[[2]],"{}:{x}") %>% as.numeric()
-        }
-      }
-
-      # Attempt to parse the ghdf file
-      ghdf_pts <- list()
-      ghdf_pts[[1]] <- data.frame()
-      if(cond3) {
-        ghdf_pts = process_ras_hdf_to_xyz(
-          geom_path=paste0(g_file,".hdf"),
-          units=current_model_units,
-          proj_string=current_model_projection,
-          in_epoch_override=current_last_modified,
-          vdat = vdat_trans,
-          quiet=!chatty)
-
-        # Record errors for comp
-        if(nrow(ghdf_pts[[1]]) > 0) {
-          if(vdat_trans) {
-            ghdf_ptserr <- unglue::unglue_vec(ghdf_pts[[2]], "{}:{}:{x}") %>% as.numeric()
-          } else {
-            ghdf_ptserr <- unglue::unglue_vec(ghdf_pts[[2]],"{}:{x}") %>% as.numeric()
-          }
-        }
-      }
-
-      cond4 = nrow(g_pts[[1]]) > 0
-      cond5 = nrow(ghdf_pts[[1]]) > 0
-
-      # If we could parse both, which was a better extraction?
-      if(cond4 & cond5) {
-        if(abs(ghdf_ptserr) > abs(g_ptserr)) {
-          extrated_pts <- g_pts
-          extrated_pts[[2]] <- paste(g_pts[[2]],"* G parsed")
-        } else {
-          extrated_pts <- ghdf_pts
-          extrated_pts[[2]] <- paste(ghdf_pts[[2]],"* GHDF parsed")
-        }
-
-        # We could only parse a g file
-      } else if(cond4) {
-        extrated_pts <- g_pts
-
-        # We could only parse a ghdf file
-      } else if(cond5) {
-        extrated_pts <- ghdf_pts
-
-        # Nothing was parsed
-      } else if(!cond4 & !cond5) {
+      if(nrow(extrated_pts[[1]])==0){
         current_initial_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
         current_final_name_key <- NA
 
         if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$initial_scrape_name), current_initial_name)) == 0) {
-          new_row <- data.table::data.table(current_nhdplus_comid,current_model_name,current_g_value,current_last_modified,code_to_place_in_source,current_model_units,current_model_projection,current_initial_name,
-                                            current_final_name_key,"unparsed_units_proj")
+          new_row <- data.table::data.table(current_nhdplus_comid,
+                                            current_model_name,
+                                            current_g_value,
+                                            current_last_modified,
+                                            code_to_place_in_source,
+                                            current_model_units,
+                                            current_model_projection,
+                                            current_initial_name,
+                                            current_final_name_key,
+                                            "unparsed_units_proj")
           names(new_row) <- names
           ras_catalog_dbase <- data.table::rbindlist(list(ras_catalog_dbase,new_row))
 
@@ -345,14 +301,19 @@ ingest_into_database <- function(path_to_ras_dbase,
           sf::st_transform(sf::st_crs("EPSG:4326"))
       }
 
-      ahull_poly = holyhull::holyhull(sf_frame=end_points,method='convave',alpha_value=0.01, concavity = 2, length_threshold = 0)
+      ahull_poly = holyhull::holyhull(sf_frame=end_points, method='convave', alpha_value=0.01, concavity = 2, length_threshold = 0)
+
+      flowline_list <- try({
+        nhdplusTools::get_nhdplus(AOI::aoi_get(ahull_poly),realization = "flowline")
+      })
 
       # Join to comids
-      tryCatch( { current_nhdplus_comid = nhdplusTools::get_nhdplus(AOI::aoi_get(ahull_poly),realization = "flowline"); current_nhdplus_comid = current_nhdplus_comid[current_nhdplus_comid$streamorde == max(current_nhdplus_comid$streamorde),][1,]$comid}
-                , error = function(e) { current_nhdplus_comid <<- 2 })
-      if(length(current_nhdplus_comid) == 0){
-        current_nhdplus_comid = 1
+      if(length(flowline_list) == 0) {
+        current_nhdplus_comid = 2
+      } else {
+        current_nhdplus_comid = flowline_list[flowline_list$streamorde == max(flowline_list$streamorde),][1,]$comid
       }
+
       current_initial_name = paste0(current_nhdplus_comid,"_",current_model_name,"_",current_g_value,"_",current_last_modified)
       print(glue::glue("Parsed into:{current_initial_name}"))
       current_final_name_key = current_initial_name
@@ -391,7 +352,7 @@ ingest_into_database <- function(path_to_ras_dbase,
     print(glue::glue("Started at:{fn_time_start}"))
     print(glue::glue("Finished at:{Sys.time()}"))
     print(glue::glue("Scrape location:{top_of_dir_to_scrape}"))
-    print(glue::glue("proj assingned:{proj_overwrite}"))
+    print(glue::glue("proj assingned:{proj_override}"))
     print(glue::glue("vdat applied:{vdat_trans}"))
     print(glue::glue("Items added:{process_count}"))
     print(glue::glue("Duplicates found:{duplicate_count}"))
@@ -403,13 +364,13 @@ ingest_into_database <- function(path_to_ras_dbase,
   lines_to_write = c(" --  --  -- -- ",
                      glue::glue("Started at:{fn_time_start}"),glue::glue("Finished at:{Sys.time()}"),
                      glue::glue("Scrape location:{top_of_dir_to_scrape}"),
-                     glue::glue("proj assingned:{proj_overwrite}"),
+                     glue::glue("proj assingned:{proj_override}"),
                      glue::glue("vdat applied:{vdat_trans}"),
                      glue::glue("Items added:{process_count}"),
                      glue::glue("Duplicates found:{duplicate_count}"),
                      glue::glue("Files skipped:{skip_count}"))
   writeLines(lines_to_write, file_conn)
-  close(fileConn)
+  close(file_conn)
 
   # (re) build key files
   if(refresh) {

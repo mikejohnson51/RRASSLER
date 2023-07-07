@@ -8,6 +8,7 @@
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
+#'  RRASSLER::refresh_master_files(path_to_ras_dbase = "G:/data/ras_catalog",quiet=FALSE)
 #'  }
 #' }
 #' @seealso

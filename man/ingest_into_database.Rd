@@ -8,7 +8,7 @@ ingest_into_database(
   path_to_ras_dbase,
   top_of_dir_to_scrape,
   code_to_place_in_source,
-  proj_overwrite = NULL,
+  proj_override = NULL,
   vdat_trans = FALSE,
   quiet = TRUE,
   chatty = FALSE,
@@ -26,7 +26,7 @@ ingest_into_database(
 
 \item{code_to_place_in_source}{a string which encodes the owner or maintainer of that model}
 
-\item{proj_overwrite}{an EPSG string to apply should a projection not be found, Default: NULL}
+\item{proj_override}{an EPSG string to apply should a projection not be found, Default: NULL}
 
 \item{vdat_trans}{a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE}
 

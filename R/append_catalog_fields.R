@@ -6,19 +6,19 @@
 #' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
 #' @return a new csv with helper columns
 #' @details DETAILS
-#' @examples 
+#' @examples
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso 
+#' @seealso
 #'  \code{\link[glue]{glue}}
 #'  \code{\link[dplyr]{mutate}}
 #'  \code{\link[sf]{s2}}, \code{\link[sf]{st_transform}}, \code{\link[sf]{st_read}}, \code{\link[sf]{st_crs}}
 #'  \code{\link[data.table]{fwrite}}
 #' @rdname append_catalog_fields
-#' @export 
+#' @export
 #' @import magrittr
 #' @import magrittr
 #' @importFrom glue glue
@@ -79,8 +79,8 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
 
   # Status field
   ras_catalog_dbase <- ras_catalog_dbase[, status:="ready"]
-  ras_catalog_dbase <- ras_catalog_dbase[, status:="no_crosswalk"]
-  ras_catalog_dbase <- ras_catalog_dbase[, status:="reingest"]
+  ras_catalog_dbase <- ras_catalog_dbase[ras_catalog_dbase$nhdplus_comid==1, status:="no_crosswalk"]
+  ras_catalog_dbase <- ras_catalog_dbase[ras_catalog_dbase$nhdplus_comid==2, status:="reingest"]
 
   data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep), row.names = FALSE)
 
