@@ -107,8 +107,6 @@ ingest_FEMA6_BLE <- function(path_to_ras_dbase,
   # refresh = TRUE
   # gmailr::gm_auth_configure(path = "C:/Users/jimma/Desktop/client_secret_765662520275-iduoi88oke14pqst3ebukn5rb2qf0895.apps.googleusercontent.com.json")
 
-  How raw ras2fim might aligh and look at the HAND metrics
-
   ## -- Start --
   fn_time_start <- Sys.time()
   FrankenFIM_scrape_and_unpack_ble(database_path=path_to_ras_dbase,HUCID=HUC8,quiet=quiet,full=full)
