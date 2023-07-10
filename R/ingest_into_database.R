@@ -233,13 +233,7 @@ ingest_into_database <- function(path_to_ras_dbase,
       }
 
       extrated_pts <- try({
-        parse_model_to_xyz(geom_path=g_file,units=current_model_units,proj_string=current_model_projection,
-                                       in_epoch_override = as.integer(as.POSIXct(Sys.time())),
-                                       out_epoch_override = as.integer(as.POSIXct(Sys.time())),
-                           vdat_trans=FALSE,
-                                       quiet=chatty,
-                                       default_g=FALSE,
-                                       try_both=TRUE)
+        parse_model_to_xyz(geom_path=g_file,units=current_model_units,proj_string=current_model_projection,in_epoch_override = as.integer(as.POSIXct(Sys.time())),out_epoch_override = as.integer(as.POSIXct(Sys.time())),vdat_trans=FALSE,quiet=chatty,default_g=FALSE,try_both=TRUE)
       })
 
       if(isFALSE(extrated_pts[[1]])) {

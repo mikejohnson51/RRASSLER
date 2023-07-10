@@ -68,7 +68,6 @@ parse_model_to_xyz <- function(geom_path,
     vdat = vdat_trans,
     quiet=quiet)
 
-  # Record errors for comp
   if(nrow(g_pts[[1]]) > 0) {
     if(vdat_trans) {
       g_ptserr <- unglue::unglue_vec(g_pts[[2]], "{}:{}:{x}") %>% as.numeric()
