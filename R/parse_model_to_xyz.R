@@ -151,7 +151,8 @@ parse_model_to_xyz <- function(geom_path,
 
     # Nothing was parsed
   } else if(!cond4 & !cond5) {
-      return(FALSE)
+    extrated_pts <- FALSE
+    return(extrated_pts)
   }
 
   return(extrated_pts)
