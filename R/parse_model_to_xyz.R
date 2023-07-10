@@ -37,7 +37,7 @@ parse_model_to_xyz <- function(geom_path,
 
   # sinew::moga(file.path(getwd(),"R/parse_model_to_xyz.R"),overwrite = TRUE)
   # devtools::document()
-  # pkgdown::build_site(new_process=TRUE)
+  # pkgdown::build_site(new_process=FALSE)
   #
   # devtools::load_all()
 
