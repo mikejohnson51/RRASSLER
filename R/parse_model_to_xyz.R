@@ -105,8 +105,22 @@ parse_model_to_xyz <- function(geom_path,
     }
   }
 
-  cond4 = nrow(g_pts[[1]]) > 0
-  cond5 = nrow(ghdf_pts[[1]]) > 0
+  cond4 = tryCatch({
+      isTRUE(nrow(g_pts[[1]]) > 0)
+    },
+    error = function(e) {
+      FALSE
+    }
+  )
+  cond5 = tryCatch({
+      isTRUE(nrow(ghdf_pts[[1]]) > 0)
+    },
+    error = function(e) {
+      FALSE
+    }
+  )
+
+  # cond5 = nrow(ghdf_pts[[1]]) > 0
 
   # If we could parse both, which was a better extraction?
   if(cond4 & cond5) {
@@ -137,7 +151,7 @@ parse_model_to_xyz <- function(geom_path,
 
     # Nothing was parsed
   } else if(!cond4 & !cond5) {
-    return(FALSE)
+      return(FALSE)
   }
 
   return(extrated_pts)

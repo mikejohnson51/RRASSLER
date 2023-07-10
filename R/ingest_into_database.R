@@ -237,14 +237,15 @@ ingest_into_database <- function(path_to_ras_dbase,
                                        in_epoch_override = as.integer(as.POSIXct(Sys.time())),
                                        out_epoch_override = as.integer(as.POSIXct(Sys.time())),
                            vdat_trans=FALSE,
-                                       quiet=FALSE,
+                                       quiet=chatty,
                                        default_g=FALSE,
                                        try_both=TRUE)
       })
 
-      if(nrow(extrated_pts[[1]])==0){
+      if(isFALSE(extrated_pts[[1]])) {
         current_initial_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
         current_final_name_key <- NA
+        if(!quiet) { print("Model unparsed") }
 
         if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$initial_scrape_name), current_initial_name)) == 0) {
           new_row <- data.table::data.table(current_nhdplus_comid,
@@ -263,6 +264,7 @@ ingest_into_database <- function(path_to_ras_dbase,
           dir.create(file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep), showWarnings = FALSE, recursive = TRUE)
           file.copy(c(g_file ,paste0(g_file,".hdf") ,p_files ,f_files ,h_files, v_files, prj_files,o_files,r_files,u_files,x_files,rasmap_files),
                     file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep))
+          if(!quiet) { print(glue::glue("Model sitting in _unprocessed {current_initial_name}")) }
           data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep), row.names = FALSE)
           process_count = process_count + 1
         } else {
@@ -308,14 +310,16 @@ ingest_into_database <- function(path_to_ras_dbase,
       })
 
       # Join to comids
-      if(length(flowline_list) == 0) {
+      if(isFALSE(flowline_list)) {
+        current_nhdplus_comid = 1
+      } else if(length(flowline_list) == 0) {
         current_nhdplus_comid = 2
       } else {
         current_nhdplus_comid = flowline_list[flowline_list$streamorde == max(flowline_list$streamorde),][1,]$comid
       }
 
       current_initial_name = paste0(current_nhdplus_comid,"_",current_model_name,"_",current_g_value,"_",current_last_modified)
-      print(glue::glue("Parsed into:{current_initial_name}"))
+      if(!quiet) { print(glue::glue("Parsed into:{current_initial_name}")) }
       current_final_name_key = current_initial_name
 
       if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$final_name_key), current_final_name_key)) == 0) {
