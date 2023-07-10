@@ -3,7 +3,3 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^\./trash/cookbooks\.R$
-^\./trash
-^\./Rhistory$
-^\.rosm.cache

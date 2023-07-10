@@ -68,7 +68,7 @@ ingest_into_database <- function(path_to_ras_dbase,
                                  refresh = TRUE) {
   # sinew::moga(file.path(getwd(),"R/ingest_into_database.R"),overwrite = TRUE)
   # devtools::document()
-  # pkgdown::build_site(new_process=TRUE)
+  # pkgdown::build_site(new_process=FALSE)
   #
   # devtools::load_all()
   #
