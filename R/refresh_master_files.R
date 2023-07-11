@@ -41,9 +41,9 @@ refresh_master_files <- function(path_to_ras_dbase,
   # refresh_master_files(path_to_ras_dbase = "/home/rstudio/g/data/ras_dbase",quiet=FALSE)
 
   ## -- Start --
-  if(!file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep)) {
+  if(!file.exists(file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep))) {
     print_warning_block()
-    print("")
+    print("Not a RRASSLE'd archive")
     return(FALSE)
   }
   if(!quiet) { print("(re)merging database outputs") }

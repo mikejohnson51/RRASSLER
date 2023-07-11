@@ -377,7 +377,7 @@ ingest_into_database <- function(path_to_ras_dbase,
 
   # Wrap up
   runtime <- Sys.time() - fn_time_start
-  units(runtime) <- "hour"
+  units(runtime) <- "hours"
   print(paste("RAS Library appended in",round(runtime, digits = 3),"hours"))
 
   if(!is.null(ping_me)) {
