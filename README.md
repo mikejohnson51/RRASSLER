@@ -22,6 +22,7 @@ In order to wrassle that friction, RRASSLER has a few theoretical value judgment
 2) for each geometric realization of that model (variation of .g##), grab all relevant HEC-RAS related files defined as:  
    - .g## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Geometry definitions  
    - .prj &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Projection (can be non-standard proj4 string defined file)  
+   - .prj &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Projection (can be non-standard proj4 string defined file)  
    - .p## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # plan file, used to drive the model  
    - .f## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Steady Flow file. Profile information, flow data and boundary conditions   
    - .h## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Hydraulic Design data file  
@@ -43,14 +44,14 @@ It is recommended that you wait to start using this tool until edge case and acc
 
 ```r
 # install.packages("devtools")
-devtools::install_github("JimColl/RRASSLER", force=TRUE)
+devtools::install_github("JimColl/RRASSLER")
 ```
 
 Test it by generating your first set of models.
 ```r
 library(data.table)
 RRASSLER::ingest_FEMA6_BLE(
-  path_to_ras_dbase="C:/Users/jimma/data/ras_catalog",
+  path_to_ras_dbase="G:/data/ras_catalog",
   HUC8="12090301",
   full=TRUE,
   proj_overwrite="EPSG:2277",
@@ -62,20 +63,6 @@ RRASSLER::ingest_FEMA6_BLE(
   overwrite = FALSE,
   refresh = TRUE)
 ```
-library(data.table)
-library(sp)
-RRASSLER::ingest_FEMA6_BLE(
-  path_to_ras_dbase="Z:/data/ras_catalog",
-  HUC8="12090301",
-  full=TRUE,
-  proj_overwrite="EPSG:2277",
-  vdat_trans=FALSE,
-  quiet=FALSE,
-  chatty = TRUE,
-  quick_check=TRUE,
-  quick_hull = FALSE,
-  overwrite = FALSE,
-  refresh = TRUE)
 
 ## Model Catalog
 

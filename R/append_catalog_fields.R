@@ -48,7 +48,7 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
     if(!overwrite) {
       print_warning_block()
       print("Alert: file already exists and overwrite is set to FALSE")
-      stop()
+      return(FALSE)
     }
     unlink(file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep))
   }
@@ -66,8 +66,10 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
   for (row in 1:nrow(ras_catalog_dbase)) {
     if(!quiet) { print(glue::glue("Processing row:{row} of {nrow(ras_catalog_dbase)}")) }
     if(is.na(ras_catalog_dbase[row,final_name_key]) || !file.exists(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],"hull.fgb",fsep = .Platform$file.sep))) {
-      print_warning_block()
-      print("No HUC found")
+      if(!quiet) {
+        print_warning_block()
+        print("No HUC found")
+      }
       ras_catalog_dbase[row,hucs:=noquote(paste0("{}"))]
     } else {
       footprint <- sf::st_read(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],"hull.fgb",fsep = .Platform$file.sep),quiet=TRUE)

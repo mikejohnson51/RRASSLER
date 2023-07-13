@@ -82,6 +82,7 @@
 1) Scrape the entire directory structure for any HEC-RAS model projects 2) for each geometric realization of that model (variation of .g##), grab all relevant HEC-RAS related files defined as:<br>
 - .g##       # Geometry definitions<br>
 - .prj       # Projection (can be non-standard proj4 string defined file)<br>
+- .prj       # Projection (can be non-standard proj4 string defined file)<br>
 - .p##       # plan file, used to drive the model<br>
 - .f##       # Steady Flow file. Profile information, flow data and boundary conditions<br>
 - .h##       # Hydraulic Design data file<br>
@@ -103,12 +104,12 @@
 <p>It is recommended that you wait to start using this tool until edge case and accounting is fully ironed out, the final form of these tables is still in flux. If that doesn’t dissuade you, install the development version of RRASSLER from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"JimColl/RRASSLER"</span>, force<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"JimColl/RRASSLER"</span><span class="op">)</span></span></code></pre></div>
 <p>Test it by generating your first set of models.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
 <span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/ingest_FEMA6_BLE.html">ingest_FEMA6_BLE</a></span><span class="op">(</span></span>
-<span>  path_to_ras_dbase<span class="op">=</span><span class="st">"C:/Users/jimma/data/ras_catalog"</span>,</span>
+<span>  path_to_ras_dbase<span class="op">=</span><span class="st">"G:/data/ras_catalog"</span>,</span>
 <span>  HUC8<span class="op">=</span><span class="st">"12090301"</span>,</span>
 <span>  full<span class="op">=</span><span class="cn">TRUE</span>,</span>
 <span>  proj_overwrite<span class="op">=</span><span class="st">"EPSG:2277"</span>,</span>
@@ -119,7 +120,6 @@
 <span>  quick_hull <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  refresh <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>library(data.table) library(sp) RRASSLER::ingest_FEMA6_BLE( path_to_ras_dbase=“Z:/data/ras_catalog”, HUC8=“12090301”, full=TRUE, proj_overwrite=“EPSG:2277”, vdat_trans=FALSE, quiet=FALSE, chatty = TRUE, quick_check=TRUE, quick_hull = FALSE, overwrite = FALSE, refresh = TRUE)</p>
 </div>
 <div class="section level2">
 <h2 id="model-catalog">Model Catalog<a class="anchor" aria-label="anchor" href="#model-catalog"></a>

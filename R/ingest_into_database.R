@@ -138,6 +138,11 @@ ingest_into_database <- function(path_to_ras_dbase,
     if (!quiet) {
       print(glue::glue("File {l} of {n_files_to_process}"))
       print(glue::glue("Processing {current_model_name} model"))
+      file_conn = file(file.path(path_to_ras_dbase,"ingest_record.txt"))
+  lines_to_write = c(" --  --  -- -- ",
+                     glue::glue("Touching:{file}"))
+  writeLines(lines_to_write, file_conn)
+  close(file_conn)
     }
 
     # Files to copy around
@@ -236,7 +241,7 @@ ingest_into_database <- function(path_to_ras_dbase,
         parse_model_to_xyz(geom_path=g_file,units=current_model_units,proj_string=current_model_projection,in_epoch_override = as.integer(as.POSIXct(Sys.time())),out_epoch_override = as.integer(as.POSIXct(Sys.time())),vdat_trans=FALSE,quiet=chatty,default_g=FALSE,try_both=TRUE)
       })
 
-      if(isFALSE(extrated_pts[[1]])) {
+      if(isFALSE(extrated_pts[[1]]) | (class(extrated_pts) == "try-error")) {
         current_initial_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
         current_final_name_key <- NA
         if(!quiet) { print("Model unparsed") }
@@ -304,7 +309,9 @@ ingest_into_database <- function(path_to_ras_dbase,
       })
 
       # Join to comids
-      if(isFALSE(flowline_list)) {
+      if((class(flowline_list) == "try-error")) {
+        current_nhdplus_comid = 3
+      } else if(isFALSE(flowline_list)) {
         current_nhdplus_comid = 1
       } else if(length(flowline_list) == 0) {
         current_nhdplus_comid = 2
