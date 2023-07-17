@@ -19,23 +19,27 @@ There are few hydraulic models as prolific as HEC-RAS, and since it's first name
 
 In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly.  RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise "vistigal" data; and with an emphasis on the particular geometric realization of the model).  It is also designed to be a standardized and centralized source of models, regardless of their origin.  For that reason, RRASSLER expects to operate within it's own controlled directory, or "HECRAS_model_catalog".   Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog.  It will:  
 1) Scrape the entire directory structure for any HEC-RAS model projects
-2) for each geometric realization of that model (variation of .g##), grab all relevant HEC-RAS related files defined as:  
-   - .g## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Geometry definitions  
-   - .prj &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Projection (can be non-standard proj4 string defined file)  
-   - .prj &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Projection (can be non-standard proj4 string defined file)  
-   - .p## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # plan file, used to drive the model  
-   - .f## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Steady Flow file. Profile information, flow data and boundary conditions   
-   - .h## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Hydraulic Design data file  
-   - .v## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Velocity file  
-   - .o## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Output file  
-   - .r## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # run file for steady flow  
-   - .u## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Steady Flow file. Profile information, flow data and boundary conditions  
-   - .x## &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # run file for unsteady flow  
-   - .dss &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Data  
-   - .rasmap &nbsp;&nbsp; # output plan  
-3) Attempt to place the model in space.  This is done by attempting to parse the g** and g**.hdf files, guess at projections, and pulling and collating the data into an xid-xyz table.  
+2) for each geometric realization of that model (variation of .g##), grab all 
+
+| File grep Pattern (# denotes single numeric wildcard) | HEC-RAS Model Use                                                        |
+|-------------------------------------------------------|--------------------------------------------------------------------------|
+| .g##                                                  | Geometry definitions                                                     |
+| .prj                                                  | Projection (can be non-standard proj4 string defined file)               |
+| .prj                                                  | Project (same extension, defines how RAS models are wired)               |
+| .p##                                                  | Plan file, used to drive the model                                       |
+| .f##                                                  | Steady Flow file. Profile information, flow data and boundary conditions |
+| .h##                                                  | Hydraulic Design data file                                               |
+| .v##                                                  | Velocity file                                                            |
+| .o##                                                  | Output file                                                              |
+| .r##                                                  | Run file for steady flow                                                 |
+| .u##                                                  | Steady Flow file. Profile information, flow data and boundary conditions |
+| .x##                                                  | Run file for unsteady flow                                               |
+| .dss                                                  | Data files                                                               |
+| .rasmap                                               | Output plan                                                              |
+
+3) Attempt to place the model in space.  This is done by attempting to parse the g** and g**.hdf files, guess at projections, and pulling and collating the data into an xid-xyz table. 
 4) Using that extracted geometry, attempt to create a model footprint (hull).  If that can be constructed, the model was assumed to be correctly placed in space.  The relevant model files are copied to the uniquely parsed "final_model_name_key" folder under the _/models/_ folder.  
-5) If the creation of the model hull errors out, the model is placed in the _/models/_unprocessed_ folder for further investigation, correction, and rewrassling.  
+5) If the creation of the model hull errors out, the model is placed in the _/models/_unprocessed_ folder for further investigation, correction, and rewrassling.
 6) After all iterations of files are done, RRASSLER will (re)generate a unified source for model footprints, cross sections, and points (now in spatial form) from the HEC-RAS model, and pointers back to the copied source data which remains unaltered.  
 
 ## Installation
@@ -44,7 +48,9 @@ It is recommended that you wait to start using this tool until edge case and acc
 
 ```r
 # install.packages("devtools")
-devtools::install_github("JimColl/RRASSLER")
+# install.packages("BiocManager")
+# BiocManager::install("rhdf5")
+remotes::install_github("JimColl/RRASSLER")
 ```
 
 Test it by generating your first set of models.
@@ -76,30 +82,81 @@ Users may look and manipulate the _accounting.csv_, and the models underneath, b
 
 > [in line with Next Gen hydrofabric parameters](https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html)
 
-Footprints - model_footprints.fgb
+![Data layout](https://github.com/JimColl/RRASSLER/blob/main/man/figures/GIS_features.png)
 
-Cross sections - XS.fgb
+```r
+cat_path <- path/to/catalog
 
-points
-points - point_database.parquet
-pt_id	Identifier, unique to cs_id, that increases from left band to right bank	cs_pts
-pt_measure	Percent along the transect from left bank (0-1)	cs_pts
-relative_dist	Distance of cs_id, starting at 0, in meters	cs_pts
-X	X coordinate in CRS of geometry	cs_pts
-Y	Y coordinate in CRS of geometry	cs_pts
-Z	Z coordinate (in meters) in CRS of geometry	cs_pts
-Z_source	Source of elevation data	cs_pts
-roughness	(Optional) Estimated Manning's Roughness value	cs_pts
+> points <- arrow::read_parquet(file.path(cat_path,"point_database.parquet",fsep = .Platform$file.sep))
+> points
+         xid    xid_length      xid_d         x        y         z    n source master_id
+      1:   1  231.8369 [m]    0.00000 -97.29359 29.98529 137.83666 0.05      3         1
+      2:   1  231.8369 [m]    0.85344 -97.29358 29.98528 137.83666 0.05      3         1
+      3:   1  231.8369 [m]    2.56032 -97.29358 29.98527 137.68426 0.05      3         1
+      4:   1  231.8369 [m]    4.23672 -97.29357 29.98525 137.62330 0.05      3         1
+      5:   1  231.8369 [m]    6.79704 -97.29356 29.98523 137.47699 0.05      3         1'
+      
+> cross_sections <- sf::st_read(file.path(cat_path,"xs.fgb",fsep = .Platform$file.sep))
+Reading layer `XS' from data source `G:\data\ras_catalog\XS.fgb' using driver `FlatGeobuf'
+Simple feature collection with 24901 features and 1 field
+Geometry type: LINESTRING
+Dimension:     XY
+Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321
+Geodetic CRS:  NAD83(2011) + NAVD88 height
+> cross_sections
+Simple feature collection with 24901 features and 1 field
+Geometry type: LINESTRING
+Dimension:     XY
+Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321
+Geodetic CRS:  NAD83(2011) + NAVD88 height
+First 5 features:
+   master_id                       geometry
+1      12038 LINESTRING (-96.50289 29.71...
+2      11520 LINESTRING (-96.50289 29.71...
+3      11779 LINESTRING (-96.50289 29.71...
+4      11261 LINESTRING (-96.50289 29.71...
+5      12037 LINESTRING (-96.48813 29.73...
+
+> footprints <- sf::st_read(file.path(cat_path,"model_footprints.fgb",fsep = .Platform$file.sep))
+Reading layer `model_footprints' from data source `G:\data\ras_catalog\old\model_footprints.fgb' using driver `FlatGeobuf'
+Simple feature collection with 1316 features and 7 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321
+Geodetic CRS:  WGS 84
+> footprints
+Simple feature collection with 1316 features and 7 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321
+Geodetic CRS:  WGS 84
+First 5 features:
+   start_master_id        Name       crs units                               path        source end_master_id                       geometry
+1              897 BUCKNER 001 EPSG:2277  Foot       2_BUCKNER 001_g01_1688926581 FEMA Region 6           909 POLYGON ((-96.58433 29.7028...
+2             1111 BUCKNER 035 EPSG:2277  Foot       2_BUCKNER 035_g01_1688926582 FEMA Region 6          1125 POLYGON ((-96.53977 29.7482...
+3            23285   CLEAR 002 EPSG:2277  Foot   5791782_CLEAR 002_g01_1688926594 FEMA Region 6         23291 POLYGON ((-96.54638 29.7554...
+4            23279   CLEAR 001 EPSG:2277  Foot   5791782_CLEAR 001_g01_1688926594 FEMA Region 6         23284 POLYGON ((-96.55299 29.7509...
+5            23264 BUCKNER 034 EPSG:2277  Foot 5791782_BUCKNER 034_g01_1688926582 FEMA Region 6         23278 POLYGON ((-96.55418 29.7420...
+```
 
 Attribute	Description	layers
-hy_id	A hydrofabric specfic, globaly unique flowpath/flowline identifier	flowlines, transects, cs_pts
-geometry	Simple Features Geometry (LINESTRING)	flowlines, transects
-cs_source	Source of transect information	transects
-cs_id	Identifier, unique to a hy_id, that increases from the inlet to the outlet	transects, cs_pts
-cs_measure	Percent along the flowpath from inlet	transects
-cs_length	Width (in meters) of cross section transect	transects
+**hy_id**:	A hydrofabric specific, globally unique flowpath/flowline identifier	flowlines, transects, cs_pts  
+**geometry**:	Simple Features Geometry (LINESTRING)	flowlines, transects  
+**cs_source**:	Source of transect information	transects  
+**cs_id**:	Identifier, unique to a hy_id, that increases from the inlet to the outlet	transects, cs_pts  
+**cs_measure**:	Percent along the flowpath from inlet	transects  
+**cs_length**:	Width (in meters) of cross section transect	transects
+**pt_id**:	Identifier, unique to cs_id, that increases from left band to right bank	cs_pts
+**pt_measure**:	Percent along the transect from left bank (0-1)	cs_pts
+**relative_dist**:	Distance of cs_id, starting at 0, in meters	cs_pts  
+**X**:	X coordinate in CRS of geometry	cs_pts  
+**Y**:	Y coordinate in CRS of geometry	cs_pts  
+**Z**:	Z coordinate (in meters) in CRS of geometry	cs_pts
+**Z_source**:	Source of elevation data	cs_pts  
+**roughness**:	(Optional) Estimated Manning's Roughness value	cs_pts  
 
 RAS Source extensions:
+**hy_id**:	A hydrofabric specific, globally unique flowpath/flowline identifier	flowlines, transects, cs_pts  
 **mean_shift**: the amount of space added to normalize a cross section's station-elevation to geographic distance.  Positive indicates that distance was added to the station-elevation series to make it match to the line (length) as it was specified in the geography.  This is reported as a running sum.
 **roughness**: (Optional) status is now (Required)
 

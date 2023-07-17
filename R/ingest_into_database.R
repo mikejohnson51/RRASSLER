@@ -360,7 +360,8 @@ ingest_into_database <- function(path_to_ras_dbase,
   }
 
   # Accounting report-out
-  file_conn = file(file.path(path_to_ras_dbase,"ingest_record.txt"))
+  ingets_record <- file.path(path_to_ras_dbase,"ingest_record.txt",fsep = .Platform$file.sep)
+  if(!file.exists(ingets_record)) { file.create(ingets_record) }
   lines_to_write = c(" --  --  -- -- ",
                      glue::glue("Started at:{fn_time_start}"),glue::glue("Finished at:{Sys.time()}"),
                      glue::glue("Scrape location:{top_of_dir_to_scrape}"),
@@ -369,8 +370,7 @@ ingest_into_database <- function(path_to_ras_dbase,
                      glue::glue("Items added:{process_count}"),
                      glue::glue("Duplicates found:{duplicate_count}"),
                      glue::glue("Files skipped:{skip_count}"))
-  writeLines(lines_to_write, file_conn,append=T)
-  close(file_conn)
+  write(lines_to_write, ingets_record, append=TRUE)
 
   # (re) build key files
   if(refresh) {
