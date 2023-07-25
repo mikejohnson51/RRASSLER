@@ -1,25 +1,24 @@
-#' @title print_warning_block
-#' @description A warning block helper
+#' @title print_error_block
+#' @description A error block helper
 #' @return print output
 #' @details DETAILS
 #' @examples
 #' \dontrun{
 #' if(interactive()){
-#'  RRASSLER::print_warning_block()
+#'  RRASSLER::print_error_block()
 #'  }
 #' }
 #' @rdname print_warning_block
 #' @export
-
 print_warning_block <- function() {
 
-  # sinew::moga(file.path(getwd(),"R/print_warning_block.R"),overwrite = TRUE)
+  # sinew::moga(file.path(getwd(),"R/print_error_block.R"),overwrite = TRUE)
   # devtools::document()
   # pkgdown::build_site(new_process=FALSE)
   #
   # devtools::load_all()
 
   ## -- Start --
-  message(cat("NULL_WARNING -- ¯\\_(o_0)_/¯  -- WARNING_"))
+  print(cat("NULL_ERROR -- (>O.o)>=}===-(X.x)>  -- ERROR_"))
   return(TRUE)
 }

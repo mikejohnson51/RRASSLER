@@ -21,6 +21,12 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/model_debug.html">Model-debug</a>
+  </div>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -54,8 +60,8 @@
 <span>  <span class="va">code_to_place_in_source</span>,</span>
 <span>  proj_override <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vdat_trans <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  chatty <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ping_me <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  quick_check <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  quick_hull <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -79,7 +85,7 @@
 
 
 <dt>proj_override</dt>
-<dd><p>an EPSG string to apply should a projection not be found, Default: NULL</p></dd>
+<dd><p>a CRS string to apply should a projection not be found, Default: NULL</p></dd>
 
 
 <dt>vdat_trans</dt>
@@ -90,7 +96,7 @@
 <dd><p>flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE</p></dd>
 
 
-<dt>chatty</dt>
+<dt>verbose</dt>
 <dd><p>flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE</p></dd>
 
 
@@ -131,7 +137,6 @@
  <code><a href="https://rdrr.io/r/utils/glob2rx.html" class="external-link">glob2rx</a></code>
  <code><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></code>, <code><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></code>, <code><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></code>, <code><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></code>, <code><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">st_write</a></code>
  <code><a href="https://stringr.tidyverse.org/reference/str_sub.html" class="external-link">str_sub</a></code>, <code><a href="https://stringr.tidyverse.org/reference/str_detect.html" class="external-link">str_detect</a></code>
- <code><a href="https://rdrr.io/pkg/unglue/man/unglue.html" class="external-link">unglue</a></code>
  <code><a href="https://dcooley.github.io/sfheaders/reference/sf_linestring.html" class="external-link">sf_linestring</a></code>
  <code><a href="https://rdrr.io/pkg/lwgeom/man/st_startpoint.html" class="external-link">st_startpoint</a></code>
  <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></code>
@@ -146,7 +151,29 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span> <span class="co">#EXAMPLE1</span></span></span>
+<span class="r-in"><span> <span class="co">#EXAMPLE</span></span></span>
+<span class="r-in"><span> <span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu">ingest_into_database</span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="st">"G:/data/ras_catalog"</span>,</span></span>
+<span class="r-in"><span> top_of_dir_to_scrape <span class="op">=</span> <span class="st">"G:/data/ras_catalog/_temp/BLE/12090301/12090301_models/Model/Walnut Creek-Colorado River"</span>,</span></span>
+<span class="r-in"><span> code_to_place_in_source <span class="op">=</span> <span class="st">"test"</span>,</span></span>
+<span class="r-in"><span> proj_override <span class="op">=</span> <span class="st">"EPSG:2277"</span>,</span></span>
+<span class="r-in"><span> vdat_trans <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> ping_me <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span> quick_check <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> quick_hull <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> refresh <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu">ingest_into_database</span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="st">"G:/data/ras_catalog"</span>,top_of_dir_to_scrape <span class="op">=</span> <span class="st">"G:/data/ras_catalog/_temp/BLE/12090301/12090301_models"</span>,</span></span>
+<span class="r-in"><span> code_to_place_in_source <span class="op">=</span> <span class="st">"FEMA Region 6:12090301"</span>,proj_override <span class="op">=</span> <span class="st">"EPSG:2277"</span>,</span></span>
+<span class="r-in"><span> vdat_trans <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> ping_me <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span> quick_check <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> quick_hull <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> refresh <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>

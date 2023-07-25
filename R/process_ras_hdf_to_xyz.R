@@ -42,7 +42,8 @@
 #' @importFrom glue glue
 
 process_ras_hdf_to_xyz <- function(geom_path,
-                                   units,proj_string,
+                                   units,
+                                   proj_string,
                                    in_epoch_override = as.integer(as.POSIXct(Sys.time())),
                                    out_epoch_override = as.integer(as.POSIXct(Sys.time())),
                                    vdat=FALSE,
@@ -139,7 +140,7 @@ process_ras_hdf_to_xyz <- function(geom_path,
     list_station <- n6
   }
 
-  print('Cross setions loaded')
+  if(!quiet) { print('Cross setions loaded') }
   # Next we get the xy data for the line
   cross_section_lines <- data.frame(matrix(ncol=6,nrow=0,dimnames=list(NULL, c("geometry", "xid","stream_stn", "river","reach","ras_path"))))
 
@@ -278,7 +279,7 @@ process_ras_hdf_to_xyz <- function(geom_path,
   for(t in 1:ncol(n2)) {
     # for(t in 1:100) {
     # t=2
-    print(paste("processing cross section number:",t,"of",ncol(n2)))
+    if(!quiet) { print(paste("processing cross section number:",t,"of",ncol(n2))) }
     str_current_xs <- sf_cross_section_lines[t,]$reach
     geom_xs_linestring = sf_cross_section_lines[t,]$geometry
 
@@ -333,8 +334,6 @@ process_ras_hdf_to_xyz <- function(geom_path,
                                          source=3))
     }
   }
-
-  print('Writing out file')
 
   if(vdat) {
     notes <- glue::glue("* VDATUM offset:{jsonRespParsed$t_z} * profiles normalized by:{mean_shift}")

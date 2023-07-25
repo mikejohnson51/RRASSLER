@@ -3,10 +3,10 @@
 #' @param path_to_ras_dbase The path to the folder in which you are building your catalog, Default: NULL
 #' @param top_of_dir_to_scrape The path to the top of the directory which you want to ingest
 #' @param code_to_place_in_source a string which encodes the owner or maintainer of that model
-#' @param proj_override an EPSG string to apply should a projection not be found, Default: NULL
+#' @param proj_override a CRS string to apply should a projection not be found, Default: NULL
 #' @param vdat_trans a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE
 #' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
-#' @param chatty flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE
+#' @param verbose flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE
 #' @param ping_me a string with an email used to send emails after processing. Uses gmailr and requires config, Default: NULL
 #' @param quick_check a flag to dictate whether or not to perform a quick check to see if a model has already been processed based on the raw name of the file. Useful in reingesting the same directory after an error but not recommended otherwise. TRUE to see if a name matches and skips, FALSE to process all the way though, Default: FALSE
 #' @param quick_hull a flag to dictate how tightly you want the footprints wrapped, TRUE uses just end points of the linestrings to place the model, FALSE uses the full point database, Default: FALSE
@@ -17,7 +17,29 @@
 #' @examples
 #' \dontrun{
 #' if(interactive()){
-#'  #EXAMPLE1
+#'  #EXAMPLE
+#'  RRASSLER::ingest_into_database(path_to_ras_dbase = "G:/data/ras_catalog",
+#'  top_of_dir_to_scrape = "G:/data/ras_catalog/_temp/BLE/12090301/12090301_models/Model/Walnut Creek-Colorado River",
+#'  code_to_place_in_source = "test",
+#'  proj_override = "EPSG:2277",
+#'  vdat_trans = FALSE,
+#'  quiet = FALSE,
+#'  verbose = FALSE,
+#'  ping_me = NULL,
+#'  quick_check = FALSE,
+#'  quick_hull = FALSE,
+#'  overwrite = FALSE,
+#'  refresh = FALSE)
+#'  RRASSLER::ingest_into_database(path_to_ras_dbase = "G:/data/ras_catalog",top_of_dir_to_scrape = "G:/data/ras_catalog/_temp/BLE/12090301/12090301_models",
+#'  code_to_place_in_source = "FEMA Region 6:12090301",proj_override = "EPSG:2277",
+#'  vdat_trans = FALSE,
+#'  quiet = FALSE,
+#'  verbose = FALSE,
+#'  ping_me = NULL,
+#'  quick_check = FALSE,
+#'  quick_hull = FALSE,
+#'  overwrite = FALSE,
+#'  refresh = FALSE)
 #'  }
 #' }
 #' @seealso
@@ -26,7 +48,6 @@
 #'  \code{\link[utils]{glob2rx}}
 #'  \code{\link[sf]{st_crs}}, \code{\link[sf]{st_coordinates}}, \code{\link[sf]{st_as_sf}}, \code{\link[sf]{st_transform}}, \code{\link[sf]{st_write}}
 #'  \code{\link[stringr]{str_sub}}, \code{\link[stringr]{str_detect}}
-#'  \code{\link[unglue]{unglue}}
 #'  \code{\link[sfheaders]{sf_linestring}}
 #'  \code{\link[lwgeom]{st_startpoint}}
 #'  \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{distinct}}
@@ -40,10 +61,10 @@
 #' @import magrittr
 #' @import data.table
 #' @importFrom glue glue
+#' @importFrom data.table as.data.table data.table rbindlist fwrite
 #' @importFrom utils glob2rx
 #' @importFrom sf st_crs st_set_crs st_coordinates st_as_sf st_transform st_write
 #' @importFrom stringr str_sub str_detect
-#' @importFrom unglue unglue_vec
 #' @importFrom sfheaders sf_linestring
 #' @importFrom lwgeom st_endpoint st_startpoint
 #' @importFrom dplyr group_by distinct
@@ -52,15 +73,13 @@
 #' @importFrom AOI aoi_get
 #' @importFrom arrow write_parquet
 #' @importFrom gmailr gm_mime gm_to gm_from gm_subject gm_text_body gm_send_message
-#' @importFrom data.table as.data.table data.table rbindlist fwrite `:=`
-
 ingest_into_database <- function(path_to_ras_dbase,
                                  top_of_dir_to_scrape,
                                  code_to_place_in_source,
                                  proj_override = NULL,
                                  vdat_trans = FALSE,
-                                 quiet = TRUE,
-                                 chatty = FALSE,
+                                 quiet = FALSE,
+                                 verbose = FALSE,
                                  ping_me = NULL,
                                  quick_check = FALSE,
                                  quick_hull = FALSE,
@@ -89,12 +108,25 @@ ingest_into_database <- function(path_to_ras_dbase,
   # overwrite = FALSE
   # refresh = TRUE
 
+  # path_to_ras_dbase = "G:/data/ras_catalog"
+  # top_of_dir_to_scrape = "G:/data/ras_catalog/_temp/BLE/12090301/12090301_models"
+  # code_to_place_in_source = "FEMA Region 6:12090301"
+  # proj_override = "EPSG:2277"
+  # vdat_trans = FALSE
+  # quiet = FALSE
+  # verbose = TRUE
+  # ping_me = NULL
+  # quick_check = FALSE
+  # quick_hull = FALSE
+  # overwrite = FALSE
+  # refresh = FALSE
+
   # gmailr::gm_auth_configure(path = "C:/Users/jimma/Desktop/client_secret_765662520275-iduoi88oke14pqst3ebukn5rb2qf0895.apps.googleusercontent.com.json")
 
   ## -- Start --
   fn_time_start <- Sys.time()
   if(!quiet) {
-    print(glue::glue("Parsing {top_of_dir_to_scrape} to place in {path_to_ras_dbase}"))
+    message(glue::glue("Parsing {top_of_dir_to_scrape} to place in {path_to_ras_dbase}"))
   }
 
   # Global constants
@@ -102,6 +134,9 @@ ingest_into_database <- function(path_to_ras_dbase,
   process_count = 0
   skip_count = 0
   duplicate_count = 0
+
+  # Input sanitize
+  code_to_place_in_source <- as.character(code_to_place_in_source)
 
   # Load past runs
   if(file.exists(file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep))) {
@@ -120,7 +155,7 @@ ingest_into_database <- function(path_to_ras_dbase,
   # Find a list of all the .prj files
   list_of_prj_files <- list.files(top_of_dir_to_scrape, pattern = glob2rx("*.prj$"), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
   n_files_to_process <- length(list_of_prj_files)
-  if(!quiet) { print(glue::glue("Found {n_files_to_process} potential ras files")) }
+  if(!quiet) { message(glue::glue("Found {n_files_to_process} potential ras files")) }
 
   # For each prj file:
   for(l in 1:n_files_to_process) {
@@ -135,9 +170,9 @@ ingest_into_database <- function(path_to_ras_dbase,
     current_model_projection = NA
     current_last_modified = as.integer(as.POSIXct(file.info(file)$mtime))
 
-    if (!quiet) {
-      print(glue::glue("File {l} of {n_files_to_process}"))
-      print(glue::glue("Processing {current_model_name} model"))
+    if(!quiet) {
+      message(glue::glue("File {l} of {n_files_to_process}"))
+      message(glue::glue("Processing {current_model_name} out of {file}"))
     }
 
     # Files to copy around
@@ -153,7 +188,7 @@ ingest_into_database <- function(path_to_ras_dbase,
     rasmap_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.rasmap$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
     prj_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.prj$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
     p_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.p??$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
-    # xml_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.xml$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
+    xml_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.xml$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
     # pdf_files <- list.files(dir_of_file, pattern=utils::glob2rx(glue::glue("{current_model_name}.pdf$")), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
     p_files <- p_files[!p_files %in% prj_files]
     list_of_files <- c(g_files ,ghdf_files ,p_files ,f_files ,h_files, v_files, prj_files,o_files,r_files,u_files,x_files,rasmap_files)
@@ -161,7 +196,7 @@ ingest_into_database <- function(path_to_ras_dbase,
     if(length(g_files) == 0) {
       if(!quiet) {
         print_warning_block()
-        print(glue::glue('No geometry found for model:{file}'))
+        message(glue::glue('No geometry found for model:{file}'))
       }
       skip_count = skip_count + 1
       next
@@ -173,7 +208,7 @@ ingest_into_database <- function(path_to_ras_dbase,
       file_text <- read.delim(potential_file, header = FALSE)
 
       if(any(c('PROJCS','GEOGCS','DATUM','PROJECTION') == file_text)) {
-        if(!quiet) { print('found a projection') }
+        if(!quiet) { message('found a projection') }
         current_model_projection = sf::st_crs(potential_file)
       } else if(grepl("SI Units", file_text, fixed = TRUE)) {
         current_last_modified = as.integer(as.POSIXct(file.info(potential_file)$mtime))
@@ -185,9 +220,9 @@ ingest_into_database <- function(path_to_ras_dbase,
     }
 
     if(is.na(current_model_projection) & !is.null(proj_override)) {
-      if(!quiet) {
+      if(verbose) {
         print_warning_block()
-        print(glue::glue('using proj overwrite'))
+        message(glue::glue('using proj overwrite'))
       }
       current_model_projection = proj_override
     }
@@ -197,9 +232,10 @@ ingest_into_database <- function(path_to_ras_dbase,
       # g_file <- g_files[1]
       current_g_value <- stringr::str_sub(g_file,-3,-1)
 
+      # Useful if we are re-scraping a large ingest source
       if(quick_check) {
         if(stringr::str_sub(basename(g_file), end = -5) %in% ras_catalog_dbase$model_name) {
-          if(!quiet) { print("Model with inital name already in the que") }
+          if(!quiet) { message("Model with inital name already in the que") }
           duplicate_count = duplicate_count + 1
           next()
         }
@@ -226,20 +262,29 @@ ingest_into_database <- function(path_to_ras_dbase,
           data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep), row.names = FALSE)
           process_count = process_count + 1
         } else {
-          if(!quiet) { print("Model with inital scrape name already in the que") }
+          if(!quiet) { message("Model with inital scrape name already in the que") }
           duplicate_count = duplicate_count + 1
         }
         next()
       }
 
+      if(!quiet) { message(glue::glue("Parsing:{g_file}")) }
       extrated_pts <- try({
-        parse_model_to_xyz(geom_path=g_file,units=current_model_units,proj_string=current_model_projection,in_epoch_override = as.integer(as.POSIXct(Sys.time())),out_epoch_override = as.integer(as.POSIXct(Sys.time())),vdat_trans=FALSE,quiet=chatty,default_g=FALSE,try_both=TRUE)
+        parse_model_to_xyz(geom_path = g_file,
+                           units = current_model_units,
+                           proj_string = current_model_projection,
+                           in_epoch_override = as.integer(as.POSIXct(Sys.time())),
+                           out_epoch_override = as.integer(as.POSIXct(Sys.time())),
+                           vdat_trans = FALSE,
+                           quiet = !verbose,
+                           default_g = FALSE,
+                           try_both = TRUE)
       })
 
       if(isFALSE(extrated_pts[[1]]) | (c("try-error") %in% class(extrated_pts))) {
         current_initial_name <- paste0("unknown_",current_model_name,"_",current_g_value,"_",current_last_modified)
         current_final_name_key <- NA
-        if(!quiet) { print("Model unparsed") }
+        if(!quiet) { message("Model unparsed") }
 
         if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$initial_scrape_name), current_initial_name)) == 0) {
           new_row <- data.table::data.table(current_nhdplus_comid,
@@ -258,11 +303,11 @@ ingest_into_database <- function(path_to_ras_dbase,
           dir.create(file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep), showWarnings = FALSE, recursive = TRUE)
           file.copy(c(g_file ,paste0(g_file,".hdf") ,p_files ,f_files ,h_files, v_files, prj_files,o_files,r_files,u_files,x_files,rasmap_files),
                     file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep))
-          if(!quiet) { print(glue::glue("Model sitting in _unprocessed {current_initial_name}")) }
+          if(!quiet) { message(glue::glue("Model sitting in _unprocessed {current_initial_name}")) }
           data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep), row.names = FALSE)
           process_count = process_count + 1
         } else {
-          if(!quiet) { print("Model with inital scrape name already in the que") }
+          if(!quiet) { message("Model with inital scrape name already in the que") }
           duplicate_count = duplicate_count + 1
         }
         next()
@@ -277,7 +322,8 @@ ingest_into_database <- function(path_to_ras_dbase,
         , linestring_id = "xid"
         , keep = FALSE
       ) |> sf::st_set_crs(sf::st_crs("EPSG:6349"))
-      #
+
+      # Use full data frame or just end points
       if(quick_hull) {
         end_points <- c(ls %>% lwgeom::st_endpoint(), ls %>% lwgeom::st_startpoint())
         end_points <- sf::st_coordinates(end_points) %>%
@@ -315,7 +361,7 @@ ingest_into_database <- function(path_to_ras_dbase,
       }
 
       current_initial_name = paste0(current_nhdplus_comid,"_",current_model_name,"_",current_g_value,"_",current_last_modified)
-      if(!quiet) { print(glue::glue("Parsed into:{current_initial_name}")) }
+      if(!quiet) { message(glue::glue("Parsed into:{current_initial_name}")) }
       current_final_name_key = current_initial_name
 
       if(sum(stringr::str_detect(na.omit(ras_catalog_dbase$final_name_key), current_final_name_key)) == 0) {
@@ -337,11 +383,11 @@ ingest_into_database <- function(path_to_ras_dbase,
                   file.path(path_to_ras_dbase,"models",current_final_name_key,fsep = .Platform$file.sep))
 
         arrow::write_parquet(extrated_pts[[1]],file.path(path_to_ras_dbase,"models",current_final_name_key,"ras_xyz.parquet",fsep = .Platform$file.sep))
-        sf::st_write(ahull_poly,file.path(path_to_ras_dbase,"models",current_final_name_key,"hull.fgb",fsep = .Platform$file.sep),quiet=!chatty)
+        sf::st_write(ahull_poly,file.path(path_to_ras_dbase,"models",current_final_name_key,"hull.fgb",fsep = .Platform$file.sep),quiet=!verbose)
         data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep), row.names = FALSE)
         process_count = process_count + 1
       } else {
-        if(!quiet) { print(glue::glue("Model already processed: {current_final_name_key} at row {ras_catalog_dbase[ras_catalog_dbase$final_name_key == current_final_name_key,which=TRUE]}")) }
+        if(!quiet) { message(glue::glue("Model already processed: {current_final_name_key} at row {ras_catalog_dbase[ras_catalog_dbase$final_name_key == current_final_name_key,which=TRUE]}")) }
         duplicate_count = duplicate_count + 1
       }
     }
@@ -374,13 +420,15 @@ ingest_into_database <- function(path_to_ras_dbase,
 
   # (re) build key files
   if(refresh) {
-    refresh_master_files(path_to_ras_dbase)
+    refresh_master_files(path_to_ras_dbase,verbose = !quiet)
   }
 
   # Wrap up
-  runtime <- Sys.time() - fn_time_start
-  units(runtime) <- "hours"
-  print(paste("RAS Library appended in",round(runtime, digits = 3),"hours"))
+  if(verbose) {
+    runtime <- Sys.time() - fn_time_start
+    units(runtime) <- "hours"
+    message(paste("RAS Library appended in",round(runtime, digits = 3),"hours"))
+  }
 
   if(!is.null(ping_me)) {
     test_email <-
@@ -391,5 +439,6 @@ ingest_into_database <- function(path_to_ras_dbase,
       gmailr::gm_text_body(lines_to_write)
     gmailr::gm_send_message(test_email)
   }
+
   return(TRUE)
 }

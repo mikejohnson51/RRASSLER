@@ -67,12 +67,12 @@ process_ras_g_to_xyz <- function(geom_path,
 
   ## -- Start --
   if(!quiet) {
-    print('reading geom:')
-    print(geom_path)
-    print(units)
-    print(proj_string)
-    print(in_epoch_override)
-    print(out_epoch_override)
+    message('reading geom:')
+    message(geom_path)
+    message(units)
+    message(proj_string)
+    message(in_epoch_override)
+    message(out_epoch_override)
   }
 
   file <- utils::read.delim(geom_path,sep='\n', header = FALSE, comment.char = "") |> data.table::as.data.table()
@@ -84,15 +84,18 @@ process_ras_g_to_xyz <- function(geom_path,
   terminal_lines <- file[file$V1 %like% '.[A-Z].', which = TRUE]
 
   if(length(xs_xy_row_heads)==0) {
-    print('nope')
+    print_error_block()
+    message('nope')
     return(list(data.frame()))
   }
   if(!isTRUE(length(xs_xy_row_heads)==length(xs_xy_row_tails))) {
-    print('nope')
+    print_error_block()
+    message('nope')
     return(list(data.frame()))
   }
   if(any(is.na(matrix(as.numeric(strsplit(gsub("[[:blank:]]+", ",",do.call(paste, c(file[(xs_xy_row_heads[1]+1):(xs_xy_row_tails[1]-1),], collapse ="")) %>% noquote() %>% trimws()), ",")[[1]]), ncol =2, byrow = TRUE)))) {
-    print('nope, xs is that weird format')
+    print_error_block()
+    message('nope, xs is that weird format')
     return(list(data.frame()))
   }
 
@@ -102,7 +105,7 @@ process_ras_g_to_xyz <- function(geom_path,
     stn_unit_norm = 1
   }
 
-  print('Cross setions loaded')
+  if(!quiet) { print('Cross setions loaded') }
   tmp_point_dbase <- c()
   cross_section_lines <- data.frame(matrix(ncol=6,nrow=0,dimnames=list(NULL, c("geometry", "xid","stream_stn", "river","reach","ras_path"))))
   for(i in 1:length(xs_xy_row_heads)) {
@@ -218,10 +221,11 @@ process_ras_g_to_xyz <- function(geom_path,
       "&t_h_frame=NAD83_2011&t_v_frame=NAVD88",
       "&epoch_in=",this_date_start,"&epoch_out=",this_date_now
     )
-    print(paste0("URL:",datum_url))
+    if(!quiet) { message(paste0("URL:",datum_url)) }
     resp <- httr::GET(datum_url)
     if(httr::http_error(resp)) {
-      print('ALERT!!')
+      message('ALERT!!')
+      print_warning_block()
       print(paste('poorly formed url - Request URL:', datum_url))
       return(list(data.frame()))
     }
@@ -232,7 +236,7 @@ process_ras_g_to_xyz <- function(geom_path,
   for(t in 1:nrow(sf_cross_section_lines)) {
     # for(t in 1:100) {
     # t=2
-    print(paste("processing cross section number:",t,"of",nrow(sf_cross_section_lines)))
+    if(!quiet) { message(paste("processing cross section number:",t,"of",nrow(sf_cross_section_lines))) }
 
     point_slice <- tmp_point_dbase[tmp_point_dbase$xid==t,]
 

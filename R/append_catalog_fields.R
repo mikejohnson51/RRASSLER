@@ -1,15 +1,16 @@
 #' @title append_catalog_fields
-#' @description adds helper fields to accounting.csv
+#' @description adds helper fields to accounting.csv.  Request based on https://github.com/NOAA-OWP/ras2fim/issues/34
 #' @param path_to_ras_dbase the path to the folder in which you are building your catalog, Default: NULL
 #' @param out_name the name of the csv you want to generate, Default: NULL
 #' @param overwrite flag to dictate whether or not to overwrite the out_name, should it exist. set to TRUE to delete and (re)generate, FALSE to safely exit, Default: FALSE
-#' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
+#' @param verbose flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
 #' @return a new csv with helper columns
 #' @details DETAILS
 #' @examples
 #' \dontrun{
 #' if(interactive()){
-#'  #EXAMPLE1
+#'  #EXAMPLE
+#'  RRASSLER::append_catalog_fields(path_to_ras_dbase = "G:/data/ras_catalog",out_name = "OWP_ras_model_catalog.csv",overwrite = FALSE,verbose = TRUE)
 #'  }
 #' }
 #' @seealso
@@ -20,29 +21,26 @@
 #' @rdname append_catalog_fields
 #' @export
 #' @import magrittr
-#' @import magrittr
+#' @import data.table
 #' @importFrom glue glue
 #' @importFrom dplyr mutate
 #' @importFrom sf sf_use_s2 st_transform st_read st_crs
 #' @importFrom data.table fwrite
-
-append_catalog_fields <- function(path_to_ras_dbase=NULL,
-                                  out_name=NULL,
-                                  overwrite=FALSE,
-                                  quiet=FALSE) {
-
-  # https://github.com/NOAA-OWP/ras2fim/issues/34
-
+append_catalog_fields <- function(path_to_ras_dbase = NULL,
+                                  out_name = NULL,
+                                  overwrite = FALSE,
+                                  verbose = TRUE) {
   # sinew::moga(file.path(getwd(),"R/append_catalog_fields.R"),overwrite = TRUE)
   # devtools::document()
   # pkgdown::build_site(new_process=TRUE)
   # devtools::load_all()
+
   # path_to_ras_dbase="/home/rstudio/g/data/ras_dbase"
   # overwrite=TRUE
   # quiet=FALSE
 
   ### -- Start --
-  if(!quiet) { print(glue::glue("Appending catalog at {path_to_ras_dbase} into {out_name}")) }
+  if(verbose) { message(glue::glue("Appending catalog at {path_to_ras_dbase} into {out_name}")) }
 
   if(file.exists(file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep))) {
     if(!overwrite) {
@@ -52,7 +50,7 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
     }
     unlink(file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep))
   }
-  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep), quiet = quiet)
+  ras_catalog_dbase = load_catalog_csv_as_DT(file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep), quiet = !verbose)
 
   # Date as YYYYMMDD
   ras_catalog_dbase <- ras_catalog_dbase %>%
@@ -62,7 +60,7 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
   sf::sf_use_s2(FALSE)
   ras_catalog_dbase[,hucs:=character()]
   list_vec <- c()
-  template_hucs <- sf::st_transform(sf::st_read(file.path(path_to_ras_dbase,"HUC8.fgb",fsep = .Platform$file.sep),quiet=quiet),sf::st_crs("EPSG:4326"))
+  template_hucs <- sf::st_transform(sf::st_read(file.path(path_to_ras_dbase,"HUC8.fgb",fsep = .Platform$file.sep),quiet = !verbose), sf::st_crs("EPSG:4326"))
   for (row in 1:nrow(ras_catalog_dbase)) {
     if(!quiet) { print(glue::glue("Processing row:{row} of {nrow(ras_catalog_dbase)}")) }
     if(is.na(ras_catalog_dbase[row,final_name_key]) || !file.exists(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],"hull.fgb",fsep = .Platform$file.sep))) {
@@ -84,7 +82,7 @@ append_catalog_fields <- function(path_to_ras_dbase=NULL,
   ras_catalog_dbase <- ras_catalog_dbase[ras_catalog_dbase$nhdplus_comid==1, status:="no_crosswalk"]
   ras_catalog_dbase <- ras_catalog_dbase[ras_catalog_dbase$nhdplus_comid==2, status:="reingest"]
 
-  data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep), row.names = FALSE)
+  data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep), row.names = FALSE, append = FALSE)
 
   return(TRUE)
 }

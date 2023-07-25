@@ -19,7 +19,7 @@ DETAILS
 \dontrun{
 if(interactive()){
  #EXAMPLE1
- #RRASSLER::marco()
+ RRASSLER::marco()
  }
 }
 }

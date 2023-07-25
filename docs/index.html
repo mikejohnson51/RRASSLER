@@ -38,6 +38,12 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/model_debug.html">Model-debug</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -65,21 +71,22 @@
 </div>
 <!-- badges: start -->
 
-<div class="section level2">
-<h2 id="executive-summery">Executive Summery<a class="anchor" aria-label="anchor" href="#executive-summery"></a>
-</h2>
-<p>The HEC-RAS model format, both as stand alone models or in archive formats, are incompatable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows. This tool should be deployed to ingest HEC-RAS models into a “HECRAS_model_catalog”, a normalized and spatialized representation of those models with the requisite metadata and formatting needed to mesh seamlessly with <a href="https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html" class="external-link">national scale hydrofabric efforts and data models</a>, and applications such as <a href="https://github.com/NOAA-OWP/t-route" class="external-link">T-Route</a> and <a href="https://github.com/NOAA-OWP/ras2fim" class="external-link">RAS2FIM</a>.</p>
 </div>
-<div class="section level2">
-<h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
-</h2>
+<div class="section level1">
+<h1 id="executive-summery">Executive Summery<a class="anchor" aria-label="anchor" href="#executive-summery"></a>
+</h1>
+<p>The HEC-RAS model format, both as stand alone models or in archive formats, are incomparable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows. This tool should be deployed to ingest HEC-RAS models into a “RAS_model_catalog”, a normalized and spatialized representation of those models with the requisite metadata and formatting needed to mesh seamlessly with <a href="https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html" class="external-link">national scale hydrofabric efforts and data models</a>, and applications such as <a href="https://github.com/NOAA-OWP/t-route" class="external-link">T-Route</a> and <a href="https://github.com/NOAA-OWP/ras2fim" class="external-link">RAS2FIM</a>.</p>
+<p><toc></toc></p>
+</div>
+<div class="section level1">
+<h1 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
+</h1>
 <p>There are few hydraulic models as prolific as HEC-RAS, and since it’s first named release in 1995 users have created these models using public and private data and countless hours of engineering scrutinization in order to generate the best possible purpose-built representation of the world. Like any model, some level of input massaging is necessary in order to get the data into the specified mathematical format a model requires. Like most domain specific software solutions, that massaging was rather, forceful, to the point of permanently altering the shape of those inputs into something that most geospatial data readers are unable to handle. This creates a great deal of friction both in terms of model accountability and interoperability, particularly when you take the standpoint as a model consumer. The R based HEC-RAS Wrestler (RRASSLER) is here to mediate that.</p>
-</div>
 <div class="section level2">
 <h2 id="ingest-logic">Ingest logic<a class="anchor" aria-label="anchor" href="#ingest-logic"></a>
 </h2>
 <p>In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly. RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise “vistigal” data; and with an emphasis on the particular geometric realization of the model). It is also designed to be a standardized and centralized source of models, regardless of their origin. For that reason, RRASSLER expects to operate within it’s own controlled directory, or “HECRAS_model_catalog”. Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog. It will:<br>
-1) Scrape the entire directory structure for any HEC-RAS model projects 2) for each geometric realization of that model (variation of .g##), grab all</p>
+1) Scrape the entire directory structure for any HEC-RAS model projects 2) for each geometric realization of that model (variation of .g##), grab all files such that:</p>
 <table class="table">
 <colgroup>
 <col width="42%">
@@ -155,36 +162,43 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>It is recommended that you wait to start using this tool until edge case and accounting is fully ironed out, the final form of these tables is still in flux. If that doesn’t dissuade you, install the development version of RRASSLER from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>It is recommended that you wait to start using this tool until parsing accuracy, edge case handling, and accounting is fully ironed out, the final form of these tables is still in flux. If that doesn’t dissuade you, install the development version of RRASSLER from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="co"># install.packages("BiocManager")</span></span>
 <span><span class="co"># BiocManager::install("rhdf5")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"JimColl/RRASSLER"</span><span class="op">)</span></span></code></pre></div>
-<p>Test it by generating your first set of models.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
-<span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/ingest_FEMA6_BLE.html">ingest_FEMA6_BLE</a></span><span class="op">(</span></span>
-<span>  path_to_ras_dbase<span class="op">=</span><span class="st">"G:/data/ras_catalog"</span>,</span>
-<span>  HUC8<span class="op">=</span><span class="st">"12090301"</span>,</span>
-<span>  full<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span>  proj_overwrite<span class="op">=</span><span class="st">"EPSG:2277"</span>,</span>
-<span>  vdat_trans<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span>  quiet<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span>  chatty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  quick_check<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span>  quick_hull <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  refresh <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"JimColl/RRASSLER"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/marco.html">marco</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
+</div>
+<div class="section level1">
+<h1 id="deployment">Deployment<a class="anchor" aria-label="anchor" href="#deployment"></a>
+</h1>
+<div class="section level2">
+<h2 id="typical-usage">Typical usage<a class="anchor" aria-label="anchor" href="#typical-usage"></a>
+</h2>
+<div class="section level3">
+<h3 id="ble-data">BLE data<a class="anchor" aria-label="anchor" href="#ble-data"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/ingest_FEMA6_BLE.html">ingest_FEMA6_BLE</a></span><span class="op">(</span>path_to_ras_dbase<span class="op">=</span><span class="st">"G:/data/ras_catalog"</span>,<span class="st">"12090301"</span>,full<span class="op">=</span><span class="cn">FALSE</span>,proj_override <span class="op">=</span> <span class="st">"EPSG:2277"</span>,vdat_trans <span class="op">=</span> <span class="cn">FALSE</span>,status_statements <span class="op">=</span> <span class="cn">TRUE</span>,verbose <span class="op">=</span> <span class="cn">FALSE</span>,ping_me <span class="op">=</span> <span class="cn">NULL</span>,quick_check <span class="op">=</span> <span class="cn">FALSE</span>,quick_hull <span class="op">=</span> <span class="cn">FALSE</span>,overwrite <span class="op">=</span> <span class="cn">FALSE</span>,refresh <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="hand-delivered-database">Hand delivered database<a class="anchor" aria-label="anchor" href="#hand-delivered-database"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/ingest_into_database.html">ingest_into_database</a></span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="st">"G:/data/ras_catalog"</span>,top_of_dir_to_scrape <span class="op">=</span> <span class="st">"G:/data/ras_catalog/_temp/BLE/12090301/12090301_models"</span>,code_to_place_in_source <span class="op">=</span> <span class="st">"FEMA Region 6:12090301"</span>,proj_override <span class="op">=</span> <span class="st">"EPSG:2277"</span>,vdat_trans <span class="op">=</span> <span class="cn">FALSE</span>,quiet <span class="op">=</span> <span class="cn">FALSE</span>,verbose <span class="op">=</span> <span class="cn">TRUE</span>,ping_me <span class="op">=</span> <span class="cn">NULL</span>,quick_check <span class="op">=</span> <span class="cn">FALSE</span>,quick_hull <span class="op">=</span> <span class="cn">FALSE</span>,overwrite <span class="op">=</span> <span class="cn">FALSE</span>,refresh <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="outputs">Outputs<a class="anchor" aria-label="anchor" href="#outputs"></a>
+</h1>
 <div class="section level2">
 <h2 id="model-catalog">Model Catalog<a class="anchor" aria-label="anchor" href="#model-catalog"></a>
 </h2>
-<p>Users may look and manipulate the <em>accounting.csv</em>, and the models underneath, but should avoid manual manipulation of individual files, paths, or other aspects. RRASSLER scripts will do all needed manipulation, file sorting, and cataloging for you but there is very limited error checking should the workflow be applied incorrectly. As a general rule of thumb, once you’ve selected your destination for the catalog, only manipulate the csv, preferably <em>never</em> with EXCEL, which may chew up data along edge cases.</p>
-<div class="section level3">
-<h3 id="data-manipulation">Data manipulation<a class="anchor" aria-label="anchor" href="#data-manipulation"></a>
-</h3>
-</div>
+<p>Users may look and manipulate the <em>model_catalog.csv</em>, and the models underneath, but should avoid manual manipulation of individual files, paths, or other aspects. RRASSLER scripts will do all needed manipulation, file sorting, and cataloging for you but there is very limited error checking should the workflow be applied incorrectly. As a general rule of thumb, once you’ve selected your destination for the catalog, only manipulate the csv, preferably <em>never</em> with EXCEL, which may chew up data along edge cases.</p>
 </div>
 <div class="section level2">
 <h2 id="data--attributes">Data &amp; Attributes<a class="anchor" aria-label="anchor" href="#data--attributes"></a>
@@ -193,62 +207,243 @@
 <p><a href="https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html" class="external-link">in line with Next Gen hydrofabric parameters</a></p>
 </blockquote>
 <div class="float">
-<img src="https://github.com/JimColl/RRASSLER/blob/main/man/figures/GIS_features.png" alt="Data layout"><div class="figcaption">Data layout</div>
+<img src="https://github.com/JimColl/RRASSLER/blob/main/man/figures/RRASSLER_algo.drawio.png" alt="RRASSLER LOGO"><div class="figcaption">RRASSLER LOGO</div>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>cat_path <span class="ot">&lt;-</span> path<span class="sc">/</span>to<span class="sc">/</span>catalog</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="sc">&gt;</span> points <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">read_parquet</span>(<span class="fu">file.path</span>(cat_path,<span class="st">"point_database.parquet"</span>,<span class="at">fsep =</span> .Platform<span class="sc">$</span>file.sep))</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="sc">&gt;</span> points</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>         xid    xid_length      xid_d         x        y         z    n source master_id</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">0.00000</span> <span class="sc">-</span><span class="fl">97.29359</span> <span class="fl">29.98529</span> <span class="fl">137.83666</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>      <span class="dv">2</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">0.85344</span> <span class="sc">-</span><span class="fl">97.29358</span> <span class="fl">29.98528</span> <span class="fl">137.83666</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>      <span class="dv">3</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">2.56032</span> <span class="sc">-</span><span class="fl">97.29358</span> <span class="fl">29.98527</span> <span class="fl">137.68426</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>      <span class="dv">4</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">4.23672</span> <span class="sc">-</span><span class="fl">97.29357</span> <span class="fl">29.98525</span> <span class="fl">137.62330</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>      <span class="dv">5</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">6.79704</span> <span class="sc">-</span><span class="fl">97.29356</span> <span class="fl">29.98523</span> <span class="fl">137.47699</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span><span class="st">'</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="st">      </span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="st">&gt; cross_sections &lt;- sf::st_read(file.path(cat_path,"xs.fgb",fsep = .Platform$file.sep))</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="st">Reading layer `XS'</span> from data source <span class="st">`</span><span class="at">G:\data</span><span class="sc">\r</span><span class="at">as_catalog\XS.fgb' using driver </span><span class="st">`</span>FlatGeobuf<span class="st">'</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="st">Simple feature collection with 24901 features and 1 field</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="st">Geometry type: LINESTRING</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="st">Dimension:     XY</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="st">Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="st">Geodetic CRS:  NAD83(2011) + NAVD88 height</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="st">&gt; cross_sections</span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="st">Simple feature collection with 24901 features and 1 field</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="st">Geometry type: LINESTRING</span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="st">Dimension:     XY</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="st">Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321</span></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="st">Geodetic CRS:  NAD83(2011) + NAVD88 height</span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="st">First 5 features:</span></span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="st">   master_id                       geometry</span></span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="st">1      12038 LINESTRING (-96.50289 29.71...</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="st">2      11520 LINESTRING (-96.50289 29.71...</span></span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="st">3      11779 LINESTRING (-96.50289 29.71...</span></span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="st">4      11261 LINESTRING (-96.50289 29.71...</span></span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="st">5      12037 LINESTRING (-96.48813 29.73...</span></span>
-<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="st">&gt; footprints &lt;- sf::st_read(file.path(cat_path,"model_footprints.fgb",fsep = .Platform$file.sep))</span></span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="st">Reading layer `model_footprints'</span> from data source <span class="st">`</span><span class="at">G:\data</span><span class="sc">\r</span><span class="at">as_catalog\old\model_footprints.fgb' using driver </span><span class="st">`</span>FlatGeobuf<span class="st">'</span></span>
-<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="st">Simple feature collection with 1316 features and 7 fields</span></span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="st">Geometry type: POLYGON</span></span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="st">Dimension:     XY</span></span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="st">Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321</span></span>
-<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="st">Geodetic CRS:  WGS 84</span></span>
-<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="st">&gt; footprints</span></span>
-<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="st">Simple feature collection with 1316 features and 7 fields</span></span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="st">Geometry type: POLYGON</span></span>
-<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="st">Dimension:     XY</span></span>
-<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="st">Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321</span></span>
-<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="st">Geodetic CRS:  WGS 84</span></span>
-<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="st">First 5 features:</span></span>
-<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="st">   start_master_id        Name       crs units                               path        source end_master_id                       geometry</span></span>
-<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="st">1              897 BUCKNER 001 EPSG:2277  Foot       2_BUCKNER 001_g01_1688926581 FEMA Region 6           909 POLYGON ((-96.58433 29.7028...</span></span>
-<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="st">2             1111 BUCKNER 035 EPSG:2277  Foot       2_BUCKNER 035_g01_1688926582 FEMA Region 6          1125 POLYGON ((-96.53977 29.7482...</span></span>
-<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="st">3            23285   CLEAR 002 EPSG:2277  Foot   5791782_CLEAR 002_g01_1688926594 FEMA Region 6         23291 POLYGON ((-96.54638 29.7554...</span></span>
-<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="st">4            23279   CLEAR 001 EPSG:2277  Foot   5791782_CLEAR 001_g01_1688926594 FEMA Region 6         23284 POLYGON ((-96.55299 29.7509...</span></span>
-<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="st">5            23264 BUCKNER 034 EPSG:2277  Foot 5791782_BUCKNER 034_g01_1688926582 FEMA Region 6         23278 POLYGON ((-96.55418 29.7420...</span></span></code></pre></div>
-<p>Attribute Description layers <strong>hy_id</strong>: A hydrofabric specific, globally unique flowpath/flowline identifier flowlines, transects, cs_pts<br><strong>geometry</strong>: Simple Features Geometry (LINESTRING) flowlines, transects<br><strong>cs_source</strong>: Source of transect information transects<br><strong>cs_id</strong>: Identifier, unique to a hy_id, that increases from the inlet to the outlet transects, cs_pts<br><strong>cs_measure</strong>: Percent along the flowpath from inlet transects<br><strong>cs_length</strong>: Width (in meters) of cross section transect transects <strong>pt_id</strong>: Identifier, unique to cs_id, that increases from left band to right bank cs_pts <strong>pt_measure</strong>: Percent along the transect from left bank (0-1) cs_pts <strong>relative_dist</strong>: Distance of cs_id, starting at 0, in meters cs_pts<br><strong>X</strong>: X coordinate in CRS of geometry cs_pts<br><strong>Y</strong>: Y coordinate in CRS of geometry cs_pts<br><strong>Z</strong>: Z coordinate (in meters) in CRS of geometry cs_pts <strong>Z_source</strong>: Source of elevation data cs_pts<br><strong>roughness</strong>: (Optional) Estimated Manning’s Roughness value cs_pts</p>
-<p>RAS Source extensions: <strong>hy_id</strong>: A hydrofabric specific, globally unique flowpath/flowline identifier flowlines, transects, cs_pts<br><strong>mean_shift</strong>: the amount of space added to normalize a cross section’s station-elevation to geographic distance. Positive indicates that distance was added to the station-elevation series to make it match to the line (length) as it was specified in the geography. This is reported as a running sum. <strong>roughness</strong>: (Optional) status is now (Required)</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>cat_path <span class="ot">&lt;-</span> path<span class="sc">/</span>to<span class="sc">/</span>catalog</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="sc">&gt;</span> points <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">read_parquet</span>(<span class="fu">file.path</span>(cat_path,<span class="st">"point_database.parquet"</span>,<span class="at">fsep =</span> .Platform<span class="sc">$</span>file.sep))</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="sc">&gt;</span> points</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>         xid    xid_length      xid_d         x        y         z    n source master_id</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">0.00000</span> <span class="sc">-</span><span class="fl">97.29359</span> <span class="fl">29.98529</span> <span class="fl">137.83666</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>      <span class="dv">2</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">0.85344</span> <span class="sc">-</span><span class="fl">97.29358</span> <span class="fl">29.98528</span> <span class="fl">137.83666</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>      <span class="dv">3</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">2.56032</span> <span class="sc">-</span><span class="fl">97.29358</span> <span class="fl">29.98527</span> <span class="fl">137.68426</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>      <span class="dv">4</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">4.23672</span> <span class="sc">-</span><span class="fl">97.29357</span> <span class="fl">29.98525</span> <span class="fl">137.62330</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>      <span class="dv">5</span><span class="sc">:</span>   <span class="dv">1</span>  <span class="fl">231.8369</span> [m]    <span class="fl">6.79704</span> <span class="sc">-</span><span class="fl">97.29356</span> <span class="fl">29.98523</span> <span class="fl">137.47699</span> <span class="fl">0.05</span>      <span class="dv">3</span>         <span class="dv">1</span><span class="st">'</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="st">&gt; cross_sections &lt;- sf::st_read(file.path(cat_path,"xs.fgb",fsep = .Platform$file.sep))</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="st">Reading layer `XS'</span> from data source <span class="st">`</span><span class="at">G:\data</span><span class="sc">\r</span><span class="at">as_catalog\XS.fgb' using driver </span><span class="st">`</span>FlatGeobuf<span class="st">'</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="st">Simple feature collection with 24901 features and 1 field</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="st">Geometry type: LINESTRING</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="st">Dimension:     XY</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="st">Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="st">Geodetic CRS:  NAD83(2011) + NAVD88 height</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="st">&gt; cross_sections</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="st">Simple feature collection with 24901 features and 1 field</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="st">Geometry type: LINESTRING</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="st">Dimension:     XY</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="st">Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="st">Geodetic CRS:  NAD83(2011) + NAVD88 height</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="st">First 5 features:</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="st">   master_id                       geometry</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="st">1      12038 LINESTRING (-96.50289 29.71...</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="st">2      11520 LINESTRING (-96.50289 29.71...</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="st">3      11779 LINESTRING (-96.50289 29.71...</span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="st">4      11261 LINESTRING (-96.50289 29.71...</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="st">5      12037 LINESTRING (-96.48813 29.73...</span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="st">&gt; footprints &lt;- sf::st_read(file.path(cat_path,"model_footprints.fgb",fsep = .Platform$file.sep))</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="st">Reading layer `model_footprints'</span> from data source <span class="st">`</span><span class="at">G:\data</span><span class="sc">\r</span><span class="at">as_catalog\model_footprints.fgb' using driver </span><span class="st">`</span>FlatGeobuf<span class="st">'</span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="st">Simple feature collection with 1316 features and 7 fields</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="st">Geometry type: POLYGON</span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="st">Dimension:     XY</span></span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="st">Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321</span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="st">Geodetic CRS:  WGS 84</span></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="st">&gt; footprints</span></span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="st">Simple feature collection with 1316 features and 7 fields</span></span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="st">Geometry type: POLYGON</span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="st">Dimension:     XY</span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="st">Bounding box:  xmin: -97.60178 ymin: 29.69069 xmax: -96.44944 ymax: 30.41321</span></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a><span class="st">Geodetic CRS:  WGS 84</span></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a><span class="st">First 5 features:</span></span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a><span class="st">   start_master_id        Name       crs units                               path        source end_master_id                       geometry</span></span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a><span class="st">1              897 BUCKNER 001 EPSG:2277  Foot       2_BUCKNER 001_g01_1688926581 FEMA Region 6           909 POLYGON ((-96.58433 29.7028...</span></span>
+<span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a><span class="st">2             1111 BUCKNER 035 EPSG:2277  Foot       2_BUCKNER 035_g01_1688926582 FEMA Region 6          1125 POLYGON ((-96.53977 29.7482...</span></span>
+<span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a><span class="st">3            23285   CLEAR 002 EPSG:2277  Foot   5791782_CLEAR 002_g01_1688926594 FEMA Region 6         23291 POLYGON ((-96.54638 29.7554...</span></span>
+<span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a><span class="st">4            23279   CLEAR 001 EPSG:2277  Foot   5791782_CLEAR 001_g01_1688926594 FEMA Region 6         23284 POLYGON ((-96.55299 29.7509...</span></span>
+<span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a><span class="st">5            23264 BUCKNER 034 EPSG:2277  Foot 5791782_BUCKNER 034_g01_1688926582 FEMA Region 6         23278 POLYGON ((-96.55418 29.7420...</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="hydrofabric-cross-section-representations">Hydrofabric cross section representations<a class="anchor" aria-label="anchor" href="#hydrofabric-cross-section-representations"></a>
+</h2>
+<table class="table">
+<colgroup>
+<col width="12%">
+<col width="71%">
+<col width="15%">
+</colgroup>
+<thead><tr class="header">
+<th>Attribute</th>
+<th>Description</th>
+<th>relevant layers</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>hy_id</td>
+<td>A hydrofabric specific, globally unique flowpath/flowline identifier</td>
+<td>transects, cs_pts</td>
+</tr>
+<tr class="even">
+<td>geometry</td>
+<td>Simple Features Geometry (LINESTRING)</td>
+<td>transects</td>
+</tr>
+<tr class="odd">
+<td>cs_source</td>
+<td>Source of transect information</td>
+<td>transects, cs_pts</td>
+</tr>
+<tr class="even">
+<td>cs_id</td>
+<td>Identifier, unique to a hy_id, that increases from the inlet to the outlet transects</td>
+<td>transects</td>
+</tr>
+<tr class="odd">
+<td>cs_measure</td>
+<td>Percent along the flowpath from inlet</td>
+<td>transects</td>
+</tr>
+<tr class="even">
+<td>cs_length</td>
+<td>Width (in meters) of cross section transect</td>
+<td>cs_pts</td>
+</tr>
+<tr class="odd">
+<td>pt_id</td>
+<td>Identifier, unique to cs_id, that increases from left bank to right bank</td>
+<td>cs_pts</td>
+</tr>
+<tr class="even">
+<td>pt_measure</td>
+<td>Distance of cs_id, starting at 0, in meters</td>
+<td>cs_pts</td>
+</tr>
+<tr class="odd">
+<td>relative_dist</td>
+<td>Percent along the transect from left bank (0-1)</td>
+<td>cs_pts</td>
+</tr>
+<tr class="even">
+<td>X</td>
+<td>X coordinate in CRS of geometry</td>
+<td>cs_pts</td>
+</tr>
+<tr class="odd">
+<td>Y</td>
+<td>Y coordinate in CRS of geometry</td>
+<td>cs_pts</td>
+</tr>
+<tr class="even">
+<td>Z</td>
+<td>Z coordinate (in meters) in CRS of geometry</td>
+<td>cs_pts</td>
+</tr>
+<tr class="odd">
+<td>Z_source</td>
+<td>Source of elevation data</td>
+<td>cs_pts</td>
+</tr>
+<tr class="even">
+<td>roughness</td>
+<td>(Optional) Estimated Manning’s Roughness value</td>
+<td>cs_pts</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="ras-source-extensions">RAS Source Extensions:<a class="anchor" aria-label="anchor" href="#ras-source-extensions"></a>
+</h2>
+<table class="table">
+<colgroup>
+<col width="5%">
+<col width="89%">
+<col width="5%">
+</colgroup>
+<thead><tr class="header">
+<th>Attribute</th>
+<th>Description</th>
+<th>relevant layers</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>master_id</td>
+<td>A catalog specific, globally unique transect hy_id</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>mean_shift</td>
+<td>he amount of space added to normalize a cross section’s station-elevation to geographic distance. Positive indicates that distance was added to the station-elevation series to make it match to the line (length) as it was specified in the geography. This is reported as a running sum.</td>
+<td>cs_pts</td>
+</tr>
+<tr class="odd">
+<td>roughness</td>
+<td>(Optional) status is now (Required)</td>
+<td>cs_pts</td>
+</tr>
+<tr class="even">
+<td>Geometry</td>
+<td>Simple Features Geometry (POLYGON)</td>
+<td>hulls</td>
+</tr>
+<tr class="odd">
+<td>start_master_id</td>
+<td>The start master_id of the model cross sections</td>
+<td>hulls</td>
+</tr>
+<tr class="even">
+<td>end_master_id</td>
+<td>The end master_id of the model cross sections</td>
+<td>hulls</td>
+</tr>
+<tr class="odd">
+<td>Name</td>
+<td>The name of the model</td>
+<td>hulls</td>
+</tr>
+<tr class="even">
+<td>path</td>
+<td>the folder path to the original model</td>
+<td>hulls</td>
+</tr>
+<tr class="odd">
+<td>crs</td>
+<td>the native CRS of the model</td>
+<td>hulls</td>
+</tr>
+<tr class="even">
+<td>units</td>
+<td>The units of the model (“Feet” or “Meter”)</td>
+<td>hulls</td>
+</tr>
+<tr class="odd">
+<td>source</td>
+<td>The source of the model</td>
+<td>hulls</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="extend-database-for-ras2fim-deployments">Extend database for ras2fim deployments<a class="anchor" aria-label="anchor" href="#extend-database-for-ras2fim-deployments"></a>
+</h2>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/append_catalog_fields.html">append_catalog_fields</a></span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="va">cat_path</span>,out_name<span class="op">=</span><span class="st">"OWP_ras_models_catalog.csv"</span>,overwrite <span class="op">=</span> <span class="cn">FALSE</span>,quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="add-some-context-to-the-data">Add some context to the data<a class="anchor" aria-label="anchor" href="#add-some-context-to-the-data"></a>
+</h2>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/refresh_master_files.html">refresh_master_files</a></span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="va">cat_path</span>,quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/map_library.html">map_library</a></span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="va">cat_path</span>,<span class="cn">NULL</span>,name <span class="op">=</span> <span class="st">"model_map"</span>,plot_lines <span class="op">=</span> <span class="cn">TRUE</span>,chart_lines <span class="op">=</span> <span class="cn">FALSE</span>,refresh <span class="op">=</span> <span class="cn">FALSE</span>,quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="discussion">Discussion<a class="anchor" aria-label="anchor" href="#discussion"></a>
+</h1>
+<div class="section level2">
+<h2 id="dependencies">Dependencies:<a class="anchor" aria-label="anchor" href="#dependencies"></a>
+</h2>
+<p>Built using <a href="https://posit.co/downloads/" class="external-link">RStudio</a> and <a href="https://github.com/rocker-org/rocker-versioned2" class="external-link">rocker-versioned2</a></p>
 </div>
 <div class="section level2">
 <h2 id="i-am-both-an-archivistmodel-creator-and-a-rrassler-user">I am both an archivist/model creator and a RRASSLER user<a class="anchor" aria-label="anchor" href="#i-am-both-an-archivistmodel-creator-and-a-rrassler-user"></a>
@@ -258,9 +453,28 @@
 <div class="section level2">
 <h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
 </h2>
-<p>Aligning the different model surfaces is hard. Although every effort was made to account for standard edge cases and unit cohesion, you will, more often than not, find that a surface you use and a model do not align. That is not particularly surprising, but it is often disconcerting. 3DEP timestamps, resolutions, and even order of reprojection operations may alter the surfaces slightly, even if they are stated to have come from the same input database. Do your own sanity checks and try not to lose your mind. Finally, this was developed, tested, and deployed over primarily 1D data. Although 2D model will ingest, there was no consideration for those and is not accounting or copying <em>.tif</em> files so the value of these models is greatly diminished.</p>
+<p>Aligning the different model surfaces is hard. Although every effort was made to account for standard edge cases and unit cohesion, you will, more often than not, find that a surface you use and a model do not align. That is not particularly surprising, but it is often disconcerting. 3DEP timestamps, resolutions, and even order of reprojection operations may alter the surfaces slightly, even if they are stated to have come from the same input database. Do your own sanity checks and try not to lose your mind, it’s probably easier to go out and measure it again. Finally, this was developed, tested, and deployed over primarily 1D data. Although 2D model will ingest, there was no consideration for those and is not accounting or copying <em>.tif</em> files so the value of these models is greatly diminished.</p>
+</div>
+<div class="section level2">
+<h2 id="getting-involved">Getting involved<a class="anchor" aria-label="anchor" href="#getting-involved"></a>
+</h2>
+<p>If you have questions, concerns, bug reports, etc, please file an issue in this repository’s Issue Tracker. I know we are not the only ones attempting. General instructions on <em>how</em> to contribute should be stated with a link to <a href="CONTRIBUTING.html">CONTRIBUTING</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="open-source-licensing-info">Open source licensing info<a class="anchor" aria-label="anchor" href="#open-source-licensing-info"></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li><a href="TERMS.html">TERMS</a></li>
+<li><a href="LICENSE">LICENSE</a></li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="credits-and-references">Credits and references<a class="anchor" aria-label="anchor" href="#credits-and-references"></a>
+</h2>
+<p>1.Far too many, todo</p>
 </div>
 </div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -277,6 +491,12 @@
 </ul>
 </div>
 
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+</ul>
+</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>

@@ -10,8 +10,8 @@ ingest_into_database(
   code_to_place_in_source,
   proj_override = NULL,
   vdat_trans = FALSE,
-  quiet = TRUE,
-  chatty = FALSE,
+  quiet = FALSE,
+  verbose = FALSE,
   ping_me = NULL,
   quick_check = FALSE,
   quick_hull = FALSE,
@@ -26,13 +26,13 @@ ingest_into_database(
 
 \item{code_to_place_in_source}{a string which encodes the owner or maintainer of that model}
 
-\item{proj_override}{an EPSG string to apply should a projection not be found, Default: NULL}
+\item{proj_override}{a CRS string to apply should a projection not be found, Default: NULL}
 
 \item{vdat_trans}{a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE}
 
 \item{quiet}{flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE}
 
-\item{chatty}{flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE}
+\item{verbose}{flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE}
 
 \item{ping_me}{a string with an email used to send emails after processing. Uses gmailr and requires config, Default: NULL}
 
@@ -56,7 +56,29 @@ DETAILS
 \examples{
 \dontrun{
 if(interactive()){
- #EXAMPLE1
+ #EXAMPLE
+ RRASSLER::ingest_into_database(path_to_ras_dbase = "G:/data/ras_catalog",
+ top_of_dir_to_scrape = "G:/data/ras_catalog/_temp/BLE/12090301/12090301_models/Model/Walnut Creek-Colorado River",
+ code_to_place_in_source = "test",
+ proj_override = "EPSG:2277",
+ vdat_trans = FALSE,
+ quiet = FALSE,
+ verbose = FALSE,
+ ping_me = NULL,
+ quick_check = FALSE,
+ quick_hull = FALSE,
+ overwrite = FALSE,
+ refresh = FALSE)
+ RRASSLER::ingest_into_database(path_to_ras_dbase = "G:/data/ras_catalog",top_of_dir_to_scrape = "G:/data/ras_catalog/_temp/BLE/12090301/12090301_models",
+ code_to_place_in_source = "FEMA Region 6:12090301",proj_override = "EPSG:2277",
+ vdat_trans = FALSE,
+ quiet = FALSE,
+ verbose = FALSE,
+ ping_me = NULL,
+ quick_check = FALSE,
+ quick_hull = FALSE,
+ overwrite = FALSE,
+ refresh = FALSE)
  }
 }
 }
@@ -66,7 +88,6 @@ if(interactive()){
  \code{\link[utils]{glob2rx}}
  \code{\link[sf]{st_crs}}, \code{\link[sf]{st_coordinates}}, \code{\link[sf]{st_as_sf}}, \code{\link[sf]{st_transform}}, \code{\link[sf]{st_write}}
  \code{\link[stringr]{str_sub}}, \code{\link[stringr]{str_detect}}
- \code{\link[unglue]{unglue}}
  \code{\link[sfheaders]{sf_linestring}}
  \code{\link[lwgeom]{st_startpoint}}
  \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{distinct}}
