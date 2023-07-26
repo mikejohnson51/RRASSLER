@@ -43,6 +43,7 @@ In order to wrassle that friction, RRASSLER has a few theoretical value judgment
 ## Installation
 It is recommended that you wait to start using this tool until parsing accuracy, edge case handling, and accounting is fully ironed out, the final form of these tables is still in flux.  If that doesn't dissuade you, install the development version of RRASSLER from [GitHub](https://github.com/) with:
 ```r
+# utils::remove.package("RRASSLER")
 # install.packages("devtools")
 # install.packages("BiocManager")
 # BiocManager::install("rhdf5")
@@ -50,6 +51,7 @@ remotes::install_github("JimColl/RRASSLER")
 library(data.table)
 RRASSLER::marco()
 ```
+
 # Deployment
 ## Typical usage
 ### BLE data
@@ -60,6 +62,7 @@ RRASSLER::ingest_FEMA6_BLE(path_to_ras_dbase="G:/data/ras_catalog","12090301",fu
 ```r
 RRASSLER::ingest_into_database(path_to_ras_dbase = "G:/data/ras_catalog",top_of_dir_to_scrape = "G:/data/ras_catalog/_temp/BLE/12090301/12090301_models",code_to_place_in_source = "FEMA Region 6:12090301",proj_override = "EPSG:2277",vdat_trans = FALSE,quiet = FALSE,verbose = TRUE,ping_me = NULL,quick_check = FALSE,quick_hull = FALSE,overwrite = FALSE,refresh = FALSE)
 ```
+
 # Outputs
 ## Model Catalog
 Users may look and manipulate the _model_catalog.csv_, and the models underneath, but should avoid manual manipulation of individual files, paths, or other aspects.  RRASSLER scripts will do all needed manipulation, file sorting, and cataloging for you but there is very limited error checking should the workflow be applied incorrectly.  As a general rule of thumb, once you've selected your destination for the catalog, only manipulate the csv, preferably _never_ with EXCEL, which may chew up data along edge cases.

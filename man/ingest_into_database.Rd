@@ -32,7 +32,7 @@ ingest_into_database(
 
 \item{quiet}{flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE}
 
-\item{verbose}{flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE}
+\item{verbose}{flag to dictate whether print statements from within the extraction are suppressed TRUE to show messages and FALSE to suppress them, Default: FALSE}
 
 \item{ping_me}{a string with an email used to send emails after processing. Uses gmailr and requires config, Default: NULL}
 

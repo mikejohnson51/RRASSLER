@@ -75,7 +75,7 @@ ingest_FEMA6_BLE <- function(path_to_ras_dbase,
   FrankenFIM_scrape_and_unpack_ble(database_path = path_to_ras_dbase,HUCID = HUC8,quiet = quiet,full = full)
 
   if(is.na(proj_override)) {
-    path_to_gdb <- file.path(path_to_ras_dbase,"_temp","BLE",HUC8,glue::glue("{HUC8}_SpatialData"),glue::glue("{HUC8}_SpatialData.gdb"),fsep = .Platform$file.sep)
+    path_to_gdb <- file.path(path_to_ras_dbase,"_temp","BLE",HUC8,glue::glue("{HUC8}_SpatialData"),"Spatial Files",glue::glue("{HUC8}_SpatialData.gdb"),fsep = .Platform$file.sep)
     fc <- rgdal::readOGR(dsn=path_to_gdb,layer="BLE_DEP01PCT")
     proj_override <- sf::st_crs(fc)
   }

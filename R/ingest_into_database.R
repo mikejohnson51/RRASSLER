@@ -6,7 +6,7 @@
 #' @param proj_override a CRS string to apply should a projection not be found, Default: NULL
 #' @param vdat_trans a flag to dictate whether or not to apply a vdatum transformation, TRUE to apply, FALSE to skip, Default: FALSE
 #' @param quiet flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
-#' @param verbose flag to dictate whether print statements from within the extraction are suppressed, TRUE to show messages and FALSE to suppress them, Default: FALSE
+#' @param verbose flag to dictate whether print statements from within the extraction are suppressed TRUE to show messages and FALSE to suppress them, Default: FALSE
 #' @param ping_me a string with an email used to send emails after processing. Uses gmailr and requires config, Default: NULL
 #' @param quick_check a flag to dictate whether or not to perform a quick check to see if a model has already been processed based on the raw name of the file. Useful in reingesting the same directory after an error but not recommended otherwise. TRUE to see if a name matches and skips, FALSE to process all the way though, Default: FALSE
 #' @param quick_hull a flag to dictate how tightly you want the footprints wrapped, TRUE uses just end points of the linestrings to place the model, FALSE uses the full point database, Default: FALSE
