@@ -54,10 +54,17 @@ RRASSLER::marco()
 
 # Deployment
 ## Typical usage
+### Dev team:
+Grab the spatial key
+```r
+aws s3 cp "s3://.../HUC8.fgb" <path to your catalog> --dryrun
+```
+
 ### BLE data
 ```r
 RRASSLER::ingest_FEMA6_BLE(path_to_ras_dbase="G:/data/ras_catalog","12090301",full=FALSE,proj_override = "EPSG:2277",vdat_trans = FALSE,status_statements = TRUE,verbose = FALSE,ping_me = NULL,quick_check = FALSE,quick_hull = FALSE,overwrite = FALSE,refresh = TRUE)
 ```
+
 ### Hand delivered database
 ```r
 RRASSLER::ingest_into_database(path_to_ras_dbase = "G:/data/ras_catalog",top_of_dir_to_scrape = "G:/data/ras_catalog/_temp/BLE/12090301/12090301_models",code_to_place_in_source = "FEMA Region 6:12090301",proj_override = "EPSG:2277",vdat_trans = FALSE,quiet = FALSE,verbose = TRUE,ping_me = NULL,quick_check = FALSE,quick_hull = FALSE,overwrite = FALSE,refresh = FALSE)

@@ -210,7 +210,11 @@ process_ras_hdf_to_xyz <- function(geom_path,
   }
 
   if(file.exists(proj_string)) {
-    sf::st_crs(sf_cross_section_lines) = sf::st_crs(proj_string)
+    if(stringr::str_sub(proj_string,-3,-1) == "gdb") {
+      sf::st_crs(sf_cross_section_lines) = sf::st_crs(rgdal::readOGR(dsn=proj_string,layer="BLE_DEP01PCT"))
+    } else {
+      sf::st_crs(sf_cross_section_lines) = sf::st_crs(proj_string)
+    }
   } else {
     sf::st_crs(sf_cross_section_lines) = proj_string
   }
