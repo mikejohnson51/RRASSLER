@@ -74,6 +74,12 @@ ingest_FEMA6_BLE <- function(path_to_ras_dbase,
   fn_time_start <- Sys.time()
   FrankenFIM_scrape_and_unpack_ble(database_path = path_to_ras_dbase,HUCID = HUC8,quiet = quiet,full = full)
 
+  if(is.na(proj_override)) {
+    path_to_gdb <- file.path(path_to_ras_dbase,"_temp","BLE",HUC8,glue::glue("{HUC8}_SpatialData"),glue::glue("{HUC8}_SpatialData.gdb"),fsep = .Platform$file.sep)
+    fc <- rgdal::readOGR(dsn=path_to_gdb,layer="BLE_DEP01PCT")
+    proj_override <- sf::st_crs(fc)
+  }
+
   ingest_into_database(path_to_ras_dbase = path_to_ras_dbase,
                        top_of_dir_to_scrape = file.path(path_to_ras_dbase,"_temp","BLE",HUC8,glue::glue("{HUC8}_models"),fsep = .Platform$file.sep),
                        code_to_place_in_source = glue::glue("FEMA Region 6:{HUC8}"),

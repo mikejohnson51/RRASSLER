@@ -123,10 +123,10 @@ FrankenFIM_scrape_and_unpack_ble <- function(database_path=NULL,HUCID=NULL,quiet
       httr::GET(Potential_features$RASData_url,
                 httr::write_disk(file.path(output_dir,basename(Potential_features$RASData_url), fsep=.Platform$file.sep), overwrite=TRUE),
                 overwrite=TRUE)
-      if(full) {
-        httr::GET(Potential_features$SpatialData_url,
+      httr::GET(Potential_features$SpatialData_url,
                 httr::write_disk(file.path(output_dir,basename(Potential_features$SpatialData_url), fsep=.Platform$file.sep), overwrite=TRUE),
                 overwrite=TRUE)
+      if(full) {
         httr::GET(Potential_features$Reports_url,
                   httr::write_disk(file.path(output_dir,basename(Potential_features$Reports_url), fsep=.Platform$file.sep), overwrite=TRUE),
                   overwrite=TRUE)
@@ -184,6 +184,9 @@ FrankenFIM_scrape_and_unpack_ble <- function(database_path=NULL,HUCID=NULL,quiet
 
   scrape_ble_lib(database_path,HUCID,quiet=quiet,overwrite=overwrite,full=full)
   unzipZipfiles(file.path(database_path,"_temp","BLE",HUCID,glue::glue("{HUCID}_models.zip"),fsep = .Platform$file.sep),quiet=quiet)
+
+  zip_file <- file.path(database_path,"_temp","BLE",HUCID,glue::glue("{HUCID}_SpatialData.zip"),fsep = .Platform$file.sep)
+  utils::unzip(zip_file, exdir = file.path(dirname(zip_file),gsub('.{4}$', '',basename(zip_file)),fsep = .Platform$file.sep))
 
   return(TRUE)
 }
