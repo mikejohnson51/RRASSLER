@@ -13,7 +13,7 @@
 #' @param overwrite not currently implemented, Default: FALSE
 #' @param refresh flag to dictate whether or not to recollate spatial database after ingest process. FALSE to skip, TRUE to regenerate, Default: TRUE
 #' @return a RRASSLED catalog of HEC-RAS models
-#' @details DETAILS
+#' @details Hitting https://webapps.usgs.gov/infrm/estBFE/ and https://www.arcgis.com/apps/dashboards/1e98f1e511fc40d3b08790a4251a64ee
 #' @examples
 #' \dontrun{
 #' if(interactive()){
@@ -72,12 +72,13 @@ ingest_FEMA6_BLE <- function(path_to_ras_dbase,
 
   ## -- Start --
   fn_time_start <- Sys.time()
-  FrankenFIM_scrape_and_unpack_ble(database_path = path_to_ras_dbase,HUCID = HUC8,quiet = quiet,full = full)
+  FrankenFIM_scrape_and_unpack_ble(database_path = path_to_ras_dbase,HUCID = HUC8,quiet = !status_statements,full = full)
 
-  if(is.na(proj_override)) {
+  if(is.null(proj_override)) {
     path_to_gdb <- file.path(path_to_ras_dbase,"_temp","BLE",HUC8,glue::glue("{HUC8}_SpatialData"),"Spatial Files",glue::glue("{HUC8}_SpatialData.gdb"),fsep = .Platform$file.sep)
     fc <- rgdal::readOGR(dsn=path_to_gdb,layer="BLE_DEP01PCT")
-    proj_override <- sf::st_crs(fc)
+    print(sf::st_crs(fc))
+    return(FALSE)
   }
 
   ingest_into_database(path_to_ras_dbase = path_to_ras_dbase,

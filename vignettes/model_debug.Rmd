@@ -120,3 +120,10 @@ if(length(flowline_list) == 0) {
   current_nhdplus_comid = flowline_list[flowline_list$streamorde == max(flowline_list$streamorde),][1,]$comid
 }
 ```
+
+## Proj finder
+```r
+path_to_gdb <- file.path("G:/data/ras_catalog/_temp/BLE/12030109/12030109_SpatialData/12030109_Chambers.gdb")
+fc <- rgdal::readOGR(dsn=path_to_gdb,layer="BLE_DEP01PCT")
+print(sf::st_crs(fc))
+```

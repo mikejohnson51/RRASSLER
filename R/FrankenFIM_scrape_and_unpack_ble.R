@@ -1,7 +1,7 @@
 #' @title scrape_and_unpack_ble
 #' @description wrapper around BLE handles
 #' @return unzipped dir of BLE data
-#' @details DETAILS
+#' @details Hitting https://webapps.usgs.gov/infrm/estBFE/ and https://www.arcgis.com/apps/dashboards/1e98f1e511fc40d3b08790a4251a64ee
 #' @examples
 #' \dontrun{
 #' if(interactive()){
@@ -30,7 +30,7 @@
 #' @importFrom utils unzip
 #' @importFrom dplyr setdiff
 
-FrankenFIM_scrape_and_unpack_ble <- function(database_path=NULL,HUCID=NULL,quiet=TRUE,overwrite=FALSE,full=FALSE) {
+FrankenFIM_scrape_and_unpack_ble <- function(database_path = NULL,HUCID = NULL,quiet = TRUE,overwrite = FALSE,full = FALSE) {
 
   # sinew::moga(file.path(getwd(),"R/FrankenFIM_scrape_and_unpack_ble.R"),overwrite = TRUE)
   # devtools::document()

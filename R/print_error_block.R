@@ -8,9 +8,9 @@
 #'  RRASSLER::print_error_block()
 #'  }
 #' }
-#' @rdname print_warning_block
+#' @rdname print_error_block
 #' @export
-print_warning_block <- function() {
+print_error_block <- function() {
 
   # sinew::moga(file.path(getwd(),"R/print_error_block.R"),overwrite = TRUE)
   # devtools::document()
@@ -19,6 +19,6 @@ print_warning_block <- function() {
   # devtools::load_all()
 
   ## -- Start --
-  print(cat("NULL_ERROR -- (>O.o)>=}===-(X.x)>  -- ERROR_"))
+  message(cat("NULL_ERROR -- (>O.o)>=}===-(X.x)>  -- ERROR_"))
   return(TRUE)
 }

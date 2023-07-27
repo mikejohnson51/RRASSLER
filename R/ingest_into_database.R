@@ -262,7 +262,7 @@ ingest_into_database <- function(path_to_ras_dbase,
           data.table::fwrite(ras_catalog_dbase,file.path(path_to_ras_dbase,"accounting.csv",fsep = .Platform$file.sep), row.names = FALSE)
           process_count = process_count + 1
         } else {
-          if(!quiet) { message("Model with inital scrape name already in the que") }
+          if(!quiet) { message(glue::glue("Model already processed into _unprocessed {current_initial_name}")) }
           duplicate_count = duplicate_count + 1
         }
         next()

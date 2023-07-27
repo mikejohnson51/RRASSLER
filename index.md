@@ -1,6 +1,6 @@
 # RRASSLER  
 
-![RRASSLER LOGO](./man/figures/RRASSLER_knockout.png)
+![RRASSLER LOGO](https://github.com/JimColl/RRASSLER/blob/main/man/figures/RRASSLER_knockout.png)
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)

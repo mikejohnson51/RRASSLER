@@ -51,7 +51,7 @@ a RRASSLED catalog of HEC-RAS models
 helper to ingest FEMA region 6 BLE data
 }
 \details{
-DETAILS
+Hitting https://webapps.usgs.gov/infrm/estBFE/ and https://www.arcgis.com/apps/dashboards/1e98f1e511fc40d3b08790a4251a64ee
 }
 \examples{
 \dontrun{
