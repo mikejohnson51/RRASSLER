@@ -1,6 +1,6 @@
 # RRASSLER  
 
-![RRASSLER LOGO](./man/figures/RRASSLER_knockout.png)
+![RRASSLER LOGO](man/figures/RRASSLER_knockout.png)
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -90,7 +90,7 @@ This function will create a stand alone leaflet map which is useful in "interact
 
 ### Extend database for ras2fim deployments
 ```r
-RRASSLER::append_catalog_fields(path_to_ras_dbase = cat_path,out_name = "OWP_ras_models_catalog.csv",overwrite = FALSE,quiet = FALSE)
+RRASSLER::append_catalog_fields(path_to_ras_dbase = "G:/data/ras_catalog",out_name = "OWP_ras_model_catalog.csv",overwrite = FALSE,verbose = TRUE)
 ```
 
 ### Push a catalog to the cloud

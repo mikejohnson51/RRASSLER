@@ -1,13 +1,13 @@
 Package: RRASSLER
 Type: Package
 Title: R based HEC-RAS model accounting wrestler
-Version: 0.0.01
+Version: 0.0.1
 Authors@R: c(person(given = "Jim", family = "Coll", 
                     role = c("aut", "cre"),
                     email = "jamesmcoll@gmail.com"),
              person(given = "Mike", family = "Johnson", role = "aut"),
              person(given = "Laura", family = "Keys", role = "aut"),
-             person(given = "Andy", family = "Carter", role = "aut"),
+             person(given = "Andy", family = "Carter", role = c("ctb", "trl")),
       person("NOAA", role = c("fnd")),
       person("Lynker", role = c("fnd")))
 Maintainer: Jim Coll <jamesmcoll@gmail.com>

@@ -100,7 +100,6 @@ FrankenFIM_scrape_and_unpack_ble <- function(database_path = NULL,HUCID = NULL,q
         return(FALSE)
       }
     }
-    dir.create(output_dir,recursive = TRUE)
 
     template_hucs <- sf::st_transform(sf::st_read(file.path(database_path,"HUC8.fgb",fsep=.Platform$file.sep),quiet=quiet),sf::st_crs("EPSG:5070"))
 
@@ -119,14 +118,15 @@ FrankenFIM_scrape_and_unpack_ble <- function(database_path = NULL,HUCID = NULL,q
       paste0("https://ebfedata.s3.amazonaws.com/",Potential_features$huc8,"_",gsub(" ","",gsub("-","",Potential_features$name,fixed = TRUE),fixed = TRUE),"/",Potential_features$huc8,"_Documents.zip")
 
     if(url_exists(Potential_features$SpatialData_url)) {
+      dir.create(output_dir,recursive = TRUE)
       if (!dir.exists(output_dir)) { dir.create(output_dir) }
       httr::GET(Potential_features$RASData_url,
                 httr::write_disk(file.path(output_dir,basename(Potential_features$RASData_url), fsep=.Platform$file.sep), overwrite=TRUE),
                 overwrite=TRUE)
-      httr::GET(Potential_features$SpatialData_url,
+      if(full) {
+        httr::GET(Potential_features$SpatialData_url,
                 httr::write_disk(file.path(output_dir,basename(Potential_features$SpatialData_url), fsep=.Platform$file.sep), overwrite=TRUE),
                 overwrite=TRUE)
-      if(full) {
         httr::GET(Potential_features$Reports_url,
                   httr::write_disk(file.path(output_dir,basename(Potential_features$Reports_url), fsep=.Platform$file.sep), overwrite=TRUE),
                   overwrite=TRUE)
