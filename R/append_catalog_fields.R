@@ -3,7 +3,7 @@
 #' @param path_to_ras_dbase the path to the folder in which you are building your catalog, Default: NULL
 #' @param out_name the name of the csv you want to generate, Default: NULL
 #' @param overwrite flag to dictate whether or not to overwrite the out_name, should it exist. set to TRUE to delete and (re)generate, FALSE to safely exit, Default: FALSE
-#' @param verbose flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE
+#' @param verbose flag to determine whether print statements are suppressed, TRUE to show messages and FALSE to surpress them, Default: TRUE
 #' @return a new csv with helper columns
 #' @details DETAILS
 #' @examples
@@ -45,7 +45,7 @@ append_catalog_fields <- function(path_to_ras_dbase = NULL,
   if(file.exists(file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep))) {
     if(!overwrite) {
       print_warning_block()
-      print("Alert: file already exists and overwrite is set to FALSE")
+      message("Alert: file already exists and overwrite is set to FALSE")
       return(FALSE)
     }
     unlink(file.path(path_to_ras_dbase,out_name,fsep = .Platform$file.sep))
@@ -66,7 +66,7 @@ append_catalog_fields <- function(path_to_ras_dbase = NULL,
     if(is.na(ras_catalog_dbase[row,final_name_key]) || !file.exists(file.path(path_to_ras_dbase,"models",ras_catalog_dbase[row,final_name_key],"hull.fgb",fsep = .Platform$file.sep))) {
       if(verbose) {
         print_warning_block()
-        print("No HUC found")
+        message("No HUC found")
       }
       ras_catalog_dbase[row,hucs:=noquote(paste0("{}"))]
     } else {

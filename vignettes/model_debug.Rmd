@@ -3,6 +3,8 @@ title: "Model-debug"
 output: rmarkdown::html_vignette
 description: >
   How to debug models
+contents:
+ - starts_with("ingest_")
 vignette: >
   %\VignetteIndexEntry{Model-debug}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,13 +14,16 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  eval = FALSE,
   comment = "#>"
 )
 ```
 
+> A set of code chunks, procedures, and utilities for a RRASSLER execution.
+
 ## Model debug helper
 
-```r
+```{r, eval=FALSE}
 geom_path="G:/data/ras_catalog/_temp/BLE/12090301/12090301_models/Model/Walnut Creek-Colorado River/CEDAR CREEK/CEDAR CREEK.g01"
 units="Foot"
 proj_string="EPSG:2277"
@@ -122,8 +127,62 @@ if(length(flowline_list) == 0) {
 ```
 
 ## Proj finder
-```r
+```{r, eval = FALSE}
 path_to_gdb <- file.path("G:/data/ras_catalog/_temp/BLE/12030109/12030109_SpatialData/12030109_Chambers.gdb")
 fc <- rgdal::readOGR(dsn=path_to_gdb,layer="BLE_DEP01PCT")
 print(sf::st_crs(fc))
+```
+
+## RAS zip scraper
+```{python, python.reticulate = FALSE, eval = FALSE}
+import argparse
+import tarfile
+import os
+from pathlib import Path
+# file="C:\Users\rdp-user\Projects\data\ras_models\_temp\IFC\07020009.tar.gz"
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+def unpacker(str_huc8_arg,str_tar_file):
+    str_out_dir = os.path.join(os.path.dirname(str_tar_file),str_huc8_arg)
+ 
+    if not os.path.exists(str_tar_file):
+        print('File does not exist?')
+        print(str_tar_file)
+        return
+        
+    if os.path.exists(str_out_dir):
+        print('File already unpacked')
+        return
+    
+    os.mkdir(str_out_dir)
+
+    # read the tar.gz file... this takes some time
+    t = tarfile.open(str_tar_file, "r:gz")
+
+    for member in t.getmembers():
+        if member.name[-3:-2] == 'g' or member.name[-3:-2] == 'p' or member.name[-3:-2] == 'f' or member.name[-3:-2] == 'h' or member.name[-3:-2] == 'v':
+            #print(member.name)
+            t.extract(member, str_out_dir)
+
+    print(" Done ")
+    return
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='========== IFC by (HUC8) ==========')
+
+    parser.add_argument('-w',
+                        dest = "str_huc8_arg",
+                        help = 'REQUIRED: HUC-8 watershed that is being evaluated: Example: 10170204',
+                        required = True,
+                        type = str)  # has to be string so it doesn't strip the leading zero
+
+    parser.add_argument('-i',
+                        dest = "str_tar_file",
+                        help = r'OPTIONAL: path containing the HEC_RAS files: Example -i C:\HEC\input_folder\my_models.' \
+                               r' Defaults to c:\ras2fim_datas\OWP_ras_models\models.',
+                        required = False,
+                        type = str)
+    
+    args = vars(parser.parse_args())
+    
+    unpacker(**args)
 ```

@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="A bottoms up approach to walking CONUS scale applications back to the spesific point, cross section, and HEC-RAS model they were sourced from.  Still in alpha dont use this.">
+<meta name="description" content="A package for making HEC-RAS data more FAIR by cataloging models, cross sections, and points for accounting, interoperability, and reuse in RAS and other applications.  Still in alpha dont use this.">
 <title>R based HEC-RAS model accounting wrestler • RRASSLER</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="R based HEC-RAS model accounting wrestler">
-<meta property="og:description" content="A bottoms up approach to walking CONUS scale applications back to the spesific point, cross section, and HEC-RAS model they were sourced from.  Still in alpha dont use this.">
+<meta property="og:description" content="A package for making HEC-RAS data more FAIR by cataloging models, cross sections, and points for accounting, interoperability, and reuse in RAS and other applications.  Still in alpha dont use this.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">RRASSLER</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.01</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,30 +63,27 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="rrassler">RRASSLER<a class="anchor" aria-label="anchor" href="#rrassler"></a>
-</h1></div>
-<div class="float">
-<img src="https://github.com/JimColl/RRASSLER/blob/main/man/figures/RRASSLER_knockout.png" alt="RRASSLER LOGO"><div class="figcaption">RRASSLER LOGO</div>
-</div>
+  <main id="main" class="col-md-9"><p><img src="https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/RRASSLER_knockout.png"></p>
 <!-- badges: start -->
 
-</div>
 <div class="section level1">
-<h1 id="executive-summery">Executive Summery<a class="anchor" aria-label="anchor" href="#executive-summery"></a>
-</h1>
-<p>The HEC-RAS model format, both as stand alone models or in archive formats, are incomparable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows. This tool should be deployed to ingest HEC-RAS models into a “HECRAS_model_catalog”, a normalized and spatialized representation of those models with the requisite metadata and formatted structure needed to mesh seamlessly with <a href="https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html" class="external-link">national scale hydrofabric efforts and data models</a>, and applications such as <a href="https://github.com/NOAA-OWP/t-route" class="external-link">T-Route</a> and <a href="https://github.com/NOAA-OWP/ras2fim" class="external-link">RAS2FIM</a>.</p>
-<p><toc></toc></p>
+<div class="page-header"><h1 id="executive-summery">Executive Summery<a class="anchor" aria-label="anchor" href="#executive-summery"></a>
+</h1></div>
+<p>The HEC-RAS model format, both as stand alone models or in archive formats, are incomparable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows. This tool should be deployed to ingest HEC-RAS models into a “HECRAS_model_catalog”, a normalized and spatialized representation of those models with the requisite metadata and formatted structure needed to mesh seamlessly with <a href="https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html" class="external-link">national scale hydrofabric efforts and data models</a>, and applications such as <a href="https://github.com/NOAA-OWP/t-route" class="external-link">T-Route</a> and <a href="https://github.com/NOAA-OWP/ras2fim" class="external-link">RAS2FIM</a>. See the <a href="https://jimcoll.github.io/RRASSLER/" class="external-link">package documentation</a> for more details.</p>
 </div>
 <div class="section level1">
 <h1 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
 </h1>
-<p>There are few hydraulic models as prolific as HEC-RAS, and since it’s first named release in 1995 users have created these models using public and private data and countless hours of engineering scrutinization in order to generate the best possible purpose-built representation of the world. Like any model, some level of input massaging is necessary in order to get the data into the specified mathematical format a model requires. Like most domain specific software solutions, that massaging was rather, forceful, to the point of permanently altering the shape of those inputs into something that most geospatial data readers are unable to handle. This creates a great deal of friction both in terms of model accountability and interoperability, particularly when you take the standpoint as a model consumer. The R based HEC-RAS Wrestler (RRASSLER) is here to mediate that.</p>
+<p>There are few hydraulic models as prolific as HEC-RAS, and since it’s first named release in 1995 users have created these models using public and private data and countless hours of engineering scrutinization in order to generate the best possible purpose-built representation of the world. Like any model, some level of input massaging is necessary in order to get the data into the specified mathematical format a model requires. Like most domain specific software solutions, that massaging was rather, forceful, to the point of permanently altering the shape of those inputs into something that most geospatial data readers are unable to handle. This creates a great deal of friction both in terms of model accountability and interoperability, particularly when you take the standpoint as a model consumer. The R based HEC-RAS Wrestler (RRASSLER) is here to mediate that. By internally versioning and aligning data and pointers, the resulting structure provides a bottoms up approach amenable to walking potentially CONUS scale applications back to the specific point, cross section, and HEC-RAS model they were sourced from.</p>
 <div class="section level2">
 <h2 id="ingest-logic">Ingest logic<a class="anchor" aria-label="anchor" href="#ingest-logic"></a>
 </h2>
-<p>In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly. RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise “vistigal” data; and with an emphasis on the particular geometric realization of the model). It is also designed to be a standardized and centralized source of models, regardless of their origin. For that reason, RRASSLER expects to operate within it’s own controlled directory, or “HECRAS_model_catalog”. Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog. It will:<br>
-1) Scrape the entire directory structure for any HEC-RAS model projects 2) for each geometric realization of that model (variation of .g##), grab all files such that:</p>
+<p>In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly. RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise “vistigal” data; and with an emphasis on the particular geometric realization of the model). It is also designed to be a standardized and centralized source of models, regardless of their origin. For that reason, RRASSLER expects to operate within it’s own controlled directory, or “HECRAS_model_catalog”. Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog. It will:</p>
+<ol style="list-style-type: decimal">
+<li>Scrape the entire directory structure for any HEC-RAS model projects<br>
+</li>
+<li>for each geometric realization of that model (variation of .g##), grab all files such that:</li>
+</ol>
 <table class="table">
 <colgroup>
 <col width="42%">
@@ -158,11 +155,12 @@
 <li>If the creation of the model hull errors out, the model is placed in the _/models/<em>unprocessed</em> folder for further investigation, correction, and rewrassling.</li>
 <li>After all iterations of files are done, RRASSLER will (re)generate a unified source for model footprints, cross sections, and points (now in spatial form) from the HEC-RAS model, and pointers back to the copied source data which remains unaltered.</li>
 </ol>
+<p>This workflow is loosely diagramed as follows: <img src="https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/RRASSLER_algo.drawio.png"></p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>It is recommended that you wait to start using this tool until parsing accuracy, edge case handling, and accounting is fully ironed out, the final form of these tables is still in flux. If that doesn’t dissuade you, install the development version of RRASSLER from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>It is recommended that you wait to start using this tool until parsing accuracy, edge case handling, and accounting is fully ironed out, the final form of these tables is still in flux. As noted in the package notes: “Still in alpha don’t use this.” If that doesn’t dissuade you, install the development version of <a href="https://github.com/JimColl/RRASSLER" class="external-link">RRASSLER from GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># utils::remove.packages("RRASSLER")</span></span>
 <span><span class="co"># install.packages("devtools")</span></span>
@@ -171,13 +169,14 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"JimColl/RRASSLER"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
 <span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/marco.html">marco</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>if you are on the dev team, you also probably want a spatial key file:</p>
+<p>if you are on the dev team, you also probably want a spatial key file (huc8 bounds &amp; names):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">aws</span> s3 cp <span class="st">"s3://.../HUC8.fgb"</span> <span class="op">&lt;</span>path to your catalog<span class="op">&gt;</span> --dryrun</span></code></pre></div>
 </div>
 </div>
 <div class="section level1">
 <h1 id="deployment--outputs">Deployment &amp; Outputs<a class="anchor" aria-label="anchor" href="#deployment--outputs"></a>
 </h1>
+<p><img src="https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/Files.PNG"></p>
 <div class="section level2">
 <h2 id="typical-usage">Typical usage<a class="anchor" aria-label="anchor" href="#typical-usage"></a>
 </h2>
@@ -201,19 +200,22 @@
 </ol>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/refresh_master_files.html">refresh_master_files</a></span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="va">cat_path</span>,verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>This will create or recreate the index files at the top of the catalog, including: * Model footprints: model_footprints.fgb * Cross sections: XS.fgb * Points: point_database.parquet <img src="https://github.com/JimColl/RRASSLER/blob/main/man/figures/GIS_features.PNG" alt="GISmap"></p>
+<p>This will create or recreate the index files at the top of the catalog, including:<br>
+* Model footprints: <em>model_footprints.fgb</em><br>
+* Cross sections: <em>XS.fgb</em><br>
+* Points: <em>point_database.parquet</em><br><img src="https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/GIS_features.PNG"></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Create a handy map to view</li>
 </ol>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/map_library.html">map_library</a></span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="va">cat_path</span>,<span class="cn">NULL</span>,name <span class="op">=</span> <span class="st">"model_map"</span>,plot_lines <span class="op">=</span> <span class="cn">TRUE</span>,chart_lines <span class="op">=</span> <span class="cn">FALSE</span>,refresh <span class="op">=</span> <span class="cn">FALSE</span>,quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>This function will create a stand alone leaflet map which is useful in “interactively” exploring the data and facilitating simple queries. <img src="https://github.com/JimColl/RRASSLER/blob/main/man/figures/map_features.PNG" alt="Leafmap"></p>
+<p>This function will create a stand alone leaflet map which is useful in “interactively” exploring the data and facilitating simple queries. <img src="https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/map_features.PNG"></p>
 </div>
 <div class="section level3">
 <h3 id="extend-database-for-ras2fim-deployments">Extend database for ras2fim deployments<a class="anchor" aria-label="anchor" href="#extend-database-for-ras2fim-deployments"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/append_catalog_fields.html">append_catalog_fields</a></span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="va">cat_path</span>,out_name <span class="op">=</span> <span class="st">"OWP_ras_models_catalog.csv"</span>,overwrite <span class="op">=</span> <span class="cn">FALSE</span>,quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">RRASSLER</span><span class="fu">::</span><span class="fu"><a href="reference/append_catalog_fields.html">append_catalog_fields</a></span><span class="op">(</span>path_to_ras_dbase <span class="op">=</span> <span class="st">"G:/data/ras_catalog"</span>,out_name <span class="op">=</span> <span class="st">"OWP_ras_model_catalog.csv"</span>,overwrite <span class="op">=</span> <span class="cn">FALSE</span>,verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="push-a-catalog-to-the-cloud">Push a catalog to the cloud<a class="anchor" aria-label="anchor" href="#push-a-catalog-to-the-cloud"></a>
@@ -236,9 +238,6 @@
 <blockquote>
 <p><a href="https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html" class="external-link">in line with Next Gen hydrofabric parameters</a></p>
 </blockquote>
-<div class="float">
-<img src="https://github.com/JimColl/RRASSLER/blob/main/man/figures/RRASSLER_algo.drawio.png" alt="ALGO"><div class="figcaption">ALGO</div>
-</div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>cat_path <span class="ot">&lt;-</span> path<span class="sc">/</span>to<span class="sc">/</span>catalog</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="sc">&gt;</span> points <span class="ot">&lt;-</span> arrow<span class="sc">::</span><span class="fu">read_parquet</span>(<span class="fu">file.path</span>(cat_path,<span class="st">"point_database.parquet"</span>,<span class="at">fsep =</span> .Platform<span class="sc">$</span>file.sep))</span>
@@ -460,7 +459,7 @@
 <div class="section level2">
 <h2 id="dependencies">Dependencies:<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h2>
-<p>Built using <a href="https://posit.co/downloads/" class="external-link">RStudio</a> and <a href="https://github.com/rocker-org/rocker-versioned2" class="external-link">rocker-versioned2</a></p>
+<p>Built using <a href="https://posit.co/downloads/" class="external-link">RStudio</a> and <a href="https://github.com/rocker-org/rocker-versioned2" class="external-link">rocker-versioned2</a>. Typically deployed alongside <a href="https://github.com/NOAA-OWP/ras2fim/blob/dev/doc/INSTALL.md" class="external-link">a RAS2FIM conda environment</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="i-am-both-an-archivistmodel-creator-and-a-rrassler-user">I am both an archivist/model creator and a RRASSLER user<a class="anchor" aria-label="anchor" href="#i-am-both-an-archivistmodel-creator-and-a-rrassler-user"></a>
@@ -475,7 +474,26 @@
 <div class="section level2">
 <h2 id="getting-involved">Getting involved<a class="anchor" aria-label="anchor" href="#getting-involved"></a>
 </h2>
-<p>If you have questions, concerns, bug reports, etc, please file an issue in this repository’s Issue Tracker. I know we are not the only ones attempting to align the . General instructions on <em>how</em> to contribute can be found at <a href="CONTRIBUTING.html">CONTRIBUTING</a>. ### A few next steps #### Hardening and extention I code out of necessity, not out of love, and I’ve been told my more than a few that I write awful code. More than half of the community will also think this is written in the wrong language. Efforts to harden the workflow and algorithm, extend this workflow into Python, and general improvements would all be worthwhile uses of time. #### RRASTAC Although not the most obvious use of <a href="https://stacspec.org/en/about/" class="external-link">STAC</a>, or SpatioTemporal Asset Catalog, HEC-RAS models, particularly the footprints generated in the cataloging of the models, could be extended to the STAC framework as a STAC Item.</p>
+<p>If you have questions, concerns, bug reports, etc, please file an issue in this repository’s Issue Tracker. I know we are not the only ones attempting to align the world. General instructions on <em>how</em> to contribute can be found at <a href="CONTRIBUTING.html">CONTRIBUTING</a> and in the next steps below.</p>
+<div class="section level3">
+<h3 id="a-few-next-steps">A few next steps<a class="anchor" aria-label="anchor" href="#a-few-next-steps"></a>
+</h3>
+<div class="section level4">
+<h4 id="known-errors">Known errors<a class="anchor" aria-label="anchor" href="#known-errors"></a>
+</h4>
+<p>Parsing of the models, particularly the inclusion of the .g## files, is not implemented correctly. These models extract a data frames of points which include points at the equator. This is wrong and needs to be fixed.</p>
+</div>
+<div class="section level4">
+<h4 id="hardening-and-extention">Hardening and extention<a class="anchor" aria-label="anchor" href="#hardening-and-extention"></a>
+</h4>
+<p>I code out of necessity, not out of love, and I’ve been told my more than a few that I write awful code. More than half of the community will also think this is written in the wrong language. Efforts to harden the workflow and algorithm, extend this workflow into Python, and general improvements would all be worthwhile uses of time.</p>
+</div>
+<div class="section level4">
+<h4 id="rrastac">RRASTAC<a class="anchor" aria-label="anchor" href="#rrastac"></a>
+</h4>
+<p>Although not the most obvious use of <a href="https://stacspec.org/en/about/" class="external-link">STAC</a>, or SpatioTemporal Asset Catalog, HEC-RAS models, particularly the footprints generated in the cataloging of the models, could be extended to the STAC framework as a STAC Item, and by that analogy each version of the catalog is a STAC collection. Formalizing this, most likely through an additional function such as <em>STAC_catalog.R</em>, which would generate the needed json’s and then appropriately serve those, would be a worthy task to undertake.</p>
+</div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="open-source-licensing-info">Open source licensing info<a class="anchor" aria-label="anchor" href="#open-source-licensing-info"></a>
@@ -488,9 +506,12 @@
 <div class="section level2">
 <h2 id="credits-and-references">Credits and references<a class="anchor" aria-label="anchor" href="#credits-and-references"></a>
 </h2>
-<ol style="list-style-type: decimal">
-<li>Far too many, todo</li>
-</ol>
+<p>Credit to the packages used in the development and testing of RRASSLER including AOI, arrow, cowplot, data.table, dplyr, ggplot2, glue, gmailr, holyhull, httr, leafem, leaflet, leafpop, lubridate, lwgeom, mapview, nhdplusTools, sf, sfheaders, stringi, stringr, tidyr, unglue, units, utils, and rhdf5. We are appreciative of the <a href="https://webapps.usgs.gov/infrm/estBFE/" class="external-link">FEMA region 6 group and the BLE data</a> they make publicly available. Built copying patterns from RAS2FIM.</p>
+<div class="section level3">
+<h3 id="for-questions">For questions<a class="anchor" aria-label="anchor" href="#for-questions"></a>
+</h3>
+<p><a href="james.coll@noaa.gov">Jim Coll</a> (FIM Developer), <a href="fernando.salas@noaa.gov">Fernando Salas</a> (Director, OWP Geospatial Intellegence Division)</p>
+</div>
 </div>
 </div>
 
@@ -498,6 +519,7 @@
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/JimColl/RRASSLER/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/JimColl/RRASSLER" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -528,11 +550,11 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Jim Coll <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Mike Johnson <br><small class="roles"> Author </small>  </li>
-<li>Laura Keys <br><small class="roles"> Author </small>  </li>
-<li>Andy Carter <br><small class="roles"> Author </small>  </li>
-<li>NOAA <br><small class="roles"> Funder </small>  </li>
-<li>Lynker <br><small class="roles"> Funder </small>  </li>
+<li>
+<a href="https://water.noaa.gov/about/nwm" class="external-link"><img src="reference/figures/noaa-logo.png" height="36" alt="NOAA OWP"></a> <br><small class="roles"> Funder </small>  </li>
+<li>
+<a href="https://lynker-intel.com/" class="external-link"><img src="reference/figures/lynker-logo.png" height="36" alt="Lynker"></a> <br><small class="roles"> Funder </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
@@ -549,7 +571,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Jim Coll, Mike Johnson, Laura Keys, Andy Carter, NOAA, Lynker.</p>
+<p>Developed by Jim Coll.</p>
 </div>
 
 <div class="pkgdown-footer-right">

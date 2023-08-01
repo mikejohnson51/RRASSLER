@@ -1,23 +1,37 @@
-# RRASSLER  
+---
+output: github_document
+---
 
-![RRASSLER LOGO](https://github.com/JimColl/RRASSLER/blob/main/man/figures/RRASSLER_knockout.png)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = FALSE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+![](https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/RRASSLER_knockout.png)
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 # Executive Summery
-The HEC-RAS model format, both as stand alone models or in archive formats, are incomparable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows.  This tool should be deployed to ingest HEC-RAS models into a "HECRAS_model_catalog", a normalized and spatialized representation of those models with the requisite metadata and formatted structure needed to mesh seamlessly with [national scale hydrofabric efforts and data models](https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html), and applications such as [T-Route](https://github.com/NOAA-OWP/t-route) and [RAS2FIM](https://github.com/NOAA-OWP/ras2fim).
-
-<TOC>
+The HEC-RAS model format, both as stand alone models or in archive formats, are incomparable for end users whose use case includes widespread accounting and deployment of that data as inputs into other workflows.  This tool should be deployed to ingest HEC-RAS models into a "HECRAS_model_catalog", a normalized and spatialized representation of those models with the requisite metadata and formatted structure needed to mesh seamlessly with [national scale hydrofabric efforts and data models](https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html), and applications such as [T-Route](https://github.com/NOAA-OWP/t-route) and [RAS2FIM](https://github.com/NOAA-OWP/ras2fim).  See the [package documentation](https://jimcoll.github.io/RRASSLER/) for more details. 
 
 # Intro
-There are few hydraulic models as prolific as HEC-RAS, and since it's first named release in 1995 users have created these models using public and private data and countless hours of engineering scrutinization in order to generate the best possible purpose-built representation of the world.  Like any model, some level of input massaging is necessary in order to get the data into the specified mathematical format a model requires.  Like most domain specific software solutions, that massaging was rather, forceful, to the point of permanently altering the shape of those inputs into something that most geospatial data readers are unable to handle.  This creates a great deal of friction both in terms of model accountability and interoperability, particularly when you take the standpoint as a model consumer.   The R based HEC-RAS Wrestler (RRASSLER) is here to mediate that.
+There are few hydraulic models as prolific as HEC-RAS, and since it's first named release in 1995 users have created these models using public and private data and countless hours of engineering scrutinization in order to generate the best possible purpose-built representation of the world.  Like any model, some level of input massaging is necessary in order to get the data into the specified mathematical format a model requires.  Like most domain specific software solutions, that massaging was rather, forceful, to the point of permanently altering the shape of those inputs into something that most geospatial data readers are unable to handle.  This creates a great deal of friction both in terms of model accountability and interoperability, particularly when you take the standpoint as a model consumer.   The R based HEC-RAS Wrestler (RRASSLER) is here to mediate that.  By internally versioning and aligning data and pointers, the resulting structure provides a bottoms up approach amenable to walking potentially CONUS scale applications back to the specific point, cross section, and HEC-RAS model they were sourced from.
 
 ## Ingest logic
+
 In order to wrassle that friction, RRASSLER has a few theoretical value judgments that need to be described in order to help understand why it does what it does and how to use it properly.  RRASSLER is focused on making the critical data objects needed to run a HEC-RAS model readily available and accountable as a model (as opposed to as individual data points or large clusters of otherwise "vistigal" data; and with an emphasis on the particular geometric realization of the model).  It is also designed to be a standardized and centralized source of models, regardless of their origin.  For that reason, RRASSLER expects to operate within it's own controlled directory, or "HECRAS_model_catalog".   Users first download and unpack desired models into a temporary location, and then point RRASSLER at that directory and the place which you want to store your catalog.  It will:  
-1) Scrape the entire directory structure for any HEC-RAS model projects
-2) for each geometric realization of that model (variation of .g##), grab all files such that: 
+
+1) Scrape the entire directory structure for any HEC-RAS model projects  
+2) for each geometric realization of that model (variation of .g##), grab all files such that:  
 
 | File grep Pattern (# denotes single numeric wildcard) | HEC-RAS Model Use                                                        |
 |-------------------------------------------------------|--------------------------------------------------------------------------|
@@ -40,9 +54,12 @@ In order to wrassle that friction, RRASSLER has a few theoretical value judgment
 5) If the creation of the model hull errors out, the model is placed in the _/models/_unprocessed_ folder for further investigation, correction, and rewrassling.
 6) After all iterations of files are done, RRASSLER will (re)generate a unified source for model footprints, cross sections, and points (now in spatial form) from the HEC-RAS model, and pointers back to the copied source data which remains unaltered. 
 
+This workflow is loosely diagramed as follows:
+![](https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/RRASSLER_algo.drawio.png)
+
 ## Installation
-It is recommended that you wait to start using this tool until parsing accuracy, edge case handling, and accounting is fully ironed out, the final form of these tables is still in flux.  If that doesn't dissuade you, install the development version of RRASSLER from [GitHub](https://github.com/) with:
-```r
+It is recommended that you wait to start using this tool until parsing accuracy, edge case handling, and accounting is fully ironed out, the final form of these tables is still in flux.  As noted in the package notes: "Still in alpha don't use this."  If that doesn't dissuade you, install the development version of [RRASSLER from GitHub](https://github.com/JimColl/RRASSLER) with:
+```{r}
 # utils::remove.packages("RRASSLER")
 # install.packages("devtools")
 # install.packages("BiocManager")
@@ -51,50 +68,52 @@ remotes::install_github("JimColl/RRASSLER")
 library(data.table)
 RRASSLER::marco()
 ```
-if you are on the dev team, you also probably want a spatial key file:
-```bash
+if you are on the dev team, you also probably want a spatial key file (huc8 bounds & names):
+```{bash}
 aws s3 cp "s3://.../HUC8.fgb" <path to your catalog> --dryrun
 ```
 
 # Deployment & Outputs
 
+![](https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/Files.PNG)
+
 ## Typical usage
 
 ### Ingest BLE data
-```r
+```{r}
 RRASSLER::ingest_FEMA6_BLE(path_to_ras_dbase = "G:/data/ras_catalog","12090301",full=FALSE,proj_override = "EPSG:2277",vdat_trans = FALSE,status_statements = TRUE,verbose = FALSE,ping_me = NULL,quick_check = FALSE,quick_hull = FALSE,overwrite = FALSE,refresh = TRUE)
 ```
 
 ### Ingest hand delivered database
-```r
+```{r}
 RRASSLER::ingest_into_database(path_to_ras_dbase = "G:/data/ras_catalog",top_of_dir_to_scrape = "G:/data/ras_catalog/_temp/BLE/12090301/12090301_models",code_to_place_in_source = "FEMA Region 6:12090301",proj_override = "EPSG:2277",vdat_trans = FALSE,quiet = FALSE,verbose = TRUE,ping_me = NULL,quick_check = FALSE,quick_hull = FALSE,overwrite = FALSE,refresh = FALSE)
 ```
 
 ### Add geographic context
 1) Remerge the generated catalog index
-```r
+```{r}
 RRASSLER::refresh_master_files(path_to_ras_dbase = cat_path,verbose = TRUE)
 ```
-This will create or recreate the index files at the top of the catalog, including:
-* Model footprints: model_footprints.fgb
-* Cross sections: XS.fgb
-* Points: point_database.parquet
-![GISmap](https://github.com/JimColl/RRASSLER/blob/main/man/figures/GIS_features.PNG)
+This will create or recreate the index files at the top of the catalog, including:  
+* Model footprints: _model_footprints.fgb_  
+* Cross sections: _XS.fgb_  
+* Points: _point_database.parquet_  
+![](https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/GIS_features.PNG)
 
 3) Create a handy map to view
-```r
+```{r}
 RRASSLER::map_library(path_to_ras_dbase = cat_path,NULL,name = "model_map",plot_lines = TRUE,chart_lines = FALSE,refresh = FALSE,quiet = FALSE)
 ```
 This function will create a stand alone leaflet map which is useful in "interactively" exploring the data and facilitating simple queries.
-![Leafmap](https://github.com/JimColl/RRASSLER/blob/main/man/figures/map_features.PNG)
+![](https://raw.githubusercontent.com/JimColl/RRASSLER/main/man/figures/map_features.PNG)
 
 ### Extend database for ras2fim deployments
-```r
-RRASSLER::append_catalog_fields(path_to_ras_dbase = cat_path,out_name = "OWP_ras_models_catalog.csv",overwrite = FALSE,quiet = FALSE)
+```{r}
+RRASSLER::append_catalog_fields(path_to_ras_dbase = "G:/data/ras_catalog",out_name = "OWP_ras_model_catalog.csv",overwrite = FALSE,verbose = TRUE)
 ```
 
 ### Push a catalog to the cloud
-```r
+```{r}
 aws s3 cp --recursive G:/data/ras_catalog s3://.../ras_models --dryrun
 ```
 
@@ -106,9 +125,7 @@ Users may look at the _model_catalog.csv_'s, and the models underneath, but shou
 
 > [in line with Next Gen hydrofabric parameters](https://noaa-owp.github.io/hydrofabric/articles/cs_dm.html)
 
-![ALGO](https://github.com/JimColl/RRASSLER/blob/main/man/figures/RRASSLER_algo.drawio.png)
-
-```r
+```{r}
 cat_path <- path/to/catalog
 
 > points <- arrow::read_parquet(file.path(cat_path,"point_database.parquet",fsep = .Platform$file.sep))
@@ -199,7 +216,7 @@ First 5 features:
 # Discussion
 
 ## Dependencies:
-Built using [RStudio](https://posit.co/downloads/) and [rocker-versioned2](https://github.com/rocker-org/rocker-versioned2)
+Built using [RStudio](https://posit.co/downloads/) and [rocker-versioned2](https://github.com/rocker-org/rocker-versioned2).  Typically deployed alongside [a RAS2FIM conda environment](https://github.com/NOAA-OWP/ras2fim/blob/dev/doc/INSTALL.md).
 
 ## I am both an archivist/model creator and a RRASSLER user
 You will unfortunately have to keep two copies of the data.  RRASSLER isn't creating anything you don't already have in the archive in one form or another, and completely removes all metadata and formatting that your archive has so painstakingly created.  Don't change your workflow, consider RRASSLER a "post-processing" step to your archiving work.  
@@ -208,16 +225,25 @@ You will unfortunately have to keep two copies of the data.  RRASSLER isn't crea
 Aligning the different model surfaces is hard.  Although every effort was made to account for standard edge cases and unit cohesion, you will, more often than not, find that a surface you use and a model do not align.  That is not particularly surprising, but it is often disconcerting.  3DEP timestamps, resolutions, and even order of reprojection operations may alter the surfaces slightly, even if they are stated to have come from the same input database.  Do your own sanity checks and try not to lose your mind, it's probably easier to go out and measure it again.  Finally, this was developed, tested, and deployed over primarily 1D data.  Although 2D model will ingest, there was no consideration for those and is not accounting or copying _.tif_ files so the value of these models is greatly diminished. 
 
 ## Getting involved
-If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker.  I know we are not the only ones attempting to align the .  General instructions on _how_ to contribute can be found at [CONTRIBUTING](CONTRIBUTING.md).
-### A few next steps
-#### Hardening and extention
-I code out of necessity, not out of love, and I've been told my more than a few that I write awful code.  More than half of the community will also think this is written in the wrong language.  Efforts to harden the workflow and algorithm, extend this workflow into Python, and general improvements would all be worthwhile uses of time.
-#### RRASTAC
-Although not the most obvious use of [STAC](https://stacspec.org/en/about/), or SpatioTemporal Asset Catalog, HEC-RAS models, particularly the footprints generated in the cataloging of the models, could be extended to the STAC framework as a STAC Item. 
+If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker.  I know we are not the only ones attempting to align the world.  General instructions on _how_ to contribute can be found at [CONTRIBUTING](CONTRIBUTING.md) and in the next steps below.
+
+### A few next steps  
+
+#### Known errors  
+Parsing of the models, particularly the inclusion of the .g## files, is not implemented correctly.  These models extract a data frames of points which include points at the equator.  This is wrong and needs to be fixed.  
+
+#### Hardening and extention  
+I code out of necessity, not out of love, and I've been told my more than a few that I write awful code.  More than half of the community will also think this is written in the wrong language.  Efforts to harden the workflow and algorithm, extend this workflow into Python, and general improvements would all be worthwhile uses of time.  
+
+#### RRASTAC  
+Although not the most obvious use of [STAC](https://stacspec.org/en/about/), or SpatioTemporal Asset Catalog, HEC-RAS models, particularly the footprints generated in the cataloging of the models, could be extended to the STAC framework as a STAC Item, and by that analogy each version of the catalog is a STAC collection.  Formalizing this, most likely through an additional function such as _STAC_catalog.R_, which would generate the needed json's and then appropriately serve those, would be a worthy task to undertake.
 
 ## Open source licensing info
 1. [TERMS](TERMS.md)
 2. [LICENSE](LICENSE)
 
 ## Credits and references
-1. Far too many, todo
+Credit to the packages used in the development and testing of RRASSLER including AOI, arrow, cowplot, data.table, dplyr, ggplot2, glue, gmailr, holyhull, httr, leafem, leaflet, leafpop, lubridate, lwgeom, mapview, nhdplusTools, sf, sfheaders, stringi, stringr, tidyr, unglue, units, utils, and rhdf5.  We are appreciative of the [FEMA region 6 group and the BLE data](https://webapps.usgs.gov/infrm/estBFE/) they make publicly available.  Built copying patterns from RAS2FIM.
+
+### For questions 
+[Jim Coll](james.coll@noaa.gov) (FIM Developer), [Fernando Salas](fernando.salas@noaa.gov) (Director, OWP Geospatial Intellegence Division)

@@ -2,18 +2,17 @@ Package: RRASSLER
 Type: Package
 Title: R based HEC-RAS model accounting wrestler
 Version: 0.0.1
-Authors@R: c(person(given = "Jim", family = "Coll", 
-                    role = c("aut", "cre"),
-                    email = "jamesmcoll@gmail.com"),
-             person(given = "Mike", family = "Johnson", role = "aut"),
-             person(given = "Laura", family = "Keys", role = "aut"),
+Authors@R: c(person(given = "Jim", family = "Coll", role = c("aut", "cre"), email = "james.coll@noaa.gov"),
+             person(given = "Mike", family = "Johnson", role = "ctb"),
+             person(given = "Laura", family = "Keys", role = "ctb"),
              person(given = "Andy", family = "Carter", role = c("ctb", "trl")),
       person("NOAA", role = c("fnd")),
       person("Lynker", role = c("fnd")))
 Maintainer: Jim Coll <jamesmcoll@gmail.com>
-Description: A bottoms up approach to walking CONUS scale applications back to the spesific point, cross section, and HEC-RAS model they were sourced from.  Still in alpha dont use this.
+Description: A package for making HEC-RAS data more FAIR by cataloging models, cross sections, and points for accounting, interoperability, and reuse in RAS and other applications.  Still in alpha dont use this.
 License: MIT + file LICENSE
 URL: https://github.com/JimColl/RRASSLER
+BugReports: https://github.com/JimColl/RRASSLER
 Depends: 
   R (>= 3.5),
   magrittr, 
@@ -52,3 +51,4 @@ Remotes:
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 LazyData: true
+VignetteBuilder: knitr

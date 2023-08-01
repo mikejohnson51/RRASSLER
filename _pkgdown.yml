@@ -1,4 +1,15 @@
 url: ~
 template:
   bootstrap: 5
-
+  bootswatch: litera
+authors:
+   NOAA:
+     html: "<img src='man/figures/noaa-logo.png' height='36' alt='NOAA OWP'/>"
+     href: "https://water.noaa.gov/about/nwm"
+   Lynker:
+     html: "<img src='man/figures/lynker-logo.png' height='36' alt='Lynker'/>"
+     href: "https://lynker-intel.com/"
+   footer:
+    roles: [cre]
+   citation:
+    roles: [cre]

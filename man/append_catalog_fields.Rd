@@ -18,7 +18,7 @@ append_catalog_fields(
 
 \item{overwrite}{flag to dictate whether or not to overwrite the out_name, should it exist. set to TRUE to delete and (re)generate, FALSE to safely exit, Default: FALSE}
 
-\item{verbose}{flag to determine whether print statements are suppressed, TRUE to suppress messages and FALSE to show them, Default: FALSE}
+\item{verbose}{flag to determine whether print statements are suppressed, TRUE to show messages and FALSE to surpress them, Default: TRUE}
 }
 \value{
 a new csv with helper columns
