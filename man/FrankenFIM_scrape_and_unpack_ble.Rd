@@ -36,7 +36,8 @@ Hitting https://webapps.usgs.gov/infrm/estBFE/ and https://www.arcgis.com/apps/d
 \dontrun{
 if(interactive()){
  #EXAMPLE1
- RRASSLER::FrankenFIM_scrape_and_unpack_ble(database_path=NULL,HUCID=NULL,quiet=TRUE,overwrite=FALSE,full=FALSE)
+ cat_path = "G:/data/ras_catalog"
+ RRASSLER::FrankenFIM_scrape_and_unpack_ble(database_path = cat_path,HUCID = "12090301",quiet=FALSE,overwrite=FALSE,full=FALSE)
  }
 }
 }

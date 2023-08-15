@@ -28,7 +28,13 @@
     <loc>/reference/catalog_integrity_checks.html</loc>
   </url>
   <url>
+    <loc>/reference/cloud_ingest_record.html</loc>
+  </url>
+  <url>
     <loc>/reference/dedupe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/disk_ingest_record.html</loc>
   </url>
   <url>
     <loc>/reference/FrankenFIM_scrape_and_unpack_ble.html</loc>

@@ -6,7 +6,8 @@
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
-#'  RRASSLER::FrankenFIM_scrape_and_unpack_ble(database_path=NULL,HUCID=NULL,quiet=TRUE,overwrite=FALSE,full=FALSE)
+#'  cat_path = "G:/data/ras_catalog"
+#'  RRASSLER::FrankenFIM_scrape_and_unpack_ble(database_path = cat_path,HUCID = "12090301",quiet=FALSE,overwrite=FALSE,full=FALSE)
 #'  }
 #' }
 #' @param database_path PARAM_DESCRIPTION, Default: NULL
@@ -37,7 +38,11 @@ FrankenFIM_scrape_and_unpack_ble <- function(database_path = NULL,HUCID = NULL,q
   # pkgdown::build_site(new_process=FALSE)
   # devtools::load_all()
 
-  # RRASSLER::FrankenFIM_scrape_and_unpack_ble(database_path="Z:/data/ras_catalog",HUCID='12090301,quiet=FALSE,overwrite=FALSE,full=TRUE)
+  # database_path = "G:/data/ras_catalog"
+  # HUCID = "12040101"
+  # quiet = FALSE
+  # overwrite = FALSE
+  # full = TRUE
 
   ## -- Start --
   url_exists <- function(x, non_2xx_return_value = FALSE, quiet = FALSE,...) {
@@ -87,7 +92,7 @@ FrankenFIM_scrape_and_unpack_ble <- function(database_path = NULL,HUCID = NULL,q
     }
 
   }
-  scrape_ble_lib <- function(database_path,HUCID,quiet=quiet,overwrite=overwrite,full=full) {
+  scrape_ble_lib <- function(database_path,HUCID,quiet=quiet,overwrite=overwrite,full = FALSE) {
     fn_time_start <- Sys.time()
 
     output_dir <- file.path(database_path,"_temp","BLE",HUCID, fsep=.Platform$file.sep)
@@ -182,11 +187,11 @@ FrankenFIM_scrape_and_unpack_ble <- function(database_path = NULL,HUCID = NULL,q
     }
   }
 
-  scrape_ble_lib(database_path,HUCID,quiet=quiet,overwrite=overwrite,full=full)
+  scrape_ble_lib(database_path,HUCID,quiet = quiet,overwrite = overwrite,full = full)
   unzipZipfiles(file.path(database_path,"_temp","BLE",HUCID,glue::glue("{HUCID}_models.zip"),fsep = .Platform$file.sep),quiet=quiet)
 
-  zip_file <- file.path(database_path,"_temp","BLE",HUCID,glue::glue("{HUCID}_SpatialData.zip"),fsep = .Platform$file.sep)
-  utils::unzip(zip_file, exdir = file.path(dirname(zip_file),gsub('.{4}$', '',basename(zip_file)),fsep = .Platform$file.sep))
+  # zip_file <- file.path(database_path,"_temp","BLE",HUCID,glue::glue("{HUCID}_SpatialData.zip"),fsep = .Platform$file.sep)
+  # utils::unzip(zip_file, exdir = file.path(dirname(zip_file),gsub('.{4}$', '',basename(zip_file)),fsep = .Platform$file.sep))
 
   return(TRUE)
 }

@@ -105,7 +105,7 @@ process_ras_g_to_xyz <- function(geom_path,
     stn_unit_norm = 1
   }
 
-  if(!quiet) { print('Cross setions loaded') }
+  if(!quiet) { message('Cross setions loaded') }
   tmp_point_dbase <- c()
   cross_section_lines <- data.frame(matrix(ncol=6,nrow=0,dimnames=list(NULL, c("geometry", "xid","stream_stn", "river","reach","ras_path"))))
   for(i in 1:length(xs_xy_row_heads)) {
@@ -228,9 +228,8 @@ process_ras_g_to_xyz <- function(geom_path,
     if(!quiet) { message(paste0("URL:",datum_url)) }
     resp <- httr::GET(datum_url)
     if(httr::http_error(resp)) {
-      message('ALERT!!')
       print_warning_block()
-      print(paste('poorly formed url - Request URL:', datum_url))
+      message(paste('poorly formed url - Request URL:', datum_url))
       return(list(data.frame()))
     }
     jsonRespParsed <- httr::content(resp,as="parsed")
