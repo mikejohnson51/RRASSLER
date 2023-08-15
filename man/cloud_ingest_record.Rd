@@ -5,7 +5,7 @@
 \title{cloud_ingest_record}
 \usage{
 cloud_ingest_record(
-  x = NULL,
+  in_file = NULL,
   ras_dbase = NULL,
   root_bucket = NULL,
   code_to_place_in_source = NULL,
@@ -19,7 +19,7 @@ cloud_ingest_record(
 )
 }
 \arguments{
-\item{x}{PARAM_DESCRIPTION, Default: NULL}
+\item{in_file}{PARAM_DESCRIPTION, Default: NULL}
 
 \item{ras_dbase}{PARAM_DESCRIPTION, Default: NULL}
 

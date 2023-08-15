@@ -1,6 +1,6 @@
 #' @title cloud_ingest_record
 #' @description FUNCTION_DESCRIPTION
-#' @param x PARAM_DESCRIPTION, Default: NULL
+#' @param in_file PARAM_DESCRIPTION, Default: NULL
 #' @param ras_dbase PARAM_DESCRIPTION, Default: NULL
 #' @param root_bucket PARAM_DESCRIPTION, Default: NULL
 #' @param code_to_place_in_source PARAM_DESCRIPTION, Default: NULL
@@ -46,7 +46,7 @@
 #' @importFrom holyhull holyhull
 #' @importFrom nhdplusTools get_nhdplus
 #' @importFrom AOI aoi_get
-cloud_ingest_record <- function(x = NULL,
+cloud_ingest_record <- function(in_file = NULL,
                                 ras_dbase = NULL,
                                 root_bucket = NULL,
                                 code_to_place_in_source = NULL,
@@ -77,7 +77,7 @@ cloud_ingest_record <- function(x = NULL,
 
   rest_of_bucket_prefix <- stringr::str_sub(ras_dbase,nchar(root_bucket),nchar(ras_dbase))
 
-  file <- x
+  file <- in_file
   dir_of_file <- dirname(file)
   current_model_name <- gsub('.{4}$', '', basename(file))
   current_nhdplus_comid = NA

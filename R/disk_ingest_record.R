@@ -1,6 +1,6 @@
 #' @title disk_ingest_record
 #' @description FUNCTION_DESCRIPTION
-#' @param x PARAM_DESCRIPTION, Default: NULL
+#' @param in_file PARAM_DESCRIPTION, Default: NULL
 #' @param ras_dbase PARAM_DESCRIPTION, Default: NULL
 #' @param code_to_place_in_source PARAM_DESCRIPTION, Default: NULL
 #' @param proj_override PARAM_DESCRIPTION, Default: NULL
@@ -45,7 +45,7 @@
 #' @importFrom nhdplusTools get_nhdplus
 #' @importFrom AOI aoi_get
 #' @importFrom arrow write_parquet
-disk_ingest_record <- function(x = NULL,
+disk_ingest_record <- function(in_file = NULL,
                                path_to_ras_dbase = NULL,
                                code_to_place_in_source = NULL,
                                proj_override = NULL,
@@ -80,7 +80,7 @@ disk_ingest_record <- function(x = NULL,
   inital_scrape_names <- all_scrape_names[grepl("^unknown_", all_scrape_names)]
   processed_scrape_names <- all_scrape_names[!grepl("^unknown_", all_scrape_names)]
 
-  file <- x
+  file <- in_file
 
   # Per-model constants
   file <- list_of_prj_files[l]
