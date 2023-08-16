@@ -76,7 +76,7 @@ disk_ingest_record <- function(in_file = NULL,
   # refresh = FALSE
 
   # What is in the database at this very moment?
-  all_scrape_names <- basename(list.dirs(path = file.path(ras_dbase,"models",fsep = .Platform$file.sep), full.names = TRUE, recursive = TRUE))
+  all_scrape_names <- basename(list.dirs(path = file.path(path_to_ras_dbase,"models",fsep = .Platform$file.sep), full.names = TRUE, recursive = TRUE))
   inital_scrape_names <- all_scrape_names[grepl("^unknown_", all_scrape_names)]
   processed_scrape_names <- all_scrape_names[!grepl("^unknown_", all_scrape_names)]
 

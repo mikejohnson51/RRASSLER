@@ -33,8 +33,7 @@ ingest_into_database(
   quick_check = FALSE,
   quick_hull = FALSE,
   overwrite = FALSE,
-  free_treads = 4,
-  refresh = TRUE
+  free_treads = 2
 )
 
 ingest_into_database2(

@@ -16,13 +16,17 @@ BugReports: https://github.com/JimColl/RRASSLER
 Depends: 
   R (>= 3.5),
   magrittr, 
+  foreach,
   data.table
 Imports: 
     AOI,
     arrow,
+    aws.s3,
     cowplot,
     data.table,
+    doParallel,
     dplyr,
+    foreach,
     ggplot2,
     glue,
     gmailr,
@@ -35,6 +39,7 @@ Imports:
     lwgeom,
     mapview,
     nhdplusTools,
+    parallel,
     rhdf5,
     sf,
     sfheaders,
@@ -42,7 +47,6 @@ Imports:
     stringr,
     tidyr,
     unglue,
-    units,
     utils
 Remotes:
     grimbough/rhdf5,

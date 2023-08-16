@@ -34,8 +34,8 @@
 #' @importFrom stringr str_sub
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom doParallel registerDoParallel
-#' @importFrom foreach %do%
-#' @importFrom foreach %dopar%
+#' @importFrom foreach `%do%`
+#' @importFrom foreach `%dopar%`
 ingest_into_database <- function(path_to_ras_dbase,
                                  top_of_dir_to_scrape,
                                  code_to_place_in_source,
@@ -46,8 +46,7 @@ ingest_into_database <- function(path_to_ras_dbase,
                                  quick_check = FALSE,
                                  quick_hull = FALSE,
                                  overwrite = FALSE,
-                                 free_treads = 4,
-                                 refresh = TRUE) {
+                                 free_treads = 2) {
   # sinew::moga(file.path(getwd(),"R/ingest_into_database.R"),overwrite = TRUE)
   # devtools::document()
   # pkgdown::build_site(new_process=FALSE)
@@ -117,28 +116,9 @@ ingest_into_database <- function(path_to_ras_dbase,
   cl <- parallel::makeCluster(no_cores)
 
   if(cloud) {
-    foreach::foreach(x = list_of_prj_files) %dopar% cloud_ingest_record(in_file = x,
-                                                                        ras_dbase = path_to_ras_dbase,
-                                                                        root_bucket = path_to_root_bucket,
-                                                                        code_to_place_in_source = code_to_place_in_source,
-                                                                        proj_override = NULL,
-                                                                        vdat_trans = FALSE,
-                                                                        quiet = FALSE,
-                                                                        verbose = FALSE,
-                                                                        quick_check = FALSE,
-                                                                        quick_hull = FALSE,
-                                                                        overwrite = FALSE)
+    foreach::foreach(x = list_of_prj_files) %dopar% cloud_ingest_record(in_file = x,ras_dbase = path_to_ras_dbase,root_bucket = path_to_root_bucket,code_to_place_in_source = code_to_place_in_source,proj_override = NULL,vdat_trans = FALSE,quiet = FALSE,verbose = FALSE,quick_check = FALSE,quick_hull = FALSE,overwrite = FALSE)
   } else {
-    foreach::foreach(x = list_of_prj_files) %dopar% disk_ingest_record(in_file = x,
-                                                                       ras_dbase = path_to_ras_dbase,
-                                                                       code_to_place_in_source = code_to_place_in_source,
-                                                                       proj_override = NULL,
-                                                                       vdat_trans = FALSE,
-                                                                       quiet = FALSE,
-                                                                       verbose = FALSE,
-                                                                       quick_check = FALSE,
-                                                                       quick_hull = FALSE,
-                                                                       overwrite = FALSE)
+    foreach::foreach(x = list_of_prj_files) %dopar% disk_ingest_record(in_file = x,path_to_ras_dbase = path_to_ras_dbase,code_to_place_in_source = code_to_place_in_source,proj_override = NULL,vdat_trans = FALSE,quiet = FALSE,verbose = FALSE,quick_check = FALSE,quick_hull = FALSE,overwrite = FALSE)
   }
 
   parallel::stopCluster(cl)
