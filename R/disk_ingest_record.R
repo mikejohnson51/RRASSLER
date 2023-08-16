@@ -83,7 +83,6 @@ disk_ingest_record <- function(in_file = NULL,
   file <- in_file
 
   # Per-model constants
-  file <- list_of_prj_files[l]
   dir_of_file <- dirname(file)
   current_model_name <- gsub('.{4}$', '', basename(file))
   current_nhdplus_comid = NA
@@ -157,13 +156,12 @@ disk_ingest_record <- function(in_file = NULL,
       current_final_name_key <- NA
 
       if(sum(stringr::str_detect(inital_scrape_names, current_initial_name)) > 0) {
-        if(!quiet) { message(glue::glue("Model already processed into _unprocessed {current_initial_name}")) }
         if(overwrite) {
           # Model already processed into _unprocessed {current_initial_name}, overwriting
           # List of files to delete
           files_to_delete <- list.files(file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
-          for(file in files_to_delete) {
-            unlink(file)
+          for(old_file in files_to_delete) {
+            unlink(old_file)
           }
         } else {
           # Model already processed into _unprocessed {current_initial_name}
@@ -208,12 +206,10 @@ disk_ingest_record <- function(in_file = NULL,
           # Model already processed into _unprocessed {current_initial_name}, overwriting
           # List of files to delete
           files_to_delete <- list.files(file.path(path_to_ras_dbase,"models","_unprocessed",current_initial_name,fsep = .Platform$file.sep), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
-          for(file in files_to_delete) {
-            unlink(file)
+          for(old_file in files_to_delete) {
+            unlink(old_file)
           }
-          process_count <- process_count + 1
         } else {
-          # Model already processed into _unprocessed {current_initial_name}
           next()
         }
       }
@@ -278,17 +274,15 @@ disk_ingest_record <- function(in_file = NULL,
     }
 
     current_initial_name = paste0(current_nhdplus_comid,"_",current_model_name,"_",current_g_value,"_",current_last_modified)
-    if(!quiet) { message(glue::glue("Parsed into:{current_initial_name}")) }
     current_final_name_key = current_initial_name
 
     if(sum(stringr::str_detect(processed_scrape_names, current_final_name_key)) > 0) {
       if(overwrite) {
         # Model already processed into {current_final_name_key}, overwriting
         files_to_delete <- list.files(file.path(path_to_ras_dbase,"models",current_final_name_key,fsep = .Platform$file.sep), full.names=TRUE, ignore.case=TRUE, recursive=TRUE)
-        for(file in files_to_delete) {
-          unlink(file)
+        for(old_file in files_to_delete) {
+          unlink(old_file)
         }
-        process_count <- process_count + 1
 
       } else {
         # Model already processed into {current_final_name_key}
