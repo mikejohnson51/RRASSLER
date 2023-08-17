@@ -47,27 +47,3 @@ OUTPUT_DESCRIPTION
 \description{
 FUNCTION_DESCRIPTION
 }
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
-}
-\seealso{
-\code{\link[stringr]{str_sub}}, \code{\link[stringr]{str_detect}}
- \code{\link[glue]{glue}}
- \code{\link[aws.s3]{get_bucket}}, \code{\link[aws.s3]{delete_object}}, \code{\link[aws.s3]{put_object}}
- \code{\link[utils]{glob2rx}}
- \code{\link[sf]{st_crs}}, \code{\link[sf]{st_coordinates}}, \code{\link[sf]{st_as_sf}}, \code{\link[sf]{st_transform}}
- \code{\link[dplyr]{select}}, \code{\link[dplyr]{pull}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{distinct}}
- \code{\link[data.table]{data.table-package}}, \code{\link[data.table]{fwrite}}
- \code{\link[sfheaders]{sf_linestring}}
- \code{\link[lwgeom]{st_startpoint}}
- \code{\link[holyhull]{holyhull}}
- \code{\link[nhdplusTools]{get_nhdplus}}
- \code{\link[AOI]{aoi_get}}
-}

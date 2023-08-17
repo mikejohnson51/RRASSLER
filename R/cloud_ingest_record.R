@@ -12,28 +12,6 @@
 #' @param quick_hull PARAM_DESCRIPTION, Default: FALSE
 #' @param overwrite PARAM_DESCRIPTION, Default: FALSE
 #' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso
-#'  \code{\link[stringr]{str_sub}}, \code{\link[stringr]{str_detect}}
-#'  \code{\link[glue]{glue}}
-#'  \code{\link[aws.s3]{get_bucket}}, \code{\link[aws.s3]{delete_object}}, \code{\link[aws.s3]{put_object}}
-#'  \code{\link[utils]{glob2rx}}
-#'  \code{\link[sf]{st_crs}}, \code{\link[sf]{st_coordinates}}, \code{\link[sf]{st_as_sf}}, \code{\link[sf]{st_transform}}
-#'  \code{\link[dplyr]{select}}, \code{\link[dplyr]{pull}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{distinct}}
-#'  \code{\link[data.table]{data.table-package}}, \code{\link[data.table]{fwrite}}
-#'  \code{\link[sfheaders]{sf_linestring}}
-#'  \code{\link[lwgeom]{st_startpoint}}
-#'  \code{\link[holyhull]{holyhull}}
-#'  \code{\link[nhdplusTools]{get_nhdplus}}
-#'  \code{\link[AOI]{aoi_get}}
-#' @rdname cloud_ingest_record
-#' @export
 #' @importFrom stringr str_sub str_detect
 #' @importFrom glue glue
 #' @importFrom aws.s3 get_bucket_df delete_object put_object
@@ -46,6 +24,7 @@
 #' @importFrom holyhull holyhull
 #' @importFrom nhdplusTools get_nhdplus
 #' @importFrom AOI aoi_get
+#' @export
 cloud_ingest_record <- function(in_file = NULL,
                                 ras_dbase = NULL,
                                 root_bucket = NULL,

@@ -116,7 +116,11 @@ ingest_into_database <- function(path_to_ras_dbase,
   cl <- parallel::makeCluster(no_cores)
 
   if(cloud) {
-    foreach::foreach(x = list_of_prj_files) %dopar% cloud_ingest_record(in_file = x,ras_dbase = path_to_ras_dbase,root_bucket = path_to_root_bucket,code_to_place_in_source = code_to_place_in_source,proj_override = NULL,vdat_trans = FALSE,quiet = FALSE,verbose = FALSE,quick_check = FALSE,quick_hull = FALSE,overwrite = FALSE)
+    foreach::foreach(x = 1:length(list_of_prj_files)) %dopar%
+      cloud_ingest_record(in_file = list_of_prj_files[x],
+                          ras_dbase = path_to_ras_dbase,
+                          root_bucket = path_to_root_bucket,
+                          code_to_place_in_source = code_to_place_in_source)
   } else {
     foreach::foreach(x = list_of_prj_files) %dopar% disk_ingest_record(in_file = x,path_to_ras_dbase = path_to_ras_dbase,code_to_place_in_source = code_to_place_in_source,proj_override = NULL,vdat_trans = FALSE,quiet = FALSE,verbose = FALSE,quick_check = FALSE,quick_hull = FALSE,overwrite = FALSE)
   }
